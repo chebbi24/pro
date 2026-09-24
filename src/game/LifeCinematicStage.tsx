@@ -38,7 +38,7 @@ const sequences: Record<string, Beat[]> = {
     },
     {
       speaker: 'SYSTEM',
-      text: 'NEW PLAYER DETECTED.',
+      text: 'Inside, the room is getting ready. Mum is in bed. Dad is trying very hard to look calm.',
       mood: 'bright',
       shot: 'center',
       actors: ['mum','dad','baby'],
@@ -48,8 +48,8 @@ const sequences: Record<string, Beat[]> = {
       babyScene: 'room',
     },
     {
-      speaker: 'DAD',
-      text: 'She looks suspiciously smart.',
+      speaker: 'NARRATOR',
+      text: 'And then, after one last moment of waiting, she arrives.'
       mood: 'family',
       shot: 'close-left',
       actors: ['dad','baby'],
@@ -58,8 +58,8 @@ const sequences: Record<string, Beat[]> = {
       babyScene: 'birth',
     },
     {
-      speaker: 'MUM',
-      text: 'Obviously a genius.',
+      speaker: 'NARRATOR',
+      text: 'Tiny blanket. Tiny hands. Absolutely no idea how much trouble she is going to cause.'
       mood: 'family',
       shot: 'close-right',
       actors: ['mum','baby'],
@@ -69,12 +69,12 @@ const sequences: Record<string, Beat[]> = {
     },
     {
       speaker: 'NARRATOR',
-      text: 'Her older brother and sister had officially received a new little sister.',
+      text: 'Mum and Dad finally get their first proper look. Her older brother and sister come in to meet the newest member of the family.'
       mood: 'family',
       shot: 'family',
       actors: ['brother','sister','baby'],
       focus: 'baby',
-      cue: 'The family grows by one.',
+      cue: 'First family meeting: complete.'
       babyScene: 'family',
     },
     {
