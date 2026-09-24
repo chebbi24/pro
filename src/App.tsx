@@ -204,7 +204,7 @@ function App(){
         <p>Long before Gotham, before trophies, before Paris, before us — the story begins in Tunis.</p>
         <p className="muted">One life. Twelve chapters. Every chapter changes the world around her.</p>
         <div className="prologue-line"><span/>MUTUELLEVILLE · TUNIS<span/></div>
-        <button className="primary-btn" onClick={()=>{setLifeLevel(0);setShowLevelIntro(true);setScene('journey')}}>BEGIN HER STORY</button>
+        <button className="primary-btn" onClick={()=>{setLifeLevel(0);setShowLevelIntro(false);setScene('journey')}}>BEGIN HER STORY</button>
       </div>
     </section>}
 
