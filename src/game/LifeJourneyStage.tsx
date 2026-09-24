@@ -45,6 +45,9 @@ export function LifeJourneyStage({ levelIndex, onLevelComplete, onMemoryOpen, pa
         completed = false
         memoryCooldown = false
         milestoneIndex = 0
+        collectedCount = 0
+        progressFill?: PhaserNS.GameObjects.Rectangle
+        itemCounter?: PhaserNS.GameObjects.Text
 
         constructor() {
           super('LifeScene')
@@ -74,21 +77,30 @@ export function LifeJourneyStage({ levelIndex, onLevelComplete, onMemoryOpen, pa
             }
 
             if (style === 'gymnast' || style === 'champion') {
+              // Amouna identity: auburn/red hair with fringe
               g.fillStyle(0xf0c7ae, 1)
-              g.fillCircle(24, 12, 10)
-              g.fillStyle(0xa64676, 1)
-              g.fillCircle(24, 2, 6)
-              g.fillStyle(style === 'champion' ? 0xd7ad3f : 0x8a3f8f, 1)
-              g.fillTriangle(9, 23, 39, 23, 24, 55)
+              g.fillCircle(24, 13, 10)
+              g.fillStyle(0x9f3f30, 1)
+              g.fillRoundedRect(11, 0, 26, 17, 8)
+              g.fillRect(9, 9, 7, 22)
+              g.fillRect(32, 9, 7, 22)
+              g.fillStyle(0x772d27, 1)
+              g.fillRect(16, 7, 16, 5)
+              // leotard
+              g.fillStyle(0x7d3f91, 1)
+              g.fillTriangle(9, 24, 39, 24, 24, 55)
+              g.fillStyle(0xd7ad3f, 1)
+              g.fillTriangle(16, 27, 31, 27, 24, 40)
+              // arms + legs
               g.fillStyle(0xf0c7ae, 1)
-              g.fillRect(7, 25, 5, 25)
-              g.fillRect(36, 25, 5, 25)
-              g.fillRect(17, 52, 5, 17)
-              g.fillRect(27, 52, 5, 17)
-              if (style === 'champion') {
-                g.fillStyle(0xf3c76b, 1)
-                g.fillRect(15, 31, 18, 4)
-              }
+              g.fillRect(7, 27, 5, 23)
+              g.fillRect(36, 27, 5, 23)
+              g.fillRect(17, 52, 5, 14)
+              g.fillRect(27, 52, 5, 14)
+              // competition boots / shoes
+              g.fillStyle(0x23242b, 1)
+              g.fillRoundedRect(14, 64, 10, 7, 3)
+              g.fillRoundedRect(26, 64, 10, 7, 3)
               return
             }
 
@@ -115,8 +127,11 @@ export function LifeJourneyStage({ levelIndex, onLevelComplete, onMemoryOpen, pa
               g.fillStyle(0xf2c7ad, 1)
               g.fillRect(7, 28, 5, 23)
               g.fillRect(36, 28, 5, 23)
-              g.fillRect(17, 56, 5, 13)
-              g.fillRect(27, 56, 5, 13)
+              g.fillRect(17, 56, 5, 10)
+              g.fillRect(27, 56, 5, 10)
+              g.fillStyle(0x251d1a, 1)
+              g.fillRoundedRect(13, 64, 11, 7, 3)
+              g.fillRoundedRect(26, 64, 11, 7, 3)
               return
             }
 
@@ -137,6 +152,10 @@ export function LifeJourneyStage({ levelIndex, onLevelComplete, onMemoryOpen, pa
             g.lineTo(46, 40)
             g.lineTo(47, 28)
             g.strokePath()
+            // tall Catwoman boots
+            g.fillStyle(0x030407, 1)
+            g.fillRoundedRect(12, 55, 10, 16, 3)
+            g.fillRoundedRect(27, 55, 10, 16, 3)
           }, 48, 72)
         }
 
@@ -208,10 +227,16 @@ export function LifeJourneyStage({ levelIndex, onLevelComplete, onMemoryOpen, pa
 
         createWorldTextures() {
           this.createTexture('platform', g => {
-            g.fillStyle(palette.ground, 0.92)
-            g.fillRect(0, 0, 160, 24)
+            g.fillStyle(palette.ground, 0.96)
+            g.fillRoundedRect(0, 0, 160, 24, 4)
             g.fillStyle(palette.groundTop, 1)
-            g.fillRect(0, 0, 160, 5)
+            g.fillRect(0, 0, 160, 6)
+            g.fillStyle(0xffffff, 0.12)
+            for (let x=10; x<155; x+=24) g.fillRect(x, 9, 15, 2)
+            if (level.theme === 'gymnastics') {
+              g.fillStyle(0xf0d9ee, .35)
+              g.fillRect(0, 18, 160, 4)
+            }
           }, 160, 24)
 
           this.createTexture('obstacle', g => {
@@ -276,12 +301,58 @@ export function LifeJourneyStage({ levelIndex, onLevelComplete, onMemoryOpen, pa
           }
         }
 
+
+        createThemeDecor() {
+          if (level.theme === 'gymnastics') {
+            // Training zone
+            this.add.text(170, 165, 'TRAINING', {fontFamily:'monospace',fontSize:'13px',color:'#f6e9fa',backgroundColor:'#54325ecc',padding:{x:8,y:5}}).setDepth(3)
+            const ribbon=this.add.graphics().setDepth(2)
+            ribbon.lineStyle(5,0xcf6eb0,.9)
+            ribbon.beginPath(); ribbon.moveTo(230,285); ribbon.lineTo(310,225); ribbon.lineTo(380,295); ribbon.lineTo(450,230); ribbon.strokePath()
+            // balance beam
+            this.add.rectangle(650, 392, 170, 12, 0xc69572).setDepth(3)
+            this.add.rectangle(600, 412, 8, 42, 0x5d4a42).setDepth(2)
+            this.add.rectangle(700, 412, 8, 42, 0x5d4a42).setDepth(2)
+            // competition zones + podium / spotlights
+            for (const [x,labelName] of [[820,'TUNISIA'],[1130,'AFRICA'],[1450,'WORLD']] as Array<[number,string]>) {
+              this.add.circle(x,160,labelName==='WORLD'?62:50,0xf3c76b,labelName==='WORLD'?.11:.07).setDepth(1)
+              this.add.text(x,205,labelName,{fontFamily:'monospace',fontSize:labelName==='WORLD'?'18px':'14px',color:'#f5d578',backgroundColor:'#111522cc',padding:{x:8,y:5}}).setOrigin(.5).setDepth(4)
+            }
+            // scoring panel
+            const board=this.add.rectangle(1190,105,260,64,0x111722,.94).setStrokeStyle(2,0x8f78a0).setDepth(4)
+            this.add.text(board.x,board.y,'RHYTHMIC GYMNASTICS\nDIFFICULTY  ·  ARTISTRY  ·  EXECUTION',{fontFamily:'monospace',fontSize:'11px',color:'#e9e4ef',align:'center'}).setOrigin(.5).setDepth(5)
+          } else if (level.theme === 'usa') {
+            // training / exchange obstacle-course assets
+            for (const x of [620,690,760]) {
+              this.add.circle(x,438,24,0x181b20).setStrokeStyle(6,0x505965).setDepth(3)
+            }
+            this.add.rectangle(1050,410,120,10,0x687057).setDepth(3)
+            this.add.rectangle(1230,372,120,10,0x687057).setDepth(3)
+          } else if (level.theme === 'coach') {
+            for (const [x,y] of [[650,435],[720,435],[790,435]]) {
+              this.add.triangle(x,y,0,28,15,0,30,28,0xe78e58).setDepth(3)
+            }
+          }
+        }
+
+        createGameHud() {
+          const x=620, y=35, width=280
+          this.add.rectangle(x,y,width,42,0x070a12,.88).setScrollFactor(0).setDepth(45).setStrokeStyle(1,0x4a5670)
+          this.add.text(x-width/2+12,y-14,'PROGRESS',{fontFamily:'monospace',fontSize:'9px',color:'#9eabc2'}).setScrollFactor(0).setDepth(46)
+          this.add.rectangle(x-width/2+12,y+7,width-110,6,0x293247).setOrigin(0,.5).setScrollFactor(0).setDepth(46)
+          this.progressFill=this.add.rectangle(x-width/2+12,y+7,width-110,6,palette.accent).setOrigin(0,.5).setScrollFactor(0).setDepth(47)
+          this.progressFill.scaleX=0
+          this.itemCounter=this.add.text(x+width/2-88,y-6,`ITEMS 0/${level.memories.length}`,{fontFamily:'monospace',fontSize:'10px',color:'#f3c76b'}).setScrollFactor(0).setDepth(46)
+        }
+
         create() {
           this.physics.world.setBounds(0, 0, 1800, theme.game.height)
           this.cameras.main.setBounds(0, 0, 1800, theme.game.height)
           this.drawBackdrop()
           this.createPlayerTexture()
           this.createWorldTextures()
+          this.createThemeDecor()
+          this.createGameHud()
 
           this.add.text(28, 26, `LEVEL ${String(level.order).padStart(2, '0')} // ${level.worldLabel}`, {
             fontFamily: 'monospace', fontSize: '16px', color: '#f4f0e6',
@@ -338,6 +409,8 @@ export function LifeJourneyStage({ levelIndex, onLevelComplete, onMemoryOpen, pa
             const memory = icon.getData('memory') as LifeMemory
             this.memoryCooldown = true
             icon.disableBody(true, true)
+            this.collectedCount += 1
+            this.itemCounter?.setText(`ITEMS ${this.collectedCount}/${level.memories.length}`)
             this.physics.pause()
             setHint('STORY ITEM FOUND')
             onMemoryOpen(memory)
@@ -380,6 +453,8 @@ export function LifeJourneyStage({ levelIndex, onLevelComplete, onMemoryOpen, pa
             if (this.player?.body) this.player.setVelocityX(0)
             return
           }
+
+          if (this.progressFill) this.progressFill.scaleX = Math.max(0, Math.min(1, this.player.x / 1680))
 
           while(this.milestoneIndex<level.milestones.length && this.player.x>=level.milestones[this.milestoneIndex].x){
             this.showMilestone(level.milestones[this.milestoneIndex].text)
