@@ -285,3 +285,18 @@ radial-gradient(circle at 50% 20%,#27324d 0,#0a0d16 48%,#030408 100%)}
 }
 
 .build-ribbon{position:fixed;z-index:200;left:10px;top:10px;padding:5px 8px;border:1px solid #8ba1c8;background:#07111fea;color:#dce8ff;font:900 .55rem monospace;letter-spacing:.1em;pointer-events:none}
+
+
+/* Refined RPG cinematic pacing */
+.rpg-dialogue-compact{padding:12px 16px 14px;grid-template-columns:auto 1fr;column-gap:12px;align-items:start}
+.rpg-dialogue-compact .rpg-speaker{grid-column:1;grid-row:1}
+.rpg-dialogue-compact>p{grid-column:2;grid-row:1;margin:0;min-height:0}
+.rpg-dialogue-compact .rpg-dialogue-footer{grid-column:1/-1;margin-top:4px}
+.rpg-montage-continue{position:absolute;right:24px;bottom:20px;z-index:4;min-height:42px;padding:0 14px;border:1px solid #68758d;background:#0c121ee8;color:#f0d58a;font:900 .62rem monospace;letter-spacing:.1em;box-shadow:0 10px 24px #0007}
+.rpg-montage-continue:hover{border-color:#f0d58a;color:#fff}
+@media(max-width:760px){
+  .rpg-dialogue-compact{grid-template-columns:1fr}
+  .rpg-dialogue-compact .rpg-speaker,.rpg-dialogue-compact>p{grid-column:1}
+  .rpg-dialogue-compact .rpg-dialogue-footer{grid-column:1}
+  .rpg-montage-continue{left:12px;right:12px;width:calc(100% - 24px)}
+}
