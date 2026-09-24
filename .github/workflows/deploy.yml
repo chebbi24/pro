@@ -28,10 +28,10 @@ jobs:
           VITE_BASE_PATH: /pro/
       - name: Create versioned test build
         run: |
-          mkdir -p dist/v19
-          cp -R dist/assets dist/v19/assets
-          cp dist/index.html dist/v19/index.html
-          sed -i 's#/pro/assets/#/pro/v19/assets/#g' dist/v19/index.html
+          mkdir -p dist/v20
+          cp -R dist/assets dist/v20/assets
+          cp dist/index.html dist/v20/index.html
+          sed -i 's#/pro/assets/#/pro/v20/assets/#g' dist/v20/index.html
       - uses: actions/configure-pages@v5
       - uses: actions/upload-pages-artifact@v3
         with:
