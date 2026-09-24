@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useState } from 'react'
 import { lifeLevels } from '../content/lifeLevels'
+import { media } from '../content/media'
 
 type Props = {
   levelIndex: number
@@ -9,6 +10,7 @@ type Props = {
 type Actor = 'baby'|'mum'|'dad'|'brother'|'sister'|'catwoman'|'batman'
 type Mood = 'warm'|'quiet'|'message'|'bright'|'family'
 type Shot = 'wide'|'close-left'|'close-right'|'center'|'family'
+type BabyScene = 'exterior'|'room'|'birth'|'reveal'|'family'|'montage'
 
 type Beat = {
   speaker: string
@@ -19,6 +21,7 @@ type Beat = {
   focus?: Actor
   kicker?: string
   cue?: string
+  babyScene?: BabyScene
 }
 
 const sequences: Record<string, Beat[]> = {
@@ -31,6 +34,7 @@ const sequences: Record<string, Beat[]> = {
       actors: ['mum','dad'],
       kicker: 'THE BEGINNING',
       cue: 'A quiet morning. A brand-new chapter.',
+      babyScene: 'exterior',
     },
     {
       speaker: 'SYSTEM',
@@ -40,7 +44,8 @@ const sequences: Record<string, Beat[]> = {
       actors: ['mum','dad','baby'],
       focus: 'baby',
       kicker: 'PLAYER ONE HAS ARRIVED',
-      cue: 'Health: perfect · Potential: suspiciously high',
+      cue: 'The room holds its breath.',
+      babyScene: 'room',
     },
     {
       speaker: 'DAD',
@@ -49,7 +54,8 @@ const sequences: Record<string, Beat[]> = {
       shot: 'close-left',
       actors: ['dad','baby'],
       focus: 'dad',
-      cue: 'First assessment: entirely objective.',
+      cue: 'And then — light.',
+      babyScene: 'birth',
     },
     {
       speaker: 'MUM',
@@ -58,7 +64,8 @@ const sequences: Record<string, Beat[]> = {
       shot: 'close-right',
       actors: ['mum','baby'],
       focus: 'mum',
-      cue: 'Assessment confirmed immediately.',
+      cue: 'Tiny. Loud. Already running the room.',
+      babyScene: 'reveal',
     },
     {
       speaker: 'NARRATOR',
@@ -67,7 +74,8 @@ const sequences: Record<string, Beat[]> = {
       shot: 'family',
       actors: ['brother','sister','baby'],
       focus: 'baby',
-      cue: 'Difficulty level: unknown.',
+      cue: 'The family grows by one.',
+      babyScene: 'family',
     },
     {
       speaker: 'NARRATOR',
@@ -78,6 +86,7 @@ const sequences: Record<string, Beat[]> = {
       focus: 'baby',
       kicker: 'THE STORY HAD STARTED',
       cue: 'Next chapter: rhythm.',
+      babyScene: 'montage',
     },
   ],
   'birthday-reunion': [
@@ -215,42 +224,47 @@ export function LifeCinematicStage({ levelIndex, onComplete }: Props) {
       </div>
 
       <div className="cinematic-stage">
-        <div className="cinematic-bg" style={{backgroundImage:`url("${level.backgroundUrl}")`}}/>
-        <div className="cinematic-depth"/>
+        {level.id==='baby'
+          ?<BirthScene scene={beat.babyScene||'exterior'} levelBackground={level.backgroundUrl}/>
+          :<>
+            <div className="cinematic-bg" style={{backgroundImage:`url("${level.backgroundUrl}")`}}/>
+            <div className="cinematic-depth"/>
+            <div className="cinematic-grain"/>
+            <div className="cinematic-light"/>
+            <div className="cinematic-actors">
+              {beat.actors.map((actor,i)=>
+                <Character
+                  key={actor+i}
+                  kind={actor}
+                  index={i}
+                  total={beat.actors.length}
+                  active={!beat.focus||beat.focus===actor}
+                  shot={beat.shot}
+                />
+              )}
+            </div>
+            {level.id==='birthday-reunion'&&step>=2&&step<=5&&
+              <div className={'cinematic-phone '+(step===2?'is-alert':'is-open')}>
+                <div className="phone-notch"/>
+                <span>{step===2?'1':'♥'}</span>
+                <small>{step===2?'NEW MESSAGE':'RAYAN'}</small>
+              </div>}
+          </>
+        }
+
         <div className="cinematic-grain"/>
-        <div className="cinematic-light"/>
         <div className="cinematic-kicker">
           {beat.kicker&&<strong>{beat.kicker}</strong>}
           {beat.cue&&<span>{beat.cue}</span>}
         </div>
 
-        <div className="cinematic-actors">
-          {beat.actors.map((actor,i)=>
-            <Character
-              key={actor+i}
-              kind={actor}
-              index={i}
-              total={beat.actors.length}
-              active={!beat.focus||beat.focus===actor}
-              shot={beat.shot}
-            />
-          )}
-        </div>
-
-        {level.id==='birthday-reunion'&&step>=2&&step<=5&&
-          <div className={'cinematic-phone '+(step===2?'is-alert':'is-open')}>
-            <div className="phone-notch"/>
-            <span>{step===2?'1':'♥'}</span>
-            <small>{step===2?'NEW MESSAGE':'RAYAN'}</small>
-          </div>}
-
         {level.id==='baby'&&step===1&&
           <div className="cinematic-badge">
-            <span>PLAYER 01</span>
-            <strong>NEW GAME+</strong>
+            <span>25 · 09 · 1999</span>
+            <strong>ARRIVAL IMMINENT</strong>
           </div>}
 
-        <div className="cinematic-credit">{level.backgroundCredit}</div>
+        <div className="cinematic-credit">{level.id==='baby'&&beat.babyScene!=='exterior'?'2D STORY SCENE':level.backgroundCredit}</div>
       </div>
 
       <div className="cinematic-console-divider">
@@ -315,5 +329,76 @@ function Portrait({kind}:{kind:Actor}){
     <div className="portrait-face"><i/><i/><b/></div>
     <div className="portrait-body"/>
     <div className="portrait-detail"/>
+  </div>
+}
+
+
+function BirthScene({scene,levelBackground}:{scene:BabyScene;levelBackground:string}){
+  if(scene==='exterior'){
+    return <>
+      <div className="cinematic-bg birth-exterior-bg" style={{backgroundImage:`url("${levelBackground}")`}}/>
+      <div className="birth-exterior-wash"/>
+      <div className="birth-location-card">
+        <small>TUNIS · 1999</small>
+        <strong>MUTUELLEVILLE</strong>
+        <span>25 SEPTEMBER</span>
+      </div>
+    </>
+  }
+
+  if(scene==='montage'){
+    return <div className="baby-photo-finale">
+      <div className="baby-photo-title">
+        <small>CHAPTER 01 COMPLETE</small>
+        <strong>PLAYER ONE ARRIVES</strong>
+      </div>
+      <div className="baby-photo-stack">
+        <figure className="baby-photo-card card-a">
+          <img src={media.photos.herChildhood1} alt="Baby memory one"/>
+          <figcaption>25.09.1999</figcaption>
+        </figure>
+        <figure className="baby-photo-card card-b">
+          <img src={media.photos.herChildhood2} alt="Baby memory two"/>
+          <figcaption>THE BEGINNING</figcaption>
+        </figure>
+      </div>
+      <div className="baby-next-tease">NEXT · RHYTHM UNLOCKED</div>
+    </div>
+  }
+
+  return <div className={'birth-room scene-'+scene}>
+    <div className="room-wall"/>
+    <div className="room-window"><i/><i/><span/></div>
+    <div className="room-curtain left"/><div className="room-curtain right"/>
+    <div className="room-picture"><span>1999</span></div>
+    <div className="room-lamp"><i/><span/></div>
+    <div className="room-floor"/>
+    <div className="room-bed">
+      <div className="bed-frame"/>
+      <div className="bed-mattress"/>
+      <div className="bed-pillow"/>
+      <div className="room-mum">
+        <div className="mini-head"/><div className="mini-hair"/><div className="mini-body"/>
+      </div>
+      <div className="bed-blanket"/>
+    </div>
+    <div className="room-dad"><div className="mini-head"/><div className="mini-hair"/><div className="mini-body"/></div>
+    <div className="room-nurse"><div className="mini-head"/><div className="mini-cap"/><div className="mini-body"/></div>
+    <div className="room-monitor"><b>♥</b><span>98</span></div>
+    <div className="room-side-table"><i/><span/></div>
+
+    {(scene==='birth'||scene==='reveal'||scene==='family')&&<div className="birth-glow"/>}
+    {(scene==='reveal'||scene==='family')&&<div className="baby-bassinet">
+      <div className="bassinet-body"/>
+      <div className="bassinet-blanket"/>
+      <div className="bassinet-baby"><div className="mini-head"/><div className="mini-hair"/></div>
+    </div>}
+
+    {scene==='birth'&&<div className="birth-moment-card"><small>11:__</small><strong>A NEW PLAYER ENTERS THE WORLD</strong></div>}
+
+    {scene==='family'&&<div className="family-enter">
+      <div className="family-kid brother"><div className="mini-head"/><div className="mini-hair"/><div className="mini-body"/></div>
+      <div className="family-kid sister"><div className="mini-head"/><div className="mini-hair"/><div className="mini-body"/></div>
+    </div>}
   </div>
 }
