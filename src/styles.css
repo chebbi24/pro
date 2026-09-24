@@ -50,3 +50,21 @@
 .memory-shot{width:min(330px,72vw);margin:0 -34px;padding:11px 11px 30px;background:#ece6db;color:#19191d;box-shadow:0 22px 48px #0009;transform:rotate(-5deg);position:relative}.memory-shot.shot-1{transform:rotate(6deg);z-index:2}.memory-shot img{width:100%;aspect-ratio:4/3;object-fit:cover;display:block}.memory-shot figcaption{margin-top:8px;font:800 .68rem monospace}
 .memory-copy{padding:26px clamp(18px,4vw,42px) 34px}.memory-copy h2{font-size:clamp(2rem,5vw,3.8rem);margin:.15em 0 .3em}.memory-copy>p:not(.eyebrow){max-width:760px;line-height:1.75;color:#d9d6cf;font-size:1.05rem}
 @media(max-width:760px){.life-act{padding-top:66px}.life-game-hud{display:block}.life-game-hud>span:last-child{display:inline-block;margin-top:8px}.life-controls{display:flex}.life-game-hint{top:126px;font-size:.58rem}.memory-gallery{min-height:250px;padding:24px}.memory-shot{width:230px;margin:0 -55px}.memory-copy{padding-bottom:28px}}
+
+
+.act2-prologue{min-height:100vh;display:grid;place-items:center;padding:72px 18px;background:
+radial-gradient(circle at 50% 20%,#27324d 0,#0a0d16 48%,#030408 100%)}
+.act2-prologue-card{width:min(880px,94vw);padding:clamp(28px,6vw,70px);text-align:center;border:1px solid #46516e;background:linear-gradient(180deg,#0b1120e8,#090b13f2);box-shadow:0 30px 100px #000c;position:relative;overflow:hidden}
+.act2-prologue-card:before{content:"";position:absolute;inset:0;background:linear-gradient(120deg,transparent 25%,#f3c76b08 50%,transparent 75%);pointer-events:none}
+.act2-prologue-card h1{font-size:clamp(2.5rem,7vw,5.8rem);line-height:.95;margin:.25em auto .35em;max-width:760px}
+.act2-prologue-card>p:not(.eyebrow){max-width:700px;margin:0 auto 14px;line-height:1.7;color:#ddd8ce}
+.prologue-date{font:900 clamp(1rem,3vw,1.5rem) monospace;letter-spacing:.25em;color:#d9b25e;margin-top:14px}
+.prologue-line{display:flex;align-items:center;gap:14px;justify-content:center;margin:30px 0;color:#9ca8bd;font:800 .7rem monospace;letter-spacing:.16em}
+.prologue-line span{height:1px;flex:1;max-width:180px;background:linear-gradient(90deg,transparent,#6c7897)}
+.prologue-line span:last-child{background:linear-gradient(90deg,#6c7897,transparent)}
+
+.level-intro-overlay{position:fixed;z-index:115;inset:0;display:grid;place-items:center;padding:20px;background:#020409d1;backdrop-filter:blur(7px)}
+.level-intro-card{width:min(620px,94vw);padding:34px;text-align:center;border:1px solid #46516e;background:linear-gradient(145deg,#0c1220,#14101a);box-shadow:0 26px 90px #000d}
+.level-intro-card h2{font-size:clamp(2.2rem,6vw,4.5rem);margin:.18em 0 .22em}.level-intro-card>p:not(.eyebrow){color:#d7d2ca;line-height:1.6}
+.level-intro-year{display:inline-block;margin-top:10px;padding:6px 9px;border:1px solid #6d5a31;color:var(--amber);font:900 .72rem monospace;letter-spacing:.12em}
+.level-intro-location{margin:24px 0;color:#99a7bd;font:800 .7rem monospace;letter-spacing:.16em}
