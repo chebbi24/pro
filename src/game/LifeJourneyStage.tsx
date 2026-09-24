@@ -242,46 +242,27 @@ export function LifeJourneyStage({ levelIndex, onLevelComplete, onMemoryOpen, pa
             g.fillStyle(0xffffff, 0.12)
             for (let x=10; x<155; x+=24) g.fillRect(x, 9, 15, 2)
             if (level.theme === 'gymnastics') {
-            // Apparatus zone: visual-only, milestones provide the popups.
-            const ribbon=this.add.graphics().setDepth(2)
-            ribbon.lineStyle(5,0xd86fb2,.95)
-            ribbon.beginPath(); ribbon.moveTo(170,290); ribbon.lineTo(240,230); ribbon.lineTo(300,300); ribbon.lineTo(360,235); ribbon.strokePath()
-
-            const hoop=this.add.graphics().setDepth(3)
-            hoop.lineStyle(7,0x9b5cc0,1); hoop.strokeCircle(505,330,38)
-
-            this.add.circle(745,342,24,0xc85c95).setStrokeStyle(4,0xf0bfd9).setDepth(3)
-
-            for (const x of [900,930]) {
-              this.add.rectangle(x,338,8,58,0xd5b35b).setRotation(x===900?-.28:.24).setDepth(3)
-              this.add.circle(x+(x===900?-8:8),309,7,0xd5b35b).setDepth(3)
+              g.fillStyle(0xf0d9ee, .35)
+              g.fillRect(0, 18, 160, 4)
             }
+          }, 160, 24)
 
-            // Proper rhythmic-gymnastics balance beam / apparatus platform.
-            const beamX=610, beamY=407
-            this.add.rectangle(beamX,beamY,210,14,0xe2b293).setStrokeStyle(3,0x8a5d49).setDepth(4)
-            this.add.rectangle(beamX-78,beamY+34,11,55,0x6b4c40).setDepth(3)
-            this.add.rectangle(beamX+78,beamY+34,11,55,0x6b4c40).setDepth(3)
-            this.add.rectangle(beamX,beamY+58,185,8,0x5a4038).setDepth(2)
-            this.add.rectangle(beamX,beamY-3,190,3,0xf5d7c8,.7).setDepth(5)
-
-            // Competition side: podiums and medal lights, without static text blocks.
-            const podiums=[
-              {x:1190,w:82,h:28},
-              {x:1395,w:96,h:38},
-              {x:1580,w:112,h:48},
-            ]
-            podiums.forEach((p,i)=>{
-              this.add.rectangle(p.x,455,p.w,p.h,0x252b3a).setStrokeStyle(3,0xd4ad45).setDepth(3)
-              this.add.circle(p.x,245,40+i*8,0xf3c76b,.08+i*.02).setDepth(1)
-              this.add.circle(p.x,245,8+i*2,0xf3c76b,.9).setDepth(2)
-            })
-          } else if (level.theme === 'usa') {
-              g.fillCircle(16, 17, 14); g.fillStyle(0x5b6470, 1); g.fillCircle(16, 17, 6)
+          this.createTexture('obstacle', g => {
+            g.fillStyle(palette.obstacle, 0.95)
+            if (level.theme === 'gymnastics') {
+              g.fillRoundedRect(2, 10, 28, 20, 5)
+              g.fillStyle(palette.accent, .9)
+              g.fillRect(5, 14, 22, 3)
+            } else if (level.theme === 'usa') {
+              g.fillCircle(16, 17, 14)
+              g.fillStyle(0x5b6470, 1)
+              g.fillCircle(16, 17, 6)
             } else if (level.theme === 'coach') {
               g.fillTriangle(3, 31, 16, 2, 29, 31)
             } else if (level.theme === 'meet-breakup') {
-              g.fillCircle(11, 12, 9); g.fillCircle(21, 12, 9); g.fillTriangle(4, 14, 28, 14, 16, 31)
+              g.fillCircle(11, 12, 9)
+              g.fillCircle(21, 12, 9)
+              g.fillTriangle(4, 14, 28, 14, 16, 31)
             } else {
               g.fillRoundedRect(1, 8, 30, 23, 4)
             }
@@ -299,6 +280,75 @@ export function LifeJourneyStage({ levelIndex, onLevelComplete, onMemoryOpen, pa
           tint.setDepth(-10)
           const vignette = this.add.rectangle(900, 270, 1800, 540, 0x05070c, 0.12)
           vignette.setDepth(-9)
+        }
+
+        createThemeDecor() {
+          if (level.theme === 'gymnastics') {
+            const ribbon=this.add.graphics().setDepth(2)
+            ribbon.lineStyle(5,0xd86fb2,.95)
+            ribbon.beginPath()
+            ribbon.moveTo(170,290)
+            ribbon.lineTo(240,230)
+            ribbon.lineTo(300,300)
+            ribbon.lineTo(360,235)
+            ribbon.strokePath()
+
+            const hoop=this.add.graphics().setDepth(3)
+            hoop.lineStyle(7,0x9b5cc0,1)
+            hoop.strokeCircle(505,330,38)
+
+            this.add.circle(745,342,24,0xc85c95).setStrokeStyle(4,0xf0bfd9).setDepth(3)
+
+            for (const x of [900,930]) {
+              this.add.rectangle(x,338,8,58,0xd5b35b).setRotation(x===900?-.28:.24).setDepth(3)
+              this.add.circle(x+(x===900?-8:8),309,7,0xd5b35b).setDepth(3)
+            }
+
+            const beamX=610, beamY=407
+            this.add.rectangle(beamX,beamY,210,14,0xe2b293).setStrokeStyle(3,0x8a5d49).setDepth(4)
+            this.add.rectangle(beamX-78,beamY+34,11,55,0x6b4c40).setDepth(3)
+            this.add.rectangle(beamX+78,beamY+34,11,55,0x6b4c40).setDepth(3)
+            this.add.rectangle(beamX,beamY+58,185,8,0x5a4038).setDepth(2)
+            this.add.rectangle(beamX,beamY-3,190,3,0xf5d7c8,.7).setDepth(5)
+
+            const podiums=[
+              {x:1190,w:82,h:28},
+              {x:1395,w:96,h:38},
+              {x:1580,w:112,h:48},
+            ]
+            podiums.forEach((p,i)=>{
+              this.add.rectangle(p.x,455,p.w,p.h,0x252b3a).setStrokeStyle(3,0xd4ad45).setDepth(3)
+              this.add.circle(p.x,245,40+i*8,0xf3c76b,.08+i*.02).setDepth(1)
+              this.add.circle(p.x,245,8+i*2,0xf3c76b,.9).setDepth(2)
+            })
+          } else if (level.theme === 'usa') {
+            for (const x of [620,690,760]) {
+              this.add.circle(x,438,24,0x181b20).setStrokeStyle(6,0x505965).setDepth(3)
+            }
+            this.add.rectangle(1050,410,120,10,0x687057).setDepth(3)
+            this.add.rectangle(1230,372,120,10,0x687057).setDepth(3)
+          } else if (level.theme === 'coach') {
+            for (const [x,y] of [[650,435],[720,435],[790,435]]) {
+              this.add.triangle(x,y,0,28,15,0,30,28,0xe78e58).setDepth(3)
+            }
+          }
+        }
+
+        createGameHud() {
+          const x=620, y=35, width=280
+          this.add.rectangle(x,y,width,42,0x070a12,.88)
+            .setScrollFactor(0).setDepth(45).setStrokeStyle(1,0x4a5670)
+          this.add.text(x-width/2+12,y-14,'PROGRESS',{
+            fontFamily:'monospace',fontSize:'9px',color:'#9eabc2'
+          }).setScrollFactor(0).setDepth(46)
+          this.add.rectangle(x-width/2+12,y+7,width-110,6,0x293247)
+            .setOrigin(0,.5).setScrollFactor(0).setDepth(46)
+          this.progressFill=this.add.rectangle(x-width/2+12,y+7,width-110,6,palette.accent)
+            .setOrigin(0,.5).setScrollFactor(0).setDepth(47)
+          this.progressFill.scaleX=0
+          this.itemCounter=this.add.text(x+width/2-88,y-6,`ITEMS 0/${level.memories.length}`,{
+            fontFamily:'monospace',fontSize:'10px',color:'#f3c76b'
+          }).setScrollFactor(0).setDepth(46)
         }
 
         create() {
