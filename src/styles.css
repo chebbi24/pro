@@ -68,3 +68,10 @@ radial-gradient(circle at 50% 20%,#27324d 0,#0a0d16 48%,#030408 100%)}
 .level-intro-card h2{font-size:clamp(2.2rem,6vw,4.5rem);margin:.18em 0 .22em}.level-intro-card>p:not(.eyebrow){color:#d7d2ca;line-height:1.6}
 .level-intro-year{display:inline-block;margin-top:10px;padding:6px 9px;border:1px solid #6d5a31;color:var(--amber);font:900 .72rem monospace;letter-spacing:.12em}
 .level-intro-location{margin:24px 0;color:#99a7bd;font:800 .7rem monospace;letter-spacing:.16em}
+
+
+.life-stage-frame{position:relative;width:100%;aspect-ratio:16/9;border:1px solid #3b4665;box-shadow:0 28px 90px #000b;overflow:hidden;background:#111827}
+.life-photo-background{position:absolute;inset:0;background-size:cover;background-position:center;filter:saturate(.88) contrast(1.05);transform:scale(1.02)}
+.life-photo-shade{position:absolute;inset:0;background:linear-gradient(180deg,#05070c33 0,#05070c55 48%,#05070caa 100%),linear-gradient(90deg,#07091255 0,transparent 25%,transparent 75%,#07091255 100%);pointer-events:none}
+.life-stage-frame .life-game-canvas{position:absolute;inset:0;width:100%;height:100%;aspect-ratio:auto;border:0;background:transparent;box-shadow:none}
+.life-photo-credit{position:absolute;right:8px;bottom:7px;z-index:9;padding:4px 6px;background:#05070cab;color:#d2d7e3;font:700 .55rem monospace;letter-spacing:.03em}
