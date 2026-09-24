@@ -13,7 +13,7 @@ export type LifeLevelTheme =
   | 'etretat'
   | 'mallorca'
 
-export type CollectibleKind = 'family'|'ribbon'|'trophy'|'star'|'whistle'|'heart'|'broken-heart'|'diploma'|'phone'|'suitcase'|'boat'|'camera'|'love'
+export type CollectibleKind = 'family'|'ribbon'|'hoop'|'ball'|'clubs'|'trophy'|'star'|'whistle'|'heart'|'broken-heart'|'diploma'|'phone'|'suitcase'|'boat'|'camera'|'love'
 
 export type GoalKind = 'home'|'ribbon-gate'|'podium'|'plane'|'gym-door'|'bat-signal'|'graduation'|'message'|'paris-heart'|'milan-arch'|'dock'|'cliff-arch'|'sunset-heart'
 
@@ -79,49 +79,73 @@ export const lifeLevels: LifeLevel[] = [
     id: 'gymnast',
     mode: 'platform',
     milestones: [
-      { x: 260, text: 'Rhythm unlocked' },
-      { x: 600, text: 'Tunisian Champion' },
-      { x: 980, text: 'African Champion' },
-      { x: 1360, text: 'World Champion' },
+      { x: 250, text: 'Ribbon unlocked' },
+      { x: 500, text: 'Hoop unlocked' },
+      { x: 745, text: 'Ball unlocked' },
+      { x: 955, text: 'Clubs unlocked' },
+      { x: 1180, text: 'Tunisian Champion' },
+      { x: 1390, text: 'African Champion' },
+      { x: 1570, text: 'World Champion' },
     ],
     order: 2,
     title: 'From Rhythm to Champion',
-    subtitle: 'She discovers rhythmic gymnastics — then keeps winning until the world notices',
+    subtitle: 'First she masters the apparatus. Then she starts collecting titles.',
     year: 'GYMNASTICS ERA',
     theme: 'gymnastics',
     avatarStage: 'teen',
     avatarStyle: 'gymnast',
-    worldLabel: 'GYMNASTICS // TUNISIA → AFRICA → WORLD',
+    worldLabel: 'RHYTHMIC GYMNASTICS // APPARATUS → TITLES',
     backgroundUrl: 'https://commons.wikimedia.org/wiki/Special:FilePath/Gymnastics%20room.webp',
     backgroundCredit: 'Wikimedia Commons · gymnastics training hall · CC0',
     goalKind: 'podium',
-    obstacleCount: 6,
+    obstacleCount: 5,
     memories: [
       {
-        id: 'first-gym',
-        title: 'Rhythm Unlocked',
-        caption: 'Ribbon, hoop, balance and repetition. What starts as training quickly becomes one of the defining parts of Amouna’s story.',
+        id: 'ribbon',
+        title: 'Ribbon Unlocked',
+        caption: 'The first apparatus becomes part of her rhythm: control, timing and precision.',
         photoKeys: ['herTeen1'],
         collectible: 'ribbon',
       },
       {
+        id: 'hoop',
+        title: 'Hoop Unlocked',
+        caption: 'Next comes the hoop — throws, catches and movement without losing the rhythm.',
+        photoKeys: ['herTeen1'],
+        collectible: 'hoop',
+      },
+      {
+        id: 'ball',
+        title: 'Ball Unlocked',
+        caption: 'Then the ball: balance, fluidity and control.',
+        photoKeys: ['herTeen1'],
+        collectible: 'ball',
+      },
+      {
+        id: 'clubs',
+        title: 'Clubs Unlocked',
+        caption: 'The clubs complete the apparatus progression. Training mode is officially serious now.',
+        photoKeys: ['herTeen1'],
+        collectible: 'clubs',
+      },
+      {
         id: 'tunisian-champion',
         title: 'Tunisian Champion',
-        caption: 'The first major title arrives: champion of Tunisia.',
+        caption: 'After mastering the apparatus, the first major title arrives: champion of Tunisia.',
         photoKeys: ['herTeen1'],
         collectible: 'trophy',
       },
       {
         id: 'african-champion',
         title: 'African Champion',
-        caption: 'The national stage was apparently just the beginning. Amouna becomes African champion.',
+        caption: 'The national stage was only the beginning. Amouna becomes African champion.',
         photoKeys: ['herTeen1'],
         collectible: 'trophy',
       },
       {
         id: 'world-champion',
         title: 'World Champion',
-        caption: 'Then comes the world stage. The journey from first routines to world champion is complete.',
+        caption: 'Then comes the world stage. The training journey ends with the biggest title.',
         photoKeys: ['herTeen1'],
         collectible: 'trophy',
       },
