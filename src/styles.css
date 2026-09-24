@@ -259,3 +259,27 @@ radial-gradient(circle at 50% 20%,#27324d 0,#0a0d16 48%,#030408 100%)}
   .baby-bassinet{left:54%}.birth-glow{left:50%}.family-enter{right:-3%;transform:scale(.82);transform-origin:bottom right}
   .baby-photo-stack{width:92%;height:70%}.baby-photo-card{width:56%}.baby-photo-card.card-a{left:0}.baby-photo-card.card-b{right:0}
 }
+
+
+/* Top-down RPG story chapters */
+.rpg-story-shell{width:min(1080px,100%);margin:auto;border:1px solid #46516e;background:#0b0f18;box-shadow:0 34px 100px #000d;overflow:hidden}
+.rpg-story-topbar{height:42px;display:grid;grid-template-columns:1fr auto 1fr;align-items:center;padding:0 14px;background:linear-gradient(#111827,#0a0f18);border-bottom:1px solid #374056;color:#8e99af;font:800 .62rem monospace;letter-spacing:.11em}
+.rpg-story-topbar b{color:#f3efe6}.rpg-story-topbar span:last-child{text-align:right}
+.rpg-story-stage{position:relative;width:100%;aspect-ratio:16/9;background:#101521;overflow:hidden}
+.rpg-phaser-mount{position:absolute;inset:0}.rpg-phaser-mount canvas{display:block;width:100%!important;height:100%!important;image-rendering:pixelated}
+.rpg-dialogue-box{display:grid;gap:10px;padding:16px 18px 18px;background:linear-gradient(#f2efe7,#d8d3c8);color:#17191e;border-top:5px solid #222938;box-shadow:inset 0 0 0 4px #b9b4aa}
+.rpg-speaker{width:max-content;padding:5px 9px;background:#2a3040;color:#fff;font:900 .64rem monospace;letter-spacing:.11em}
+.rpg-dialogue-box p{min-height:54px;margin:0;font:700 clamp(.95rem,2vw,1.12rem)/1.55 "Courier New",monospace}
+.rpg-dialogue-footer{display:flex;align-items:center;justify-content:space-between;gap:16px}.rpg-dialogue-footer small{font:800 .6rem monospace;color:#736f68;letter-spacing:.05em}.rpg-dialogue-footer button{min-width:130px;min-height:40px;border:2px solid #252b38;background:#252b38;color:#fff;font:900 .65rem monospace;letter-spacing:.09em;box-shadow:inset 0 0 0 3px #4a5365}.rpg-dialogue-footer button:hover{border-color:#b08d4f;color:#f3c76b}
+
+.rpg-photo-montage{position:absolute;z-index:20;inset:0;background:radial-gradient(circle at 50% 38%,#342d37,#11151f 74%);overflow:hidden;display:grid;place-items:center;animation:rpgMontageIn .4s ease both}
+.rpg-photo-montage:before{content:"";position:absolute;inset:0;background:repeating-linear-gradient(0deg,#fff1 0 1px,transparent 1px 4px);opacity:.16}
+.rpg-photo-title{position:absolute;left:26px;top:24px;z-index:3;display:grid;gap:3px}.rpg-photo-title small{font:800 .58rem monospace;color:#c5a95e;letter-spacing:.14em}.rpg-photo-title strong{font:900 clamp(1.2rem,3vw,2rem) monospace;color:#fff;letter-spacing:.07em}
+.rpg-polaroid{position:absolute;width:min(340px,37%);margin:0;padding:11px 11px 34px;background:#f2ede3;color:#1c1a18;box-shadow:0 22px 55px #000b;border:1px solid #c7beaf}.rpg-polaroid img{display:block;width:100%;aspect-ratio:4/3;object-fit:cover}.rpg-polaroid figcaption{margin-top:9px;font:900 .62rem monospace;letter-spacing:.08em}.rpg-polaroid.left{left:18%;top:25%;transform:rotate(-7deg);animation:rpgPhotoLeft .65s ease both}.rpg-polaroid.right{right:17%;top:17%;transform:rotate(6deg);animation:rpgPhotoRight .72s .07s ease both}
+.rpg-next-tease{position:absolute;right:24px;bottom:20px;z-index:3;padding:8px 11px;background:#090d16e8;border:1px solid #46516e;color:#e1ce91;font:900 .6rem monospace;letter-spacing:.12em}
+@keyframes rpgMontageIn{from{opacity:0}to{opacity:1}}@keyframes rpgPhotoLeft{from{opacity:0;transform:translateY(26px) rotate(-11deg)}to{opacity:1;transform:translateY(0) rotate(-7deg)}}@keyframes rpgPhotoRight{from{opacity:0;transform:translateY(26px) rotate(11deg)}to{opacity:1;transform:translateY(0) rotate(6deg)}}
+
+@media(max-width:760px){
+  .rpg-story-topbar{font-size:.5rem;padding:0 8px}.rpg-dialogue-box{padding:12px}.rpg-dialogue-footer{align-items:stretch;flex-direction:column}.rpg-dialogue-footer button{width:100%}
+  .rpg-polaroid{width:52%}.rpg-polaroid.left{left:4%;top:29%}.rpg-polaroid.right{right:4%;top:18%}.rpg-photo-title{left:14px;top:12px}.rpg-next-tease{right:12px;bottom:10px;font-size:.52rem}
+}
