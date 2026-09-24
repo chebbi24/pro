@@ -4,6 +4,7 @@ import { lifeLevels, type LifeMemory } from './content/lifeLevels'
 import { media } from './content/media'
 import { GameStage, type GameMode } from './game/GameStage'
 import { LifeJourneyStage, MemoryOverlay } from './game/LifeJourneyStage'
+import { LifeCinematicStage } from './game/LifeCinematicStage'
 
 type Scene = 'entry'|'encounter'|'dialogue'|'access'|'reveal'|'drive'|'act2intro'|'journey'|'rooftop'|'letter'|'gift'|'finale'
 const KEY='gotham-birthday-progress-v2'
@@ -175,13 +176,15 @@ function App(){
     </section>}
 
     {scene==='journey'&&<section className="life-act scene-fade">
-      <LifeJourneyStage
-        key={lifeLevel}
-        levelIndex={lifeLevel}
-        onLevelComplete={completeLifeLevel}
-        onMemoryOpen={setActiveMemory}
-        paused={Boolean(activeMemory)||showLevelIntro}
-      />
+      {lifeLevels[lifeLevel].mode==='cinematic'
+        ?<LifeCinematicStage key={lifeLevel} levelIndex={lifeLevel} onComplete={completeLifeLevel}/>
+        :<LifeJourneyStage
+          key={lifeLevel}
+          levelIndex={lifeLevel}
+          onLevelComplete={completeLifeLevel}
+          onMemoryOpen={setActiveMemory}
+          paused={Boolean(activeMemory)||showLevelIntro}
+        />}
       {showLevelIntro&&<LevelIntro levelIndex={lifeLevel} onStart={()=>setShowLevelIntro(false)}/>}
       {activeMemory&&<MemoryOverlay memory={activeMemory} onClose={()=>setActiveMemory(null)}/>}
     </section>}
