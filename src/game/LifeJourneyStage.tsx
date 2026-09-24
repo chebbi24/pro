@@ -489,8 +489,9 @@ export function LifeJourneyStage({ levelIndex, onLevelComplete, onMemoryOpen, pa
             })
           }
 
-          // Batman is a persistent travel companion in chapters 8–10.
-          if(level.order>=8&&level.order<=10){
+          // Batman walks behind her in Chapters 8–9.
+          // Chapter 10 uses the shared Catwoman + Batman boat avatar instead.
+          if(level.order>=8&&level.order<=9){
             this.companion=this.add.sprite(35,430,'batman-companion').setDepth(8)
             this.companionMode='follow'
           }
