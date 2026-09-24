@@ -13,11 +13,11 @@ export type LifeLevelTheme =
   | 'etretat'
   | 'mallorca'
 
-export type CollectibleKind = 'family'|'ribbon'|'hoop'|'ball'|'clubs'|'trophy'|'star'|'whistle'|'heart'|'broken-heart'|'diploma'|'phone'|'suitcase'|'boat'|'camera'|'love'
+export type CollectibleKind = 'family'|'ribbon'|'hoop'|'ball'|'clubs'|'trophy'|'star'|'whistle'|'heart'|'broken-heart'|'diploma'|'graduation-cap'|'greece'|'friend'|'phone'|'suitcase'|'boat'|'camera'|'love'
 
 export type GoalKind = 'home'|'ribbon-gate'|'podium'|'plane'|'gym-door'|'bat-signal'|'graduation'|'message'|'paris-heart'|'milan-arch'|'dock'|'cliff-arch'|'sunset-heart'
 
-export type AvatarStyle = 'baby'|'gymnast'|'champion'|'tiger'|'catwoman'
+export type AvatarStyle = 'baby'|'gymnast'|'champion'|'tiger'|'catwoman'|'black-dress'|'boat'
 
 export type LifeMemory = {
   id: string
@@ -167,12 +167,12 @@ export const lifeLevels: LifeLevel[] = [
     year: 'USA',
     theme: 'usa',
     avatarStage: 'young-adult',
-    avatarStyle: 'tiger',
+    avatarStyle: 'black-dress',
     worldLabel: 'UNITED STATES',
     backgroundUrl: localBackground('usa.png'),
     backgroundCredit: '',
     goalKind: 'plane',
-    obstacleCount: 5,
+    obstacleCount: 0,
     memories: [
       {
         id: 'usa-year',
@@ -217,6 +217,13 @@ export const lifeLevels: LifeLevel[] = [
         caption: 'Back in Tunisia she builds a gymnastics club and starts coaching young girls — turning years of discipline into something she can pass on.',
         photoKeys: ['herAdult1'],
         collectible: 'whistle',
+      },
+      {
+        id: 'greece-team',
+        title: 'She Took the Team to Greece',
+        caption: 'Coach mode goes international: she takes the team to Greece and turns the club into another chapter of the adventure.',
+        photoKeys: ['herAdult1'],
+        collectible: 'greece',
       },
     ],
   },
@@ -284,14 +291,14 @@ export const lifeLevels: LifeLevel[] = [
         title: 'Graduation Unlocked',
         caption: 'She graduates. Achievement unlocked: officially educated enough to ignore everyone’s advice professionally.',
         photoKeys: ['herAdult1'],
-        collectible: 'diploma',
+        collectible: 'graduation-cap',
       },
       {
         id: 'paris-life',
         title: 'Paris Life',
         caption: 'Then Paris: a new city, a new home, and life with her best girl friend. The map gets bigger again.',
         photoKeys: ['herAdult1'],
-        collectible: 'suitcase',
+        collectible: 'friend',
       },
     ],
   },
@@ -422,7 +429,7 @@ export const lifeLevels: LifeLevel[] = [
     year: 'TRIP 03',
     theme: 'etretat',
     avatarStage: 'adult',
-    avatarStyle: 'catwoman',
+    avatarStyle: 'boat',
     worldLabel: 'ÉTRETAT // FRANCE',
     backgroundUrl: localBackground('etretat.png'),
     backgroundCredit: '',
@@ -451,7 +458,7 @@ export const lifeLevels: LifeLevel[] = [
     year: 'TRIP 04',
     theme: 'mallorca',
     avatarStage: 'adult',
-    avatarStyle: 'catwoman',
+    avatarStyle: 'boat',
     worldLabel: 'MALLORCA',
     backgroundUrl: localBackground('mallorca.png'),
     backgroundCredit: '',
