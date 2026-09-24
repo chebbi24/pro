@@ -2,18 +2,18 @@
 
 Upload your own images into this folder using these exact filenames:
 
-- baby.jpg
-- gymnastics.jpg
-- usa.jpg
-- coach.jpg
-- meet-breakup.jpg
-- paris.jpg
-- birthday-reunion.jpg
-- paris-romance.jpg
-- milan.jpg
-- como.jpg
-- etretat.jpg
-- mallorca.jpg
+- baby.png
+- gymnastics.png
+- usa.png
+- coach.png
+- meet-breakup.png
+- paris.png
+- birthday-reunion.png
+- paris-romance.png
+- milan.png
+- como.png
+- etretat.png
+- mallorca.png
 
 Recommended:
 - JPG
