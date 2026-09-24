@@ -72,7 +72,7 @@ export const lifeLevels: LifeLevel[] = [
         id: 'family',
         title: 'The Family Already Knew',
         caption: '25 September 1999. She arrives in Mutuelleville, Tunis. Mum, Dad, her older brother and sister look at the newest family member and reach the only reasonable conclusion: this one is going to be dangerously clever.',
-        photoKeys: ['chapter1Baby1', 'chapter1Baby2'],
+        photoKeys: ['chapter1Baby1'],
         collectible: 'family',
       },
     ],
