@@ -55,13 +55,30 @@ function App(){
     </section>}
 
     {mode&&<section className="game-section scene-fade">
-      <GameStage mode={mode} onInteract={()=>{setDialogue(0);setScene('dialogue')}} onDriveDone={()=>setScene('journey')}/>
-      {scene==='encounter'&&<div className="hint">MOVE TOWARD CATWOMAN · A/D OR ←/→</div>}
+      <GameStage mode={mode} frozen={scene!=='encounter' && mode==='encounter'} onInteract={()=>{setDialogue(0);setScene('dialogue')}} onDriveDone={()=>setScene('journey')}/>
+      {scene==='encounter'&&<div className="hint">YOU ARE CATWOMAN · WALK TOWARD BATMAN · A/D OR ←/→</div>}
       {scene==='dialogue'&&<Dialogue index={dialogue} noCount={noCount} onNext={()=>setDialogue(Math.min(dialogue+1,2))} onYes={()=>setScene('access')} onNo={()=>setNoCount(noCount+1)}/>}
       {scene==='access'&&<section className="terminal">
-        <p className="eyebrow">{story.access.system}</p><h2>{story.access.title}</h2>
-        <form onSubmit={verify}><label htmlFor="secret">{story.access.question}</label><input id="secret" value={name} onChange={e=>setName(e.target.value)} autoFocus/><button className="primary-btn">VERIFY</button></form>
-        {feedback&&<p className={feedback===story.access.success?'ok':'bad'}>{feedback}</p>}
+        <div className="terminal-topbar">
+          <div><span className="terminal-dot red"/><span className="terminal-dot amber"/><span className="terminal-dot green"/></div>
+          <span>WAYNE SECURE TERMINAL // NODE 01</span>
+          <span className="terminal-status">ENCRYPTED</span>
+        </div>
+        <div className="terminal-brand">
+          <div className="wayne-mark">W</div>
+          <div><p className="eyebrow">{story.access.system}</p><h2>{story.access.title}</h2></div>
+        </div>
+        <div className="terminal-readout">
+          <span>ACCESS CHANNEL</span><b>GOTHAM-PRIVATE</b>
+          <span>AUTH LEVEL</span><b>ALPHA</b>
+          <span>SESSION</span><b>ACTIVE</b>
+        </div>
+        <form onSubmit={verify}>
+          <label htmlFor="secret">{story.access.question}</label>
+          <div className="terminal-input-row"><span>&gt;</span><input id="secret" value={name} onChange={e=>setName(e.target.value)} autoFocus autoComplete="off"/><button className="primary-btn">VERIFY</button></div>
+        </form>
+        {feedback&&<p className={feedback===story.access.success?'ok terminal-feedback':'bad terminal-feedback'}>{feedback}</p>}
+        <div className="terminal-footer">WAYNE ENTERPRISES // SECURE SYSTEMS DIVISION // 01:17:42</div>
       </section>}
       {scene==='reveal'&&<section className="dialogue-box"><p className="eyebrow">BATMAN</p><p>{story.reveal.line}</p><p className="muted">{story.reveal.next}</p><button className="primary-btn" onClick={()=>setScene('drive')}>GET IN THE CAR</button></section>}
       {scene==='drive'&&<div className="destination">{story.drive.destination}</div>}
@@ -88,7 +105,7 @@ function App(){
 function Dialogue({index,noCount,onNext,onYes,onNo}:{index:number,noCount:number,onNext:()=>void,onYes:()=>void,onNo:()=>void}){
   const l=story.encounter.lines[index]
   return <section className="dialogue-box"><p className="eyebrow">{l.speaker}</p><p>{l.text}</p>
-    {index<2?<button className="secondary-btn" onClick={onNext}>NEXT →</button>:<div className="choices"><button className="primary-btn" onClick={onYes}>YES ❤️</button><button className="secondary-btn" onClick={onNo}>NO 🙄</button></div>}
+    {index<2?<button className="secondary-btn" onClick={onNext}>NEXT →</button>:<div className="choices"><button className="primary-btn" onClick={onYes}>YES</button><button className="secondary-btn" onClick={onNo}>NO</button></div>}
     {noCount>0&&<p className="bad">{story.encounter.no[Math.min(noCount-1,2)]}</p>}
   </section>
 }
