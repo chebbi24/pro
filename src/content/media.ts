@@ -12,7 +12,7 @@ export const media = {
     finalPhoto: asset('assets/photos/final-photo.svg'),
   },
   audio: {
-    theme: asset('assets/audio/theme.mp3'),
+    theme: 'https://opengameart.org/sites/default/files/Relaxing_0.mp3', // CC0: Calm Loop by wipics (OpenGameArt)
   },
 }
 
