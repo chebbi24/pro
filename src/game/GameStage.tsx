@@ -205,11 +205,23 @@ export function GameStage({ mode, onReadyToInteract, onInteract, onDriveDone, re
   }, [mode, onDriveDone, onReadyToInteract, reducedMotion])
 
   useEffect(() => {
-    const key = (event: KeyboardEvent) => {
+    const down = (event: KeyboardEvent) => {
+      const key = event.key.toLowerCase()
+      if (key === 'a' || event.key === 'ArrowLeft') controls.current.left = true
+      if (key === 'd' || event.key === 'ArrowRight') controls.current.right = true
       if ((event.key === ' ' || event.key === 'Enter') && canInteractRef.current) onInteract?.()
     }
-    window.addEventListener('keydown', key)
-    return () => window.removeEventListener('keydown', key)
+    const up = (event: KeyboardEvent) => {
+      const key = event.key.toLowerCase()
+      if (key === 'a' || event.key === 'ArrowLeft') controls.current.left = false
+      if (key === 'd' || event.key === 'ArrowRight') controls.current.right = false
+    }
+    window.addEventListener('keydown', down)
+    window.addEventListener('keyup', up)
+    return () => {
+      window.removeEventListener('keydown', down)
+      window.removeEventListener('keyup', up)
+    }
   }, [onInteract])
 
   const press = (direction: 'left' | 'right', value: boolean) => {
