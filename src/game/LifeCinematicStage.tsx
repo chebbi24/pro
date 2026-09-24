@@ -586,8 +586,7 @@ export function LifeCinematicStage({levelIndex,onComplete}:Props){
       <div className="rpg-phaser-mount" ref={mountRef}/>
       {isBabyMontage&&<div className="rpg-photo-montage">
         <div className="rpg-photo-title"><small>25 SEPTEMBER 1999</small><strong>WELCOME, AMOUNA.</strong></div>
-        <figure className="rpg-polaroid left"><img src={media.photos.chapter1Baby1} alt="Amouna baby memory one"/><figcaption>THE BEGINNING</figcaption></figure>
-        <figure className="rpg-polaroid right"><img src={media.photos.chapter1Baby2} alt="Amouna baby memory two"/><figcaption>PLAYER ONE</figcaption></figure>
+        <figure className="rpg-polaroid solo"><img src={media.photos.chapter1Baby1} alt="Amouna baby memory"/><figcaption>THE BEGINNING</figcaption></figure>
         <button className="rpg-montage-continue" onClick={next}>NEXT · RHYTHM UNLOCKED ›</button>
       </div>}
     </div>
