@@ -12,9 +12,9 @@ const babyBeats:StoryBeat[]=[
   {autoMs:2200,showDialogue:false},
   {autoMs:2400,showDialogue:false},
   {autoMs:2200,showDialogue:false},
-  {speaker:'SAMI',text:'She is perfect.',cue:'Player One has arrived.'},
+  {speaker:'KAIS',text:'She is perfect.',cue:'Amouna has arrived.'},
   {autoMs:2200,showDialogue:false},
-  {speaker:'KAIS',text:'Look at her... she already knows she runs this family.',cue:'First family meeting: complete.'},
+  {speaker:'SAMI',text:'Look at her... she already knows she runs this family.',cue:'First family meeting: complete.'},
   {showDialogue:false},
 ]
 
@@ -22,7 +22,7 @@ const messageBeats:StoryBeat[]=[
   {autoMs:1800,showDialogue:false},
   {autoMs:1900,showDialogue:false},
   {autoMs:1700,showDialogue:false},
-  {speaker:'PHONE',text:'Happy Birthday -J',cue:'A familiar sender.'},
+  {speaker:'PHONE',text:'Joyeux anniversaire amanii -J',cue:'A familiar sender.'},
   {autoMs:2100,showDialogue:false},
   {speaker:'SYSTEM',text:'ROUND TWO UNLOCKED.',cue:'Next stop: December in Paris.'},
 ]
