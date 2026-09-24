@@ -5,13 +5,12 @@ export const media = {
     rayanFace: asset('assets/photos/rayan-face.jpg'),
 
     chapter1Baby1: asset('assets/photos/baby.jpg'),
-    chapter1Baby2: asset('assets/photos/baby.jpg'),
+    chapter1Baby2: asset('assets/photos/baby-2.jpg'),
 
     chapter2TunisianChampion: asset('assets/photos/tunisian-champ.jpg'),
     chapter2AfricanChampion: asset('assets/photos/African_champ.jpg'),
     chapter2WorldChampion: asset('assets/photos/world-champ.jpg'),
 
-    chapter3USA: asset('assets/photos/military.jpg'),
     chapter3Military: asset('assets/photos/military.jpg'),
 
     chapter4Club: asset('assets/photos/club.jpg'),
@@ -20,8 +19,8 @@ export const media = {
     chapter5Meet: asset('assets/photos/meet.JPG'),
     chapter5Breakup: asset('assets/photos/breakup.JPG'),
 
-    chapter6Graduation: asset('assets/photos/paris-3.jpg'),
-    chapter6BestFriend: asset('assets/photos/paris-3.jpg'),
+    chapter6Graduation: asset('assets/photos/graduation.jpg'),
+    chapter6BestFriend: asset('assets/photos/bestfriend.jpg'),
 
     chapter7Message: asset('assets/photos/paris-r1.jpg'),
 
