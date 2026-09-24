@@ -5,10 +5,6 @@ chapter-01-baby-1.jpg
 chapter-01-baby-2.jpg
 
 Chapter 2
-chapter-02-ribbon.jpg
-chapter-02-hoop.jpg
-chapter-02-ball.jpg
-chapter-02-clubs.jpg
 chapter-02-tunisian-champion.jpg
 chapter-02-african-champion.jpg
 chapter-02-world-champion.jpg
