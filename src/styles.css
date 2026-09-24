@@ -283,3 +283,5 @@ radial-gradient(circle at 50% 20%,#27324d 0,#0a0d16 48%,#030408 100%)}
   .rpg-story-topbar{font-size:.5rem;padding:0 8px}.rpg-dialogue-box{padding:12px}.rpg-dialogue-footer{align-items:stretch;flex-direction:column}.rpg-dialogue-footer button{width:100%}
   .rpg-polaroid{width:52%}.rpg-polaroid.left{left:4%;top:29%}.rpg-polaroid.right{right:4%;top:18%}.rpg-photo-title{left:14px;top:12px}.rpg-next-tease{right:12px;bottom:10px;font-size:.52rem}
 }
+
+.build-ribbon{position:fixed;z-index:200;left:10px;top:10px;padding:5px 8px;border:1px solid #8ba1c8;background:#07111fea;color:#dce8ff;font:900 .55rem monospace;letter-spacing:.1em;pointer-events:none}
