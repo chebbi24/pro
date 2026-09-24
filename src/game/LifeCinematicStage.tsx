@@ -84,6 +84,34 @@ export function LifeCinematicStage({levelIndex,onComplete}:Props){
             .setData('accent',accent)
         }
 
+        nameBar(x:number,y:number,name:string,accent=0xf3c76b){
+          const bar=this.add.container(x,y).setDepth(55)
+          const bg=this.add.rectangle(0,0,74,18,0x080b13,.9).setStrokeStyle(1,accent,.9)
+          const txt=this.add.text(0,0,name,{fontFamily:'monospace',fontSize:'10px',color:'#ffffff'}).setOrigin(.5)
+          bar.add([bg,txt])
+          return bar
+        }
+
+        makeBaby(x:number,y:number){
+          const baby=this.add.container(x,y).setDepth(24)
+          const shadow=this.add.ellipse(0,17,28,7,0x000000,.17)
+          const blanket=this.add.ellipse(0,3,30,25,0xf0cfd3).setStrokeStyle(2,0xc99aa3)
+          const head=this.add.circle(0,-9,9,0xe0a47f)
+          const tuft=this.add.rectangle(0,-17,9,3,0x9f3f30)
+          const eyeL=this.add.line(-4,-10,-2,0,2,0,0x34252a).setLineWidth(1.5)
+          const eyeR=this.add.line(4,-10,-2,0,2,0,0x34252a).setLineWidth(1.5)
+          const mouth=this.add.arc(0,-5,3,180,360,false,0xb6555d)
+          const tearL=this.add.circle(-7,-7,2,0x7bc7ea,.95)
+          const tearR=this.add.circle(7,-7,2,0x7bc7ea,.95)
+          baby.add([shadow,blanket,head,tuft,eyeL,eyeR,mouth,tearL,tearR])
+          this.tweens.add({targets:baby,y:y-3,duration:180,yoyo:true,repeat:5,ease:'Sine.InOut'})
+          this.tweens.add({targets:[tearL,tearR],y:'+=5',alpha:0,duration:420,repeat:2})
+          const cry=this.add.text(x+22,y-28,'WAAH!',{fontFamily:'monospace',fontSize:'12px',color:'#ffffff',backgroundColor:'#b34d65dd',padding:{x:6,y:4}}).setDepth(56).setAlpha(0)
+          this.tweens.add({targets:cry,alpha:1,y:y-34,duration:250,hold:900,yoyo:true})
+          this.nameBar(x,y+35,'AMOUNA',0xd66a82)
+          return baby
+        }
+
         makePerson(kind:Actor,x:number,y:number,scale=1){
           const c=this.add.container(x,y).setScale(scale).setDepth(20)
           const shadow=this.add.ellipse(0,16,26,8,0x000000,.18)
@@ -91,7 +119,7 @@ export function LifeCinematicStage({levelIndex,onComplete}:Props){
           const cfg={
             sami:{skin:0xd7a17e,hair:0x6f3f2f,body:0xd6b6a3,accent:0xe7d0c2,glasses:false,moustache:false,curly:false},
             kais:{skin:0xd8a67f,hair:0x2d2421,body:0xc9cbd0,accent:0x29384e,glasses:true,moustache:true,curly:false},
-            rania:{skin:0xd6a079,hair:0x5b372b,body:0x3a2635,accent:0xc8a05d,glasses:true,moustache:false,curly:false},
+            rania:{skin:0xd6a079,hair:0x16181d,body:0x3a2635,accent:0xc8a05d,glasses:true,moustache:false,curly:false},
             hamouda:{skin:0xc99672,hair:0x30241f,body:0x1d2a43,accent:0x304769,glasses:true,moustache:false,curly:true},
             amouna:{skin:0xe0a47f,hair:0x9f3f30,body:0xf2cfd2,accent:0xede6db,glasses:false,moustache:false,curly:false},
             nurse:{skin:0xd9aa87,hair:0x5b463c,body:0xeaf1f3,accent:0x74a6bd,glasses:false,moustache:false,curly:false},
@@ -102,7 +130,10 @@ export function LifeCinematicStage({levelIndex,onComplete}:Props){
           const body=this.add.rectangle(0,-4,23,23,cfg.body).setOrigin(.5,.5)
           const neck=this.add.rectangle(0,-18,6,7,cfg.skin)
           const head=this.add.circle(0,-27,10,cfg.skin)
-          c.add([shadow,legs,body,neck,head])
+          const eyeL=this.add.circle(-3.8,-28,1.25,0x252126)
+          const eyeR=this.add.circle(3.8,-28,1.25,0x252126)
+          const mouth=this.add.arc(0,-23,3,15,165,false,0xa65f5f)
+          c.add([shadow,legs,body,neck,head,eyeL,eyeR,mouth])
 
           if(kind==='amouna'){
             const backHair=this.add.ellipse(0,-28,24,25,cfg.hair)
@@ -117,10 +148,11 @@ export function LifeCinematicStage({levelIndex,onComplete}:Props){
             const hair=this.add.arc(0,-31,10,180,360,false,cfg.hair)
             c.add(hair)
           }else if(kind==='rania'){
-            const hair=this.add.ellipse(0,-28,23,24,cfg.hair)
-            const left=this.add.rectangle(-8,-20,5,16,cfg.hair)
-            const right=this.add.rectangle(8,-20,5,16,cfg.hair)
-            c.addAt(hair,4);c.add([left,right])
+            const hair=this.add.ellipse(0,-31,22,16,cfg.hair)
+            const sideL=this.add.rectangle(-8,-25,5,9,cfg.hair)
+            const sideR=this.add.rectangle(8,-25,5,9,cfg.hair)
+            const fringe=this.add.rectangle(0,-34,15,4,cfg.hair)
+            c.addAt(hair,4);c.add([sideL,sideR,fringe])
           }else if(kind==='hamouda'){
             for(const [cx,cy] of [[-7,-35],[0,-37],[7,-35],[-8,-29],[8,-29]]){
               c.add(this.add.circle(cx,cy,5,cfg.hair))
@@ -186,6 +218,8 @@ export function LifeCinematicStage({levelIndex,onComplete}:Props){
           }
           this.makePerson('sami',150,405,1.35)
           this.makePerson('kais',105,405,1.35)
+          this.nameBar(150,448,'SAMI',0xd6b6a3)
+          this.nameBar(105,448,'KAIS',0x8796ad)
           this.time.delayedCall(400,()=>{this.move('sami',485,260,1450);this.move('kais',450,260,1350)})
         }
 
@@ -201,9 +235,25 @@ export function LifeCinematicStage({levelIndex,onComplete}:Props){
           // upper wall strip
           this.rect(48,48,864,122,0x9bc8e0)
           this.rect(48,146,864,24,0x6c86a0)
-          // window
-          this.rect(340,62,250,78,0x87b9d0,0x52697d)
-          this.rect(460,62,7,78,0xe8f0f3)
+
+          // Window with an actual Tunis view: sky, white buildings, palms and distant hills.
+          this.rect(332,57,266,88,0x88c8e4,0x52697d)
+          this.add.circle(552,79,14,0xf5d37e).setDepth(2)
+          this.add.triangle(348,140,0,35,62,0,124,35,0x78958f).setDepth(2)
+          this.add.triangle(438,140,0,28,55,0,110,28,0x6f8a84).setDepth(2)
+          for(const [bx,bw,bh] of [[350,44,34],[398,56,45],[459,48,30],[512,62,40]]){
+            this.rect(bx,145-bh,bw,bh,0xf0eee6,0xb7b6ae)
+            this.rect(bx+8,145-bh+9,7,9,0x5c8296)
+          }
+          this.rect(574,94,4,48,0x6b5332)
+          this.add.circle(576,92,13,0x4c8c5f);this.add.circle(566,94,10,0x4c8c5f);this.add.circle(586,94,10,0x4c8c5f)
+          this.rect(459,57,7,88,0xe8f0f3)
+          this.rect(332,98,266,6,0xe8f0f3)
+
+          // Welcome banner
+          this.add.line(146,92,0,0,164,0,0x6b7081).setLineWidth(2)
+          const banner=this.add.text(228,90,'WELCOME AMOUNA',{fontFamily:'monospace',fontSize:'16px',color:'#9d4660',backgroundColor:'#f7e7d4e8',padding:{x:11,y:6}}).setOrigin(.5).setDepth(8)
+          banner.setStroke('#fff7ef',1)
           // privacy screen
           this.rect(90,190,150,110,0xe6f0f0,0x78929f)
           for(let x=110;x<220;x+=28){this.rect(x,205,8,80,0xb8d1d4)}
@@ -235,17 +285,22 @@ export function LifeCinematicStage({levelIndex,onComplete}:Props){
           const sami=this.makePerson('sami',385,292,1.45);sami.setAngle(-90)
           this.makePerson('kais',580,365,1.38)
           this.makePerson('nurse',708,305,1.32)
+          this.nameBar(365,350,'SAMI',0xd6b6a3)
+          this.nameBar(580,410,'KAIS',0x8796ad)
+          this.nameBar(708,350,'NURSE',0x74a6bd)
 
           if(showBaby){
             this.rect(545,352,112,62,0xe4ecee,0x718088)
             this.rect(558,362,86,38,0xf1d5d8,0xc3a6ab)
-            this.makePerson('amouna',601,371,.82)
+            this.makeBaby(601,371)
           }
           if(showFamily){
             this.makePerson('hamouda',834,407,1.15)
             this.makePerson('rania',834,455,1.15)
+            this.nameBar(710,468,'HAMOUDA',0x5b78a5)
+            this.nameBar(790,495,'RANIA',0xc8a05d)
             this.time.delayedCall(250,()=>this.move('hamouda',710,425,850))
-            this.time.delayedCall(450,()=>this.move('rania',760,455,900))
+            this.time.delayedCall(450,()=>this.move('rania',790,452,900))
           }
         }
 
@@ -265,6 +320,7 @@ export function LifeCinematicStage({levelIndex,onComplete}:Props){
           this.rect(800,220,7,155,0x6e655b)
           this.add.triangle(804,205,0,38,38,38,19,0,lit?0xf0cf82:0x81715b)
           this.makePerson('amouna',180,420,1.35)
+          this.nameBar(180,467,'AMOUNA',0xd66a82)
         }
 
         playStep(step:number){
@@ -277,12 +333,18 @@ export function LifeCinematicStage({levelIndex,onComplete}:Props){
               this.time.delayedCall(280,()=>this.move('nurse',600,330,600))
               this.time.delayedCall(650,()=>this.move('kais',540,385,500))
               this.time.delayedCall(950,()=>{
-                this.cameras.main.flash(300,255,240,190)
+                this.cameras.main.flash(420,255,238,182)
+                this.cameras.main.shake(260,.006)
+                const halo=this.add.circle(600,365,18,0xffefb0,.0).setDepth(40)
+                this.tweens.add({targets:halo,alpha:.55,scale:5,duration:600,yoyo:true,onComplete:()=>halo.destroy()})
                 const t=this.label(350,115,'A NEW PLAYER ENTERS THE WORLD')
                 this.tweens.add({targets:t,alpha:0,duration:500,delay:900})
               })
             }
-            if(step===3)this.fadeTo(()=>this.drawHospital(true,false))
+            if(step===3)this.fadeTo(()=>{
+              this.drawHospital(true,false)
+              this.cameras.main.flash(260,255,245,215)
+            })
             if(step===4)this.fadeTo(()=>this.drawHospital(true,true))
             if(step===5){
               this.drawHospital(true,true)
