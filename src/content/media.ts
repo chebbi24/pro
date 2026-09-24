@@ -5,7 +5,6 @@ export const media = {
     rayanFace: asset('assets/photos/rayan-face.jpg'),
 
     chapter1Baby1: asset('assets/photos/baby.jpg'),
-    chapter1Baby2: asset('assets/photos/baby-2.jpg'),
 
     chapter2TunisianChampion: asset('assets/photos/tunisian-champ.jpg'),
     chapter2AfricanChampion: asset('assets/photos/African_champ.jpg'),
@@ -47,7 +46,7 @@ export const media = {
     finalPhoto: asset('assets/photos/mallorca-3.JPG'),
   },
   audio: {
-    theme: 'https://opengameart.org/sites/default/files/Relaxing_0.mp3', // CC0: Calm Loop by wipics (OpenGameArt)
+    theme: 'https://opengameart.org/sites/default/files/chillloopable_0.mp3', // CC0 lo-fi loop by Alex McCulloch / Pro Sensory
   },
 }
 
