@@ -376,7 +376,8 @@ export function LifeJourneyStage({ levelIndex, onLevelComplete, onMemoryOpen, pa
             boat.fillStyle(0xf4ede2, 1)
             boat.fillTriangle(930, 395, 1030, 395, 995, 425)
             boat.fillRect(975, 360, 5, 36)
-            boat.fillTriangle(980, 360, 980, 390, 1012, 390, 0xffffff)
+            boat.fillStyle(0xffffff, 1)
+            boat.fillTriangle(980, 360, 980, 390, 1012, 390)
           }
 
           if (level.theme === 'etretat') {
