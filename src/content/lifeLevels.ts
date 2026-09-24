@@ -48,6 +48,8 @@ export type LifeLevel = {
   obstacleCount: number
 }
 
+const localBackground = (file: string) => `${import.meta.env.BASE_URL}backgrounds/${file}`
+
 export const lifeLevels: LifeLevel[] = [
   {
     id: 'baby',
@@ -61,8 +63,8 @@ export const lifeLevels: LifeLevel[] = [
     avatarStage: 'baby',
     avatarStyle: 'baby',
     worldLabel: 'MUTUELLEVILLE // TUNIS',
-    backgroundUrl: 'https://commons.wikimedia.org/wiki/Special:FilePath/Architecturetn%2004.JPG',
-    backgroundCredit: 'Wikimedia Commons · Mutuelleville, Tunis',
+    backgroundUrl: localBackground('baby.jpg'),
+    backgroundCredit: '',
     goalKind: 'home',
     obstacleCount: 3,
     memories: [
@@ -95,8 +97,8 @@ export const lifeLevels: LifeLevel[] = [
     avatarStage: 'teen',
     avatarStyle: 'gymnast',
     worldLabel: 'RHYTHMIC GYMNASTICS // APPARATUS → TITLES',
-    backgroundUrl: 'https://commons.wikimedia.org/wiki/Special:FilePath/Gymnastics%20room.webp',
-    backgroundCredit: 'Wikimedia Commons · gymnastics training hall · CC0',
+    backgroundUrl: localBackground('gymnastics.jpg'),
+    backgroundCredit: '',
     goalKind: 'podium',
     obstacleCount: 5,
     memories: [
@@ -167,8 +169,8 @@ export const lifeLevels: LifeLevel[] = [
     avatarStage: 'young-adult',
     avatarStyle: 'tiger',
     worldLabel: 'UNITED STATES',
-    backgroundUrl: 'https://commons.wikimedia.org/wiki/Special:FilePath/UCLA%20Campus%20on%20lawn.JPG',
-    backgroundCredit: 'Wikimedia Commons · UCLA campus',
+    backgroundUrl: localBackground('usa.jpg'),
+    backgroundCredit: '',
     goalKind: 'plane',
     obstacleCount: 5,
     memories: [
@@ -204,8 +206,8 @@ export const lifeLevels: LifeLevel[] = [
     avatarStage: 'young-adult',
     avatarStyle: 'tiger',
     worldLabel: 'HER GYMNASTICS CLUB',
-    backgroundUrl: 'https://commons.wikimedia.org/wiki/Special:FilePath/Gymnastics%20practice%20facility.jpg',
-    backgroundCredit: 'Wikimedia Commons · gymnastics practice facility · CC0',
+    backgroundUrl: localBackground('coach.jpg'),
+    backgroundCredit: '',
     goalKind: 'gym-door',
     obstacleCount: 4,
     memories: [
@@ -235,8 +237,8 @@ export const lifeLevels: LifeLevel[] = [
     avatarStage: 'young-adult',
     avatarStyle: 'catwoman',
     worldLabel: 'ROMANTIC COMEDY BOSS LEVEL',
-    backgroundUrl: 'https://commons.wikimedia.org/wiki/Special:FilePath/Architecturetn%2006.JPG',
-    backgroundCredit: 'Wikimedia Commons · Tunis',
+    backgroundUrl: localBackground('meet-breakup.jpg'),
+    backgroundCredit: '',
     goalKind: 'bat-signal',
     obstacleCount: 5,
     memories: [
@@ -272,8 +274,8 @@ export const lifeLevels: LifeLevel[] = [
     avatarStage: 'adult',
     avatarStyle: 'catwoman',
     worldLabel: 'PARIS // WITH HER BEST FRIEND',
-    backgroundUrl: 'https://commons.wikimedia.org/wiki/Special:FilePath/Eiffel%20Tower%20during%20day%2001.jpg',
-    backgroundCredit: 'Wikimedia Commons · Paris',
+    backgroundUrl: localBackground('paris.jpg'),
+    backgroundCredit: '',
     goalKind: 'graduation',
     obstacleCount: 4,
     memories: [
@@ -305,8 +307,8 @@ export const lifeLevels: LifeLevel[] = [
     avatarStage: 'adult',
     avatarStyle: 'catwoman',
     worldLabel: 'PARIS // MIDNIGHT',
-    backgroundUrl: 'https://commons.wikimedia.org/wiki/Special:FilePath/Eiffel%20Tower%20at%20night.jpg',
-    backgroundCredit: 'Wikimedia Commons · Paris at night',
+    backgroundUrl: localBackground('birthday-reunion.jpg'),
+    backgroundCredit: '',
     goalKind: 'message',
     obstacleCount: 3,
     memories: [
@@ -335,8 +337,8 @@ export const lifeLevels: LifeLevel[] = [
     avatarStage: 'adult',
     avatarStyle: 'catwoman',
     worldLabel: 'PARIS // ROUND TWO',
-    backgroundUrl: 'https://commons.wikimedia.org/wiki/Special:FilePath/Eiffel%20Tower%20by%20night.jpg',
-    backgroundCredit: 'Wikimedia Commons · Paris by night',
+    backgroundUrl: localBackground('paris-romance.jpg'),
+    backgroundCredit: '',
     goalKind: 'paris-heart',
     obstacleCount: 4,
     memories: [
@@ -364,8 +366,8 @@ export const lifeLevels: LifeLevel[] = [
     avatarStage: 'adult',
     avatarStyle: 'catwoman',
     worldLabel: 'MILANO',
-    backgroundUrl: 'https://commons.wikimedia.org/wiki/Special:FilePath/Milan%20Cathedral%20from%20Piazza%20del%20Duomo.jpg',
-    backgroundCredit: 'Wikimedia Commons · Milano Duomo',
+    backgroundUrl: localBackground('milan.jpg'),
+    backgroundCredit: '',
     goalKind: 'milan-arch',
     obstacleCount: 4,
     memories: [
@@ -393,8 +395,8 @@ export const lifeLevels: LifeLevel[] = [
     avatarStage: 'adult',
     avatarStyle: 'catwoman',
     worldLabel: 'LAGO DI COMO',
-    backgroundUrl: 'https://commons.wikimedia.org/wiki/Special:FilePath/Lake%20Como%20view.jpg',
-    backgroundCredit: 'Wikimedia Commons · Lake Como',
+    backgroundUrl: localBackground('como.jpg'),
+    backgroundCredit: '',
     goalKind: 'dock',
     obstacleCount: 4,
     memories: [
@@ -422,8 +424,8 @@ export const lifeLevels: LifeLevel[] = [
     avatarStage: 'adult',
     avatarStyle: 'catwoman',
     worldLabel: 'ÉTRETAT // FRANCE',
-    backgroundUrl: 'https://commons.wikimedia.org/wiki/Special:FilePath/Cliffs%20of%20%C3%89tretat.jpg',
-    backgroundCredit: 'Wikimedia Commons · Étretat cliffs',
+    backgroundUrl: localBackground('etretat.jpg'),
+    backgroundCredit: '',
     goalKind: 'cliff-arch',
     obstacleCount: 5,
     memories: [
@@ -451,8 +453,8 @@ export const lifeLevels: LifeLevel[] = [
     avatarStage: 'adult',
     avatarStyle: 'catwoman',
     worldLabel: 'MALLORCA',
-    backgroundUrl: 'https://commons.wikimedia.org/wiki/Special:FilePath/Sunset%20mallorca.JPG',
-    backgroundCredit: 'Wikimedia Commons · Mallorca sunset · public domain',
+    backgroundUrl: localBackground('mallorca.jpg'),
+    backgroundCredit: '',
     goalKind: 'sunset-heart',
     obstacleCount: 4,
     memories: [
