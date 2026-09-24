@@ -169,7 +169,7 @@ export const story = {
     reveal: 'MY DIHHHHHHH. Nfadlek maak rbaht maana carte 50E men Zara ',
   },
   finale: {
-    lines: ['HAPPY BIRTHDAY', 'CATWOMAN', 'PLAYER 2 FOREVER'],
+    lines: ['HAPPY BIRTHDAY', 'CATWOMAN', 'AMOUNTI TILL I DIE'],
     credits: ['BASED ON A TRUE STORY', 'TO BE CONTINUED...'],
     continueQuestion: 'CONTINUE?',
     continueAnswer: "Good. I was hoping you'd say that. ❤️",
