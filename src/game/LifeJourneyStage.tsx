@@ -83,12 +83,41 @@ export function LifeJourneyStage({ levelIndex, onLevelComplete, onMemoryOpen, pa
           }, 160, 24)
 
           this.createTexture('obstacle', g => {
-            g.fillStyle(palette.obstacle, 1)
-            g.fillRect(0, 10, 32, 22)
-            g.fillStyle(palette.accent, 0.9)
-            g.fillTriangle(0, 10, 8, 0, 16, 10)
-            g.fillTriangle(10, 10, 18, 0, 26, 10)
-            g.fillTriangle(20, 10, 26, 2, 32, 10)
+            if (level.theme === 'tunis-baby') {
+              g.fillStyle(0xd9a85d, 1)
+              g.fillRoundedRect(1, 8, 30, 23, 4)
+              g.fillStyle(0x7c5a32, 1)
+              g.fillRect(6, 13, 8, 8)
+              g.fillRect(18, 13, 8, 8)
+            } else if (level.theme === 'gymnastics' || level.theme === 'champion') {
+              g.lineStyle(4, palette.accent, 1)
+              g.strokeCircle(16, 17, 12)
+              g.fillStyle(palette.obstacle, 1)
+              g.fillCircle(16, 27, 5)
+            } else if (level.theme === 'usa') {
+              g.fillStyle(0x252932, 1)
+              g.fillCircle(16, 18, 14)
+              g.fillStyle(0x667080, 1)
+              g.fillCircle(16, 18, 6)
+            } else if (level.theme === 'coach') {
+              g.fillStyle(0xf19b63, 1)
+              g.fillTriangle(3, 31, 16, 2, 29, 31)
+              g.fillStyle(0xf8d9a9, 1)
+              g.fillRect(9, 18, 14, 4)
+            } else if (level.theme === 'meet-breakup') {
+              g.fillStyle(0xe56a8c, 1)
+              g.fillCircle(11, 12, 9)
+              g.fillCircle(21, 12, 9)
+              g.fillTriangle(4, 14, 28, 14, 16, 31)
+              g.lineStyle(3, 0x1c1118, 1)
+              g.lineBetween(14, 8, 18, 17)
+              g.lineBetween(18, 17, 13, 27)
+            } else {
+              g.fillStyle(palette.obstacle, 1)
+              g.fillRoundedRect(1, 7, 30, 24, 5)
+              g.fillStyle(palette.accent, 0.65)
+              g.fillRect(5, 11, 22, 4)
+            }
           }, 32, 32)
 
           this.createTexture('memory', g => {
@@ -97,9 +126,23 @@ export function LifeJourneyStage({ levelIndex, onLevelComplete, onMemoryOpen, pa
             g.lineStyle(3, palette.accent, 1)
             g.strokeCircle(24, 24, 18)
             g.fillStyle(palette.accent, 1)
-            g.fillRect(19, 14, 10, 20)
-            g.fillTriangle(13, 25, 24, 14, 24, 36)
-            g.fillTriangle(35, 25, 24, 14, 24, 36)
+            if (level.theme === 'champion') {
+              g.fillRect(18, 14, 12, 12)
+              g.fillTriangle(12, 14, 18, 20, 18, 10)
+              g.fillTriangle(36, 14, 30, 20, 30, 10)
+              g.fillRect(22, 26, 4, 8)
+              g.fillRect(17, 34, 14, 4)
+            } else if (level.theme === 'birthday-reunion') {
+              g.fillRoundedRect(17, 10, 14, 28, 3)
+              g.fillStyle(0x111827, 1)
+              g.fillRect(20, 14, 8, 15)
+              g.fillStyle(palette.accent, 1)
+              g.fillCircle(24, 34, 1.5)
+            } else {
+              g.fillRect(19, 14, 10, 20)
+              g.fillTriangle(13, 25, 24, 14, 24, 36)
+              g.fillTriangle(35, 25, 24, 14, 24, 36)
+            }
           }, 48, 48)
 
           this.createTexture('goal', g => {
@@ -198,6 +241,156 @@ export function LifeJourneyStage({ levelIndex, onLevelComplete, onMemoryOpen, pa
           }
         }
 
+
+        drawPerson(x: number, y: number, label: string, color: number, scale = 1) {
+          const p = this.add.container(x, y)
+          const head = this.add.circle(0, -28 * scale, 10 * scale, 0xd6a47e)
+          const body = this.add.rectangle(0, -5 * scale, 18 * scale, 32 * scale, color)
+          const legs = [
+            this.add.rectangle(-5 * scale, 17 * scale, 5 * scale, 18 * scale, 0x1b1d24),
+            this.add.rectangle(5 * scale, 17 * scale, 5 * scale, 18 * scale, 0x1b1d24),
+          ]
+          p.add([head, body, ...legs])
+          this.add.text(x, y + 30 * scale, label, {
+            fontFamily: 'monospace',
+            fontSize: Math.max(9, 11 * scale) + 'px',
+            color: '#f4f0e6',
+            backgroundColor: '#07090dcc',
+            padding: { x: 5, y: 3 },
+          }).setOrigin(0.5)
+          return p
+        }
+
+        drawTrophy(x: number, y: number, label: string, scale = 1) {
+          const g = this.add.graphics()
+          g.fillStyle(0xd7ad3f, 1)
+          g.fillRoundedRect(x - 14 * scale, y - 22 * scale, 28 * scale, 28 * scale, 5 * scale)
+          g.fillRect(x - 4 * scale, y + 5 * scale, 8 * scale, 18 * scale)
+          g.fillRect(x - 14 * scale, y + 22 * scale, 28 * scale, 5 * scale)
+          g.lineStyle(4 * scale, 0xd7ad3f, 1)
+          g.strokeCircle(x - 17 * scale, y - 9 * scale, 10 * scale)
+          g.strokeCircle(x + 17 * scale, y - 9 * scale, 10 * scale)
+          this.add.text(x, y + 38 * scale, label, {
+            fontFamily: 'monospace',
+            fontSize: '10px',
+            color: '#f3c76b',
+            backgroundColor: '#090b14cc',
+            padding: { x: 5, y: 3 },
+          }).setOrigin(0.5)
+        }
+
+        createSpecialProps() {
+          if (level.theme === 'tunis-baby') {
+            this.drawPerson(250, 440, 'DAD', 0x344a67, 1.05)
+            this.drawPerson(335, 440, 'MUM', 0x8a536f, 1.05)
+            this.drawPerson(420, 442, 'BROTHER', 0x4e6b56, 0.88)
+            this.drawPerson(495, 442, 'SISTER', 0x725c88, 0.88)
+            this.add.text(292, 325, '“She looks smart.”', { fontFamily: 'monospace', fontSize: '12px', color: '#2c2117', backgroundColor: '#f4e5c9dd', padding: { x: 8, y: 5 } })
+            this.add.text(420, 300, '“Obviously a genius.”', { fontFamily: 'monospace', fontSize: '12px', color: '#2c2117', backgroundColor: '#f4e5c9dd', padding: { x: 8, y: 5 } })
+          }
+
+          if (level.theme === 'gymnastics') {
+            const ribbon = this.add.graphics()
+            ribbon.lineStyle(4, 0xd565a2, 1)
+            ribbon.beginPath()
+            ribbon.moveTo(240, 300)
+            ribbon.lineTo(300, 255)
+            ribbon.lineTo(350, 305)
+            ribbon.lineTo(410, 245)
+            ribbon.strokePath()
+            for (const x of [590, 830, 1110, 1380]) {
+              const hoop = this.add.graphics()
+              hoop.lineStyle(5, x % 2 ? 0x8f5bbb : 0xd565a2, 0.9)
+              hoop.strokeCircle(x, 360, 34)
+            }
+            this.add.text(950, 180, 'RHYTHM · BALANCE · REPEAT', { fontFamily: 'monospace', fontSize: '18px', color: '#77508f' }).setOrigin(0.5)
+          }
+
+          if (level.theme === 'champion') {
+            this.drawTrophy(520, 270, 'TUNISIA', 0.9)
+            this.drawTrophy(900, 245, 'AFRICA', 1.05)
+            this.drawTrophy(1290, 215, 'WORLD', 1.2)
+            this.add.text(900, 125, 'THE PODIUM KEEPS GETTING BIGGER', { fontFamily: 'monospace', fontSize: '17px', color: '#f3c76b' }).setOrigin(0.5)
+          }
+
+          if (level.theme === 'usa') {
+            this.add.text(460, 250, 'EXCHANGE YEAR', { fontFamily: 'monospace', fontSize: '18px', color: '#f4f0e6', backgroundColor: '#0c1425cc', padding: { x: 9, y: 5 } })
+            for (const x of [760, 820, 880]) {
+              const tire = this.add.graphics()
+              tire.fillStyle(0x171a20, 1)
+              tire.fillCircle(x, 430, 25)
+              tire.fillStyle(0x535d6a, 1)
+              tire.fillCircle(x, 430, 10)
+            }
+            this.add.text(1030, 300, 'BONUS MISSION\nMILITARY MODE?', { fontFamily: 'monospace', fontSize: '14px', color: '#e3e9ef', backgroundColor: '#263244dd', padding: { x: 10, y: 8 }, align: 'center' }).setOrigin(0.5)
+            this.add.rectangle(1160, 410, 110, 18, 0x6d7358)
+            this.add.rectangle(1280, 390, 110, 18, 0x6d7358)
+          }
+
+          if (level.theme === 'coach') {
+            this.drawPerson(600, 446, 'GYMNAST 1', 0xe08aae, 0.72)
+            this.drawPerson(690, 446, 'GYMNAST 2', 0x7f9ad8, 0.72)
+            this.drawPerson(780, 446, 'GYMNAST 3', 0xe6bb76, 0.72)
+            this.add.text(720, 300, 'COACH MODE: ON', { fontFamily: 'monospace', fontSize: '18px', color: '#9d5e86' }).setOrigin(0.5)
+          }
+
+          if (level.theme === 'meet-breakup') {
+            const batman = this.drawPerson(600, 440, 'BATMAN', 0x26334a, 1)
+            batman.setScale(1.05)
+            this.add.text(520, 320, 'DATE 1\n✓ chemistry', { fontFamily: 'monospace', fontSize: '12px', color: '#ffd6df', backgroundColor: '#3b2030dd', padding: { x: 8, y: 6 }, align: 'center' })
+            this.add.text(910, 270, 'BREAKUP DETECTED', { fontFamily: 'monospace', fontSize: '17px', color: '#ff8faa', backgroundColor: '#1d1018ee', padding: { x: 10, y: 7 } }).setOrigin(0.5)
+            this.add.text(1120, 330, 'BATMAN HAS FILED\nAN APPEAL', { fontFamily: 'monospace', fontSize: '13px', color: '#d9dce7', backgroundColor: '#111624ee', padding: { x: 10, y: 7 }, align: 'center' }).setOrigin(0.5)
+            this.add.text(1400, 260, 'Decision quality:\nquestionable', { fontFamily: 'monospace', fontSize: '12px', color: '#ffb2c6', backgroundColor: '#26131eee', padding: { x: 9, y: 6 }, align: 'center' }).setOrigin(0.5)
+          }
+
+          if (level.theme === 'paris') {
+            this.drawPerson(660, 442, 'BEST FRIEND', 0x805d8a, 0.9)
+            this.add.text(960, 245, 'GRADUATION ✓', { fontFamily: 'monospace', fontSize: '17px', color: '#f0c675', backgroundColor: '#12151dcc', padding: { x: 9, y: 6 } }).setOrigin(0.5)
+            this.add.text(1270, 290, 'NEW CITY\nNEW CHAPTER', { fontFamily: 'monospace', fontSize: '15px', color: '#d8dce6', backgroundColor: '#12151dcc', padding: { x: 9, y: 6 }, align: 'center' }).setOrigin(0.5)
+          }
+
+          if (level.theme === 'birthday-reunion') {
+            this.add.text(890, 205, '25 SEPT 2025', { fontFamily: 'monospace', fontSize: '18px', color: '#ffdc78' }).setOrigin(0.5)
+            const phoneGlow = this.add.circle(920, 340, 60, 0xffd86f, 0.16)
+            this.add.rectangle(920, 340, 44, 78, 0x10131a).setStrokeStyle(2, 0xffd86f)
+            this.add.text(920, 334, '1 NEW\nMESSAGE', { fontFamily: 'monospace', fontSize: '11px', color: '#ffdf86', align: 'center' }).setOrigin(0.5)
+            this.tweens.add({ targets: phoneGlow, alpha: 0.42, scale: 1.3, duration: 700, yoyo: true, repeat: -1 })
+          }
+
+          if (level.theme === 'paris-romance') {
+            this.add.text(890, 210, 'DECEMBER 2025', { fontFamily: 'monospace', fontSize: '17px', color: '#f6b0c0' }).setOrigin(0.5)
+            for (const [x,y] of [[700,310],[880,260],[1080,320],[1280,270]]) {
+              this.add.text(x, y, '♥', { fontFamily: 'serif', fontSize: '30px', color: '#ee8da8' }).setOrigin(0.5)
+            }
+            this.add.text(1120, 370, 'ROUND TWO\nno refunds', { fontFamily: 'monospace', fontSize: '13px', color: '#ffd7e0', backgroundColor: '#311c2add', padding: { x: 8, y: 5 }, align: 'center' }).setOrigin(0.5)
+          }
+
+          if (level.theme === 'milan') {
+            this.add.text(780, 210, 'MILANO', { fontFamily: 'serif', fontSize: '32px', color: '#5b4335' }).setOrigin(0.5)
+            this.add.text(1120, 330, 'FIRST TRIP\nAchievement unlocked', { fontFamily: 'monospace', fontSize: '13px', color: '#3c3028', backgroundColor: '#f1dcc0dd', padding: { x: 8, y: 6 }, align: 'center' }).setOrigin(0.5)
+          }
+
+          if (level.theme === 'como') {
+            this.add.text(900, 190, 'LAGO DI COMO', { fontFamily: 'serif', fontSize: '28px', color: '#eaf5ef' }).setOrigin(0.5)
+            const boat = this.add.graphics()
+            boat.fillStyle(0xf4ede2, 1)
+            boat.fillTriangle(930, 395, 1030, 395, 995, 425)
+            boat.fillRect(975, 360, 5, 36)
+            boat.fillTriangle(980, 360, 980, 390, 1012, 390, 0xffffff)
+          }
+
+          if (level.theme === 'etretat') {
+            this.add.text(1120, 170, 'ÉTRETAT', { fontFamily: 'serif', fontSize: '30px', color: '#3d5660' }).setOrigin(0.5)
+            this.add.text(1380, 300, 'WIND: 99\nHAIR: defeated', { fontFamily: 'monospace', fontSize: '12px', color: '#293c44', backgroundColor: '#e7ece8dd', padding: { x: 8, y: 6 }, align: 'center' }).setOrigin(0.5)
+          }
+
+          if (level.theme === 'mallorca') {
+            this.add.text(900, 185, 'MALLORCA', { fontFamily: 'serif', fontSize: '30px', color: '#fff4ce' }).setOrigin(0.5)
+            this.add.text(1250, 285, 'I LOVE YOU', { fontFamily: 'serif', fontSize: '34px', color: '#fff1b7' }).setOrigin(0.5).setAlpha(0.9)
+            this.add.text(1250, 330, 'ACHIEVEMENT: PERMANENT', { fontFamily: 'monospace', fontSize: '12px', color: '#fff1b7', backgroundColor: '#6f5830aa', padding: { x: 8, y: 5 } }).setOrigin(0.5)
+          }
+        }
+
         create() {
           this.physics.world.setBounds(0, 0, 1800, theme.game.height)
           this.cameras.main.setBounds(0, 0, 1800, theme.game.height)
@@ -205,6 +398,7 @@ export function LifeJourneyStage({ levelIndex, onLevelComplete, onMemoryOpen, pa
           this.drawBackdrop()
           this.createPlayerTexture()
           this.createWorldTextures()
+          this.createSpecialProps()
 
           this.add.text(28, 26, `LEVEL ${String(level.order).padStart(2, '0')} // ${level.worldLabel}`, {
             fontFamily: 'monospace',
