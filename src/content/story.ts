@@ -1,3 +1,5 @@
+export const STORY_COPY_VERSION = 'final-v20' as const
+
 export type VignetteStyle = 'polaroid' | 'film' | 'evidence'
 
 export type Chapter = {
