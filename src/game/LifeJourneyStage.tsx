@@ -489,9 +489,9 @@ export function LifeJourneyStage({ levelIndex, onLevelComplete, onMemoryOpen, pa
             })
           }
 
-          // Batman walks behind her in Chapters 8–9.
-          // Chapter 10 uses the shared Catwoman + Batman boat avatar instead.
-          if(level.order>=8&&level.order<=9){
+          // Batman walks behind her in Chapters 8, 9 and 11.
+          // Chapters 10 and 12 use the shared Catwoman + Batman boat avatar instead.
+          if(level.order===8||level.order===9||level.order===11){
             this.companion=this.add.sprite(35,430,'batman-companion').setDepth(8)
             this.companionMode='follow'
           }
