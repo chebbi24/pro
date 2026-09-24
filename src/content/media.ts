@@ -7,10 +7,6 @@ export const media = {
     chapter1Baby1: asset('assets/photos/chapter-01-baby-1.jpg'),
     chapter1Baby2: asset('assets/photos/chapter-01-baby-2.jpg'),
 
-    chapter2Ribbon: asset('assets/photos/chapter-02-ribbon.jpg'),
-    chapter2Hoop: asset('assets/photos/chapter-02-hoop.jpg'),
-    chapter2Ball: asset('assets/photos/chapter-02-ball.jpg'),
-    chapter2Clubs: asset('assets/photos/chapter-02-clubs.jpg'),
     chapter2TunisianChampion: asset('assets/photos/chapter-02-tunisian-champion.jpg'),
     chapter2AfricanChampion: asset('assets/photos/chapter-02-african-champion.jpg'),
     chapter2WorldChampion: asset('assets/photos/chapter-02-world-champion.jpg'),
