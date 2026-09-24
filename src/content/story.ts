@@ -15,25 +15,25 @@ export type Chapter = {
 export const story = {
   entry: {
     eyebrow: 'GOTHAM // PRIVATE FREQUENCY',
-    title: 'One message. One recipient.',
+    title: 'For my beloved Wife Amouna.',
     note: 'Best experienced with sound.',
     button: 'ENTER EXPERIENCE',
   },
   encounter: {
     lines: [
-      { speaker: 'Batman', text: 'What are u doing here this late?' },
-      { speaker: 'Catwoman', text: 'Maybe I was waiting for trouble.' },
-      { speaker: 'Batman', text: 'Then tell me... do you already have someone in your life?' },
+      { speaker: 'Batman', text: 'Chtaamel wahdek lbara lwkayet hedha' },
+      { speaker: 'Catwoman', text: 'Ouh fjaatni ya sakhta, mrawha melkhedma.' },
+      { speaker: 'Batman', text: 'Zin edheya lkol  maandek had ywaslek?' },
     ],
     yes: [
-      { speaker: 'Batman', text: 'Good answer.' },
-      { speaker: 'Catwoman', text: 'Why?' },
-      { speaker: 'Batman', text: "You'll see." },
+      { speaker: 'Batman', text: 'Sahit.' },
+      { speaker: 'Catwoman', text: 'Naam?' },
+      { speaker: 'Batman', text: "hahaha" },
     ],
     no: [
-      'Interesting. Try that again.',
-      "I'm pretty sure that's not canon.",
-      'Alternative timeline detected. Restoring correct universe...',
+      'Ezebi imed.',
+      "Sayeb aalina aad",
+      'Si ala saker l barnemej',
     ],
   },
   access: {
@@ -46,7 +46,7 @@ export const story = {
   },
   reveal: {
     line: 'Surprise.',
-    next: "Come on. There's somewhere I want to take you.",
+    next: "Tabaani w osket",
   },
   drive: {
     destination: 'DESTINATION: THE BEGINNING',
@@ -61,10 +61,10 @@ export const story = {
   chapters: [
     {
       id: 'beginning',
-      year: '2000',
+      year: '1999',
       title: 'The Beginning',
       subtitle: 'A very important person enters the world.',
-      body: 'Replace this with the story of her birthday, where she was born, and the first tiny details you love knowing about her.',
+      body: 'Merci Kais, merci Sami.',
       quote: 'Every great story has a first frame.',
       images: ['herChildhood1'],
       style: 'polaroid',
@@ -160,7 +160,7 @@ export const story = {
   gift: {
     intro: "But this isn't the end of the level.",
     acquired: 'LEGENDARY ITEM ACQUIRED',
-    title: '🎁 Mystery Birthday Surprise',
+    title: 'Mystery Birthday Surprise',
     rarity: '❤️❤️❤️❤️❤️',
     player: 'Catwoman',
     companion: 'Rayan',
