@@ -84,10 +84,12 @@ export function LifeJourneyStage({ levelIndex, onLevelComplete, onMemoryOpen, pa
 
           this.createTexture('obstacle', g => {
             g.fillStyle(palette.obstacle, 1)
-            g.fillRect(0, 8, 36, 36)
+            g.fillRect(0, 10, 32, 22)
             g.fillStyle(palette.accent, 0.9)
-            g.fillTriangle(0, 8, 18, 0, 36, 8)
-          }, 36, 44)
+            g.fillTriangle(0, 10, 8, 0, 16, 10)
+            g.fillTriangle(10, 10, 18, 0, 26, 10)
+            g.fillTriangle(20, 10, 26, 2, 32, 10)
+          }, 32, 32)
 
           this.createTexture('memory', g => {
             g.fillStyle(palette.accent, 0.16)
@@ -238,11 +240,13 @@ export function LifeJourneyStage({ levelIndex, onLevelComplete, onMemoryOpen, pa
           })
 
           this.obstacles = this.physics.add.staticGroup()
-          for (let i = 0; i < level.obstacleCount; i++) {
-            const x = 300 + i * Math.max(180, 1180 / level.obstacleCount)
-            const obstacle = this.obstacles.create(x, 455, 'obstacle')
+          const obstacleXs = Array.from({length: level.obstacleCount}, (_, i) =>
+            350 + i * Math.max(230, 1180 / Math.max(1, level.obstacleCount - 1))
+          )
+          obstacleXs.forEach(x => {
+            const obstacle = this.obstacles.create(x, 468, 'obstacle')
             obstacle.refreshBody()
-          }
+          })
 
           this.player = this.physics.add.sprite(95, 430, 'life-player')
           this.player.setCollideWorldBounds(true)
@@ -253,8 +257,8 @@ export function LifeJourneyStage({ levelIndex, onLevelComplete, onMemoryOpen, pa
 
           this.memories = this.physics.add.group({ allowGravity: false, immovable: true })
           level.memories.forEach((memory, i) => {
-            const x = 500 + i * Math.max(280, 700 / Math.max(1, level.memories.length))
-            const y = i % 2 === 0 ? 320 : 275
+            const x = 520 + i * Math.max(360, 760 / Math.max(1, level.memories.length))
+            const y = i % 2 === 0 ? 368 : 330
             const icon = this.memories.create(x, y, 'memory') as PhaserNS.Physics.Arcade.Sprite
             icon.setData('memory', memory)
             icon.setDepth(9)
@@ -294,7 +298,7 @@ export function LifeJourneyStage({ levelIndex, onLevelComplete, onMemoryOpen, pa
             return
           }
 
-          const speed = 185
+          const speed = level.avatarStage === 'baby' ? 205 : 220
           if (controls.current.left) {
             this.player.setVelocityX(-speed)
             this.player.setFlipX(true)
@@ -308,7 +312,7 @@ export function LifeJourneyStage({ levelIndex, onLevelComplete, onMemoryOpen, pa
           const body = this.player.body as PhaserNS.Physics.Arcade.Body
           const grounded = body.blocked.down || body.touching.down
           if (controls.current.jump && grounded) {
-            this.player.setVelocityY(level.avatarStage === 'baby' ? -350 : -405)
+            this.player.setVelocityY(level.avatarStage === 'baby' ? -500 : -525)
             controls.current.jump = false
           }
 
@@ -327,7 +331,7 @@ export function LifeJourneyStage({ levelIndex, onLevelComplete, onMemoryOpen, pa
         backgroundColor: palette.skyCss,
         physics: {
           default: 'arcade',
-          arcade: { gravity: { x: 0, y: 900 }, debug: false },
+          arcade: { gravity: { x: 0, y: 760 }, debug: false },
         },
         scene: LifeScene,
         scale: { mode: Phaser.Scale.FIT, autoCenter: Phaser.Scale.CENTER_BOTH },
