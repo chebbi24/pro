@@ -49,7 +49,7 @@ const sequences: Record<string, Beat[]> = {
     },
     {
       speaker: 'NARRATOR',
-      text: 'And then, after one last moment of waiting, she arrives.'
+      text: 'And then, after one last moment of waiting, she arrives.',
       mood: 'family',
       shot: 'close-left',
       actors: ['dad','baby'],
@@ -59,7 +59,7 @@ const sequences: Record<string, Beat[]> = {
     },
     {
       speaker: 'NARRATOR',
-      text: 'Tiny blanket. Tiny hands. Absolutely no idea how much trouble she is going to cause.'
+      text: 'Tiny blanket. Tiny hands. Absolutely no idea how much trouble she is going to cause.',
       mood: 'family',
       shot: 'close-right',
       actors: ['mum','baby'],
@@ -69,12 +69,12 @@ const sequences: Record<string, Beat[]> = {
     },
     {
       speaker: 'NARRATOR',
-      text: 'Mum and Dad finally get their first proper look. Her older brother and sister come in to meet the newest member of the family.'
+      text: 'Mum and Dad finally get their first proper look. Her older brother and sister come in to meet the newest member of the family.',
       mood: 'family',
       shot: 'family',
       actors: ['brother','sister','baby'],
       focus: 'baby',
-      cue: 'First family meeting: complete.'
+      cue: 'First family meeting: complete.',
       babyScene: 'family',
     },
     {
