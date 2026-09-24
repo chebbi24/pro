@@ -512,6 +512,21 @@ export function LifeJourneyStage({ levelIndex, onLevelComplete, onMemoryOpen, pa
 
             this.collectedCount+=1
             this.itemCounter?.setText(`MEMORIES ${this.collectedCount}/${level.memories.length}`)
+
+            const apparatusUnlock =
+              level.id==='gymnast' &&
+              ['ribbon','hoop','ball','clubs'].includes(memory.id)
+
+            if(apparatusUnlock){
+              setHint(memory.title.toUpperCase())
+              this.showMilestone(memory.title)
+              this.time.delayedCall(700,()=>{
+                setHint('MOVE · JUMP · COLLECT THE STORY ITEMS')
+                this.memoryCooldown=false
+              })
+              return
+            }
+
             this.physics.pause()
             setHint('MEMORY UNLOCKED')
             onMemoryOpen(memory)
