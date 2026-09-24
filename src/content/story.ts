@@ -21,9 +21,9 @@ export const story = {
   },
   encounter: {
     lines: [
-      { speaker: 'Batman', text: "I've been looking for you." },
-      { speaker: 'Catwoman', text: 'That sounds slightly concerning.' },
-      { speaker: 'Batman', text: 'Depends. Are you seeing someone?' },
+      { speaker: 'Batman', text: 'What are u doing here this late?' },
+      { speaker: 'Catwoman', text: 'Maybe I was waiting for trouble.' },
+      { speaker: 'Batman', text: 'Then tell me... do you already have someone in your life?' },
     ],
     yes: [
       { speaker: 'Batman', text: 'Good answer.' },
