@@ -49,6 +49,10 @@ export function LifeCinematicStage({levelIndex,onComplete}:Props){
 
       class StoryScene extends Phaser.Scene{
         actors=new Map<Actor,PhaserNS.GameObjects.Container>()
+        lastPlayedStep=-1
+        location:'none'|'exterior'|'hospital'|'apartment'='none'
+        babySpawned=false
+        familySpawned=false
         constructor(){super('StoryScene')}
 
         create(){
@@ -62,6 +66,8 @@ export function LifeCinematicStage({levelIndex,onComplete}:Props){
           this.tweens.killAll()
           this.time.removeAllEvents()
           this.actors.clear()
+          this.babySpawned=false
+          this.familySpawned=false
           this.children.removeAll(true)
           this.cameras.main.setZoom(1)
           this.cameras.main.setScroll(0,0)
@@ -88,7 +94,7 @@ export function LifeCinematicStage({levelIndex,onComplete}:Props){
           return ({amouna:0xd66a82,sami:0xd6b6a3,kais:0x8796ad,rania:0xc8a05d,hamouda:0x5b78a5,batman:0xc3a33c,nurse:0x74a6bd})[kind]
         }
 
-        makeNamePlate(root:PhaserNS.GameObjects.Container,kind:Actor,scale:number,y=30){
+        makeNamePlate(root:PhaserNS.GameObjects.Container,kind:Actor,scale:number,y=-54){
           const wrap=this.add.container(0,y).setScale(1/scale)
           const name=this.actorName(kind)
           const width=Math.max(58,name.length*8+18)
@@ -99,6 +105,8 @@ export function LifeCinematicStage({levelIndex,onComplete}:Props){
         }
 
         makePerson(kind:Actor,x:number,y:number,scale=1,showName=true){
+          const existing=this.actors.get(kind)
+          if(existing)return existing
           const root=this.add.container(x,y).setScale(scale).setDepth(30)
           const sprite=this.add.container(0,0)
           root.add(sprite)
@@ -168,7 +176,7 @@ export function LifeCinematicStage({levelIndex,onComplete}:Props){
           if(kind==='batman')sprite.add(this.add.rectangle(0,-6,14,3,cfg.accent))
 
           root.setData('sprite',sprite)
-          if(showName)this.makeNamePlate(root,kind,scale,34)
+          if(showName)this.makeNamePlate(root,kind,scale,-54)
           this.actors.set(kind,root)
           return root
         }
@@ -186,6 +194,8 @@ export function LifeCinematicStage({levelIndex,onComplete}:Props){
         }
 
         makeBaby(x:number,y:number){
+          const existing=this.actors.get('amouna')
+          if(existing)return existing
           const root=this.add.container(x,y).setDepth(34)
           const baby=this.add.container(0,0)
           root.add(baby)
@@ -201,7 +211,7 @@ export function LifeCinematicStage({levelIndex,onComplete}:Props){
           const tearL=this.add.circle(-7,-7,2,0x7bc7ea,.95)
           const tearR=this.add.circle(7,-7,2,0x7bc7ea,.95)
           baby.add([eyeL,eyeR,mouth,tearL,tearR])
-          this.makeNamePlate(root,'amouna',1,35)
+          this.makeNamePlate(root,'amouna',1,-38)
           this.actors.set('amouna',root)
 
           this.tweens.add({targets:baby,y:-3,duration:170,yoyo:true,repeat:6,ease:'Sine.InOut'})
@@ -230,6 +240,7 @@ export function LifeCinematicStage({levelIndex,onComplete}:Props){
         }
 
         drawExterior(){
+          this.location='exterior'
           this.rect(0,0,960,540,0x79b86e)
           for(let x=0;x<960;x+=48)for(let y=0;y<540;y+=48){
             if((x/48+y/48)%2===0)this.rect(x,y,48,48,0x72af68)
@@ -252,6 +263,7 @@ export function LifeCinematicStage({levelIndex,onComplete}:Props){
         }
 
         drawHospital(showBaby=false,showFamily=false){
+          this.location='hospital'
           this.rect(0,0,960,540,0x6e7a89)
           this.rect(28,28,904,484,0xd8e6ed,0x4b5663)
           this.rect(48,48,864,444,0xb7c7d0)
@@ -259,18 +271,35 @@ export function LifeCinematicStage({levelIndex,onComplete}:Props){
           this.rect(48,48,864,122,0x9bc8e0)
           this.rect(48,146,864,24,0x6c86a0)
 
-          // scenic Tunis window
-          this.rect(332,57,266,88,0x88c8e4,0x52697d)
-          this.add.circle(552,79,14,0xf5d37e).setDepth(2)
-          this.add.triangle(348,140,0,35,62,0,124,35,0x78958f).setDepth(2)
-          this.add.triangle(438,140,0,28,55,0,110,28,0x6f8a84).setDepth(2)
+          // Scenic Tunis window, all scenery explicitly behind the frame.
+          const view=this.add.graphics().setDepth(1)
+          view.fillStyle(0x88c8e4,1)
+          view.fillRect(332,57,266,88)
+          view.fillStyle(0xf5d37e,1)
+          view.fillCircle(552,79,14)
+          // distant hills, clipped visually inside the window bounds
+          view.fillStyle(0x78958f,1)
+          view.fillTriangle(332,145,392,98,452,145)
+          view.fillStyle(0x6f8a84,1)
+          view.fillTriangle(410,145,470,108,530,145)
+          // white Tunis buildings in front of the distant hills
           for(const [bx,bw,bh] of [[350,44,34],[398,56,45],[459,48,30],[512,62,40]]){
-            this.rect(bx,145-bh,bw,bh,0xf0eee6,0xb7b6ae)
-            this.rect(bx+8,145-bh+9,7,9,0x5c8296)
+            view.fillStyle(0xf0eee6,1)
+            view.fillRect(bx,145-bh,bw,bh)
+            view.fillStyle(0x5c8296,1)
+            view.fillRect(bx+8,145-bh+9,7,9)
           }
-          this.rect(574,94,4,48,0x6b5332)
-          this.add.circle(576,92,13,0x4c8c5f);this.add.circle(566,94,10,0x4c8c5f);this.add.circle(586,94,10,0x4c8c5f)
-          this.rect(459,57,7,88,0xe8f0f3);this.rect(332,98,266,6,0xe8f0f3)
+          // palm silhouette
+          view.fillStyle(0x6b5332,1)
+          view.fillRect(574,94,4,48)
+          view.fillStyle(0x4c8c5f,1)
+          view.fillCircle(576,92,13)
+          view.fillCircle(566,94,10)
+          view.fillCircle(586,94,10)
+          // window frame is always foreground relative to the view
+          this.rect(332,57,266,88,0x000000,0,0).setStrokeStyle(3,0x52697d).setDepth(4)
+          this.rect(459,57,7,88,0xe8f0f3).setDepth(4)
+          this.rect(332,98,266,6,0xe8f0f3).setDepth(4)
 
           // welcome decoration
           this.add.line(135,94,0,0,185,0,0x6b7081).setLineWidth(2)
@@ -301,21 +330,30 @@ export function LifeCinematicStage({levelIndex,onComplete}:Props){
           this.makePerson('kais',574,365,1.18)
           this.makePerson('nurse',708,306,1.14)
 
-          if(showBaby){
-            this.rect(544,350,114,65,0xe4ecee,0x718088)
-            this.rect(558,361,87,39,0xf1d5d8,0xc3a6ab)
-            this.makeBaby(601,374)
-          }
+          if(showBaby)this.spawnBaby()
+          if(showFamily)this.spawnFamily()
+        }
 
-          if(showFamily){
-            this.makePerson('hamouda',842,392,1.02)
-            this.makePerson('rania',842,455,1.02)
-            this.time.delayedCall(220,()=>this.move('hamouda',726,414,760))
-            this.time.delayedCall(420,()=>this.move('rania',790,458,820))
-          }
+        spawnBaby(){
+          if(this.babySpawned||this.location!=='hospital')return
+          this.babySpawned=true
+          this.rect(544,350,114,65,0xe4ecee,0x718088)
+          this.rect(558,361,87,39,0xf1d5d8,0xc3a6ab)
+          this.makeBaby(601,374)
+          this.cameras.main.flash(280,255,245,215)
+        }
+
+        spawnFamily(){
+          if(this.familySpawned||this.location!=='hospital')return
+          this.familySpawned=true
+          this.makePerson('hamouda',842,392,1.02)
+          this.makePerson('rania',842,455,1.02)
+          this.time.delayedCall(220,()=>this.move('hamouda',726,414,760))
+          this.time.delayedCall(420,()=>this.move('rania',790,458,820))
         }
 
         drawApartment(lit=false,glow=false){
+          this.location='apartment'
           this.rect(0,0,960,540,0x2f3140)
           this.rect(30,30,900,480,0x4a4454,0x202431)
           for(let y=170;y<510;y+=42)for(let x=30;x<930;x+=42)this.rect(x,y,42,42,((x+y)/42)%2?0x51495b:0x484150)
@@ -335,25 +373,54 @@ export function LifeCinematicStage({levelIndex,onComplete}:Props){
 
         playStep(step:number){
           if(level.id==='baby'){
-            if(step===0)this.transition(()=>this.drawExterior())
-            if(step===1)this.transition(()=>this.drawHospital(false,false))
-            if(step===2)this.transition(()=>{
-              this.drawHospital(false,false)
-              this.time.delayedCall(250,()=>this.move('nurse',626,332,600))
-              this.time.delayedCall(620,()=>this.move('kais',540,382,520))
-              this.time.delayedCall(900,()=>{
+            if(step===this.lastPlayedStep)return
+            this.lastPlayedStep=step
+
+            if(step===0){
+              this.transition(()=>this.drawExterior())
+              return
+            }
+
+            if(step===1){
+              this.transition(()=>this.drawHospital(false,false))
+              return
+            }
+
+            // From here onward the hospital scene persists. No redraws.
+            if(this.location!=='hospital')return
+
+            if(step===2){
+              this.move('nurse',626,332,600)
+              this.time.delayedCall(420,()=>this.move('kais',540,382,520))
+              this.time.delayedCall(850,()=>{
                 this.cameras.main.flash(420,255,238,182)
                 this.cameras.main.shake(250,.005)
                 const halo=this.add.circle(600,365,20,0xffefb0,0).setDepth(60)
                 this.tweens.add({targets:halo,alpha:.55,scale:5,duration:600,yoyo:true,onComplete:()=>halo.destroy()})
                 const text=this.notice(480,116,'A NEW PLAYER ENTERS THE WORLD')
-                this.tweens.add({targets:text,alpha:0,duration:450,delay:1000})
+                this.tweens.add({targets:text,alpha:0,duration:450,delay:1000,onComplete:()=>text.destroy()})
               })
-            })
-            if(step===3)this.transition(()=>{this.drawHospital(true,false);this.cameras.main.flash(260,255,245,215)})
-            if(step===4)this.transition(()=>this.drawHospital(true,true))
-            if(step===5)this.transition(()=>{this.drawHospital(true,true);this.time.delayedCall(250,()=>this.move('kais',630,388,520))})
-            if(step===6)this.transition(()=>this.drawHospital(true,true))
+              return
+            }
+
+            if(step===3){
+              this.spawnBaby()
+              return
+            }
+
+            if(step===4){
+              this.spawnFamily()
+              return
+            }
+
+            if(step===5){
+              this.move('kais',630,388,520)
+              return
+            }
+
+            if(step===6){
+              return
+            }
           }else{
             if(step===0)this.transition(()=>{this.drawApartment(false,false);this.time.delayedCall(300,()=>this.move('amouna',350,395,1200))})
             if(step===1)this.transition(()=>{this.drawApartment(false,false);this.move('amouna',330,300,800)})
