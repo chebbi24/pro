@@ -89,6 +89,35 @@ export function LifeJourneyStage({ levelIndex, onLevelComplete, onMemoryOpen, pa
               return
             }
 
+            if(style==='coach'){
+              g.fillStyle(0xf0c7ae,1)
+              g.fillCircle(24,13,10)
+              // Long auburn/red hair with bangs.
+              g.fillStyle(0x9f3f30,1)
+              g.fillRoundedRect(10,1,28,18,8)
+              g.fillRect(8,10,7,27); g.fillRect(33,10,7,27)
+              g.fillRect(15,4,18,5)
+              // Training jacket.
+              g.fillStyle(0x27384d,1)
+              g.fillRoundedRect(10,24,28,27,6)
+              g.fillStyle(0xe7edf3,1)
+              g.fillRect(22,25,4,25)
+              g.fillStyle(0xd7ad3f,1)
+              g.fillRect(12,31,24,3)
+              // Arms.
+              g.fillStyle(0x27384d,1)
+              g.fillRoundedRect(5,27,7,27,3); g.fillRoundedRect(36,27,7,27,3)
+              // Track pants.
+              g.fillStyle(0x1a2533,1)
+              g.fillRoundedRect(13,49,10,18,3); g.fillRoundedRect(26,49,10,18,3)
+              g.fillStyle(0xe7edf3,1)
+              g.fillRect(16,51,2,14); g.fillRect(31,51,2,14)
+              // Trainers.
+              g.fillStyle(0xf1f1ee,1)
+              g.fillRoundedRect(10,64,14,6,2); g.fillRoundedRect(25,64,14,6,2)
+              return
+            }
+
             if(style==='black-dress'){
               g.fillStyle(0xf0c7ae,1)
               g.fillCircle(24,13,10)
@@ -660,7 +689,7 @@ export function MemoryOverlay({memory,onClose}:{memory:LifeMemory;onClose:()=>vo
     <div className="memory-panel">
       <div className="memory-panel-top"><span>MEMORY PAUSED</span><button onClick={onClose}>×</button></div>
       <div className="memory-gallery">
-        {imgs.map((src,i)=><figure key={src+i} className={'memory-shot shot-'+i}><img src={src} alt={memory.title+' photo '+(i+1)}/><figcaption>MEMORY // {String(i+1).padStart(2,'0')}</figcaption></figure>)}
+        {imgs.map((src,i)=><figure key={src+i} className={'memory-shot shot-'+i+' memory-'+memory.id}><img src={src} alt={memory.title+' photo '+(i+1)}/><figcaption>MEMORY // {String(i+1).padStart(2,'0')}</figcaption></figure>)}
       </div>
       <div className="memory-copy">
         <p className="eyebrow">STORY UNLOCKED</p>
