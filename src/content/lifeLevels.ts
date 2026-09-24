@@ -27,11 +27,15 @@ export type LifeMemory = {
   collectible: CollectibleKind
 }
 
+export type LifeMilestone = { x: number; text: string }
+
 export type LifeLevel = {
   id: string
   order: number
   title: string
   subtitle: string
+  mode: 'platform' | 'cinematic'
+  milestones: LifeMilestone[]
   year: string
   theme: LifeLevelTheme
   avatarStage: 'baby' | 'teen' | 'young-adult' | 'adult'
@@ -47,6 +51,8 @@ export type LifeLevel = {
 export const lifeLevels: LifeLevel[] = [
   {
     id: 'baby',
+    mode: 'cinematic',
+    milestones: [],
     order: 1,
     title: 'Player One Arrives',
     subtitle: '25 September 1999 · Mutuelleville, Tunis · the family immediately suspects genius',
@@ -71,6 +77,12 @@ export const lifeLevels: LifeLevel[] = [
   },
   {
     id: 'gymnast',
+    mode: 'platform',
+    milestones: [
+      { x: 300, text: 'First ribbon routine' },
+      { x: 820, text: 'Balance unlocked' },
+      { x: 1320, text: 'Gymnast mode: ON' },
+    ],
     order: 2,
     title: 'Rhythm Unlocked',
     subtitle: 'Ribbon, hoop, balance and a ridiculous amount of discipline',
@@ -95,6 +107,12 @@ export const lifeLevels: LifeLevel[] = [
   },
   {
     id: 'champion',
+    mode: 'platform',
+    milestones: [
+      { x: 470, text: 'Tunisian Champion' },
+      { x: 850, text: 'African Champion' },
+      { x: 1240, text: 'World Champion' },
+    ],
     order: 3,
     title: 'Champion Mode',
     subtitle: 'Tunisia → Africa → The world',
@@ -133,6 +151,12 @@ export const lifeLevels: LifeLevel[] = [
   },
   {
     id: 'usa',
+    mode: 'platform',
+    milestones: [
+      { x: 380, text: 'Exchange year begins' },
+      { x: 900, text: 'USA mode: adapted' },
+      { x: 1280, text: 'Military side quest unlocked' },
+    ],
     order: 4,
     title: 'America DLC',
     subtitle: 'One year in the USA',
@@ -164,6 +188,12 @@ export const lifeLevels: LifeLevel[] = [
   },
   {
     id: 'coach',
+    mode: 'platform',
+    milestones: [
+      { x: 420, text: 'Back in Tunisia' },
+      { x: 900, text: 'Club created' },
+      { x: 1320, text: 'Coach mode: ON' },
+    ],
     order: 5,
     title: 'Coach Mode',
     subtitle: 'Back in Tunisia',
@@ -188,6 +218,13 @@ export const lifeLevels: LifeLevel[] = [
   },
   {
     id: 'meet-breakup',
+    mode: 'platform',
+    milestones: [
+      { x: 420, text: 'Batman enters the plot' },
+      { x: 780, text: 'Chemistry detected' },
+      { x: 1110, text: 'Breakup detected' },
+      { x: 1390, text: 'Batman filed an appeal' },
+    ],
     order: 6,
     title: 'A Wild Batman Appears',
     subtitle: 'She meets Rayan',
@@ -219,6 +256,12 @@ export const lifeLevels: LifeLevel[] = [
   },
   {
     id: 'paris',
+    mode: 'platform',
+    milestones: [
+      { x: 460, text: 'Graduated' },
+      { x: 900, text: 'Paris unlocked' },
+      { x: 1320, text: 'New city · new chapter' },
+    ],
     order: 7,
     title: 'Paris Chapter',
     subtitle: 'Graduation and a new city',
@@ -250,6 +293,8 @@ export const lifeLevels: LifeLevel[] = [
   },
   {
     id: 'birthday-reunion',
+    mode: 'cinematic',
+    milestones: [],
     order: 8,
     title: 'The Message',
     subtitle: '25 September 2025',
@@ -274,6 +319,12 @@ export const lifeLevels: LifeLevel[] = [
   },
   {
     id: 'paris-romance',
+    mode: 'platform',
+    milestones: [
+      { x: 560, text: 'December 2025' },
+      { x: 980, text: 'Round two begins' },
+      { x: 1360, text: 'No refunds' },
+    ],
     order: 9,
     title: 'Paris Reunion',
     subtitle: 'December 2025',
@@ -298,6 +349,11 @@ export const lifeLevels: LifeLevel[] = [
   },
   {
     id: 'milan',
+    mode: 'platform',
+    milestones: [
+      { x: 520, text: 'First trip together' },
+      { x: 1120, text: 'Milano unlocked' },
+    ],
     order: 10,
     title: 'Milan',
     subtitle: 'First trip together',
@@ -322,6 +378,11 @@ export const lifeLevels: LifeLevel[] = [
   },
   {
     id: 'como',
+    mode: 'platform',
+    milestones: [
+      { x: 520, text: 'Lake Como' },
+      { x: 1120, text: 'Cinematic scenery unlocked' },
+    ],
     order: 11,
     title: 'Lake Como',
     subtitle: 'A suspiciously cinematic level',
@@ -346,6 +407,11 @@ export const lifeLevels: LifeLevel[] = [
   },
   {
     id: 'etretat',
+    mode: 'platform',
+    milestones: [
+      { x: 520, text: 'Étretat' },
+      { x: 1120, text: 'Wind level: aggressive' },
+    ],
     order: 12,
     title: 'Étretat',
     subtitle: 'Cliffs, wind and France',
@@ -370,6 +436,11 @@ export const lifeLevels: LifeLevel[] = [
   },
   {
     id: 'mallorca',
+    mode: 'platform',
+    milestones: [
+      { x: 520, text: 'Mallorca' },
+      { x: 1120, text: 'Something important is coming...' },
+    ],
     order: 13,
     title: 'Mallorca',
     subtitle: 'The words finally arrive',
