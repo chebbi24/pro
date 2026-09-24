@@ -155,7 +155,7 @@ export const story = {
   birthday: {
     title: 'Happy Birthday, Catwoman.',
     message:
-      "Somewhere between all the chaos, late nights, ridiculous conversations and the moments I wish I could replay forever, you became my favorite part of the story. This little world is only a tiny version of how special you are to me. Happy birthday — and here's to everything still waiting for us.",
+      "Nhebek amounti barcha. Rabi ikhalik leya wnchalah naares bik wnjibou 4 ghchecher wniichou kroz wnebniw akwa sala ta gymnastique. Jtm",
   },
   gift: {
     intro: "But this isn't the end of the level.",
@@ -164,11 +164,11 @@ export const story = {
     rarity: '❤️❤️❤️❤️❤️',
     player: 'Catwoman',
     companion: 'Rayan',
-    reveal: 'Your real surprise goes here. Replace this text in src/content/story.ts.',
+    reveal: 'MY DIHHHHHHH. Nfadlek maak rbaht maana carte 50E men Zara ',
   },
   finale: {
     lines: ['HAPPY BIRTHDAY', 'CATWOMAN', 'PLAYER 2 FOREVER'],
-    credits: ['A GAME BY RAYAN', 'STARRING CATWOMAN', 'BASED ON A TRUE STORY', 'TO BE CONTINUED...'],
+    credits: ['BASED ON A TRUE STORY', 'TO BE CONTINUED...'],
     continueQuestion: 'CONTINUE?',
     continueAnswer: "Good. I was hoping you'd say that. ❤️",
   },
