@@ -155,7 +155,8 @@ export function LifeJourneyStage({ levelIndex, onLevelComplete, onMemoryOpen, pa
             }
           } else if (level.theme === 'meet-breakup') {
             back.fillStyle(0x3c2941, 1)
-            for (let i = 0; i < 10; i++) back.fillCircle(160 + i * 170, 210 + (i % 2) * 30, 8, 0xe56a8c, 0.6)
+            back.fillStyle(0xe56a8c, 0.6)
+            for (let i = 0; i < 10; i++) back.fillCircle(160 + i * 170, 210 + (i % 2) * 30, 8)
             back.lineStyle(2, 0xe56a8c, 0.28)
             back.lineBetween(0, 290, 1800, 290)
           } else if (level.theme === 'paris' || level.theme === 'birthday-reunion' || level.theme === 'paris-romance') {
@@ -262,7 +263,7 @@ export function LifeJourneyStage({ levelIndex, onLevelComplete, onMemoryOpen, pa
 
           this.goal = this.physics.add.sprite(1690, 435, 'goal')
           this.goal.setImmovable(true)
-          this.goal.body.allowGravity = false
+          this.goal.setAllowGravity(false)
 
           this.physics.add.overlap(this.player, this.memories, (_player, target) => {
             if (this.memoryCooldown || paused) return
