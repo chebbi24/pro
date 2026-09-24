@@ -44,6 +44,7 @@ export function LifeJourneyStage({ levelIndex, onLevelComplete, onMemoryOpen, pa
         goal!: PhaserNS.Physics.Arcade.Sprite
         completed = false
         memoryCooldown = false
+        milestoneIndex = 0
 
         constructor() {
           super('LifeScene')
@@ -274,7 +275,6 @@ export function LifeJourneyStage({ levelIndex, onLevelComplete, onMemoryOpen, pa
           this.drawBackdrop()
           this.createPlayerTexture()
           this.createWorldTextures()
-          this.createSpecialProps()
 
           this.add.text(28, 26, `LEVEL ${String(level.order).padStart(2, '0')} // ${level.worldLabel}`, {
             fontFamily: 'monospace', fontSize: '16px', color: '#f4f0e6',
@@ -348,10 +348,35 @@ export function LifeJourneyStage({ levelIndex, onLevelComplete, onMemoryOpen, pa
           this.cameras.main.startFollow(this.player, true, 0.08, 0.08, -240, 40)
         }
 
+        showMilestone(text: string) {
+          const popup=this.add.text(theme.game.width/2,105,text.toUpperCase(),{
+            fontFamily:'monospace',
+            fontSize:'18px',
+            color:'#f4f0e6',
+            backgroundColor:'#080b14e8',
+            padding:{x:14,y:9},
+          }).setOrigin(0.5).setScrollFactor(0).setDepth(40).setAlpha(0)
+          this.tweens.add({
+            targets:popup,
+            alpha:1,
+            y:95,
+            duration:220,
+            ease:'Quad.Out',
+            hold:850,
+            yoyo:true,
+            onComplete:()=>popup.destroy(),
+          })
+        }
+
         update() {
           if (pausedRef.current || this.completed || !this.player?.body) {
             if (this.player?.body) this.player.setVelocityX(0)
             return
+          }
+
+          while(this.milestoneIndex<level.milestones.length && this.player.x>=level.milestones[this.milestoneIndex].x){
+            this.showMilestone(level.milestones[this.milestoneIndex].text)
+            this.milestoneIndex++
           }
 
           const speed = level.avatarStyle === 'baby' ? 205 : 225
