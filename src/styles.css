@@ -118,3 +118,5 @@ radial-gradient(circle at 50% 20%,#27324d 0,#0a0d16 48%,#030408 100%)}
 .test-nav select{width:100%;padding:0 9px}
 .test-level-controls{display:grid;grid-template-columns:1fr 1fr 1fr;gap:7px}
 @media(max-width:520px){.test-nav-grid,.test-level-controls{grid-template-columns:1fr 1fr}.test-level-controls button:nth-child(2){grid-column:1/-1;order:3}}
+
+.build-version{font:800 .6rem monospace!important;letter-spacing:.08em;color:#6f7c96!important;margin:.3rem 0 0}
