@@ -6,20 +6,14 @@ import { theme } from '../content/theme'
 
 type Props={levelIndex:number;onComplete:()=>void}
 type Actor='amouna'|'sami'|'kais'|'rania'|'hamouda'|'batman'|'nurse'
-type StoryBeat={
-  speaker?:string
-  text?:string
-  cue?:string
-  autoMs?:number
-  showDialogue?:boolean
-}
+type StoryBeat={speaker?:string;text?:string;cue?:string;autoMs?:number;showDialogue?:boolean}
 
 const babyBeats:StoryBeat[]=[
+  {autoMs:2200,showDialogue:false},
   {autoMs:2400,showDialogue:false},
-  {autoMs:2600,showDialogue:false},
-  {autoMs:2300,showDialogue:false},
+  {autoMs:2200,showDialogue:false},
   {speaker:'SAMI',text:'She is perfect.',cue:'Player One has arrived.'},
-  {autoMs:2300,showDialogue:false},
+  {autoMs:2200,showDialogue:false},
   {speaker:'KAIS',text:'Look at her... she already knows she runs this family.',cue:'First family meeting: complete.'},
   {showDialogue:false},
 ]
@@ -55,20 +49,22 @@ export function LifeCinematicStage({levelIndex,onComplete}:Props){
 
       class StoryScene extends Phaser.Scene{
         actors=new Map<Actor,PhaserNS.GameObjects.Container>()
-        currentStep=0
         constructor(){super('StoryScene')}
 
         create(){
           sceneRef.current=this as unknown as RPGStoryScene
           this.cameras.main.setBackgroundColor(0x10151f)
-          this.cameras.main.fadeIn(300,0,0,0)
+          this.cameras.main.fadeIn(250,0,0,0)
           this.playStep(0)
         }
 
         clearWorld(){
           this.tweens.killAll()
+          this.time.removeAllEvents()
           this.actors.clear()
           this.children.removeAll(true)
+          this.cameras.main.setZoom(1)
+          this.cameras.main.setScroll(0,0)
         }
 
         rect(x:number,y:number,w:number,h:number,color:number,stroke?:number,alpha=1){
@@ -77,129 +73,163 @@ export function LifeCinematicStage({levelIndex,onComplete}:Props){
           return r
         }
 
-        label(x:number,y:number,text:string,accent=0xf3c76b){
-          return this.add.text(x,y,text,{fontFamily:'monospace',fontSize:'13px',color:'#f6f1e8',backgroundColor:'#080b13e8',padding:{x:8,y:5}})
-            .setDepth(50)
-            .setStroke('#000000',2)
-            .setData('accent',accent)
+        notice(x:number,y:number,text:string){
+          return this.add.text(x,y,text,{
+            fontFamily:'monospace',fontSize:'13px',color:'#fff',
+            backgroundColor:'#080b13e8',padding:{x:9,y:6}
+          }).setDepth(80).setOrigin(.5)
         }
 
-        nameBar(x:number,y:number,name:string,accent=0xf3c76b){
-          const bar=this.add.container(x,y).setDepth(55)
-          const bg=this.add.rectangle(0,0,74,18,0x080b13,.9).setStrokeStyle(1,accent,.9)
+        actorName(kind:Actor){
+          return ({amouna:'AMOUNA',sami:'SAMI',kais:'KAIS',rania:'RANIA',hamouda:'HAMOUDA',batman:'BATMAN',nurse:'NURSE'})[kind]
+        }
+
+        actorAccent(kind:Actor){
+          return ({amouna:0xd66a82,sami:0xd6b6a3,kais:0x8796ad,rania:0xc8a05d,hamouda:0x5b78a5,batman:0xc3a33c,nurse:0x74a6bd})[kind]
+        }
+
+        makeNamePlate(root:PhaserNS.GameObjects.Container,kind:Actor,scale:number,y=30){
+          const wrap=this.add.container(0,y).setScale(1/scale)
+          const name=this.actorName(kind)
+          const width=Math.max(58,name.length*8+18)
+          const bg=this.add.rectangle(0,0,width,18,0x070a11,.9).setStrokeStyle(1,this.actorAccent(kind),.9)
           const txt=this.add.text(0,0,name,{fontFamily:'monospace',fontSize:'10px',color:'#ffffff'}).setOrigin(.5)
-          bar.add([bg,txt])
-          return bar
+          wrap.add([bg,txt])
+          root.add(wrap)
         }
 
-        makeBaby(x:number,y:number){
-          const baby=this.add.container(x,y).setDepth(24)
-          const shadow=this.add.ellipse(0,17,28,7,0x000000,.17)
-          const blanket=this.add.ellipse(0,3,30,25,0xf0cfd3).setStrokeStyle(2,0xc99aa3)
-          const head=this.add.circle(0,-9,9,0xe0a47f)
-          const tuft=this.add.rectangle(0,-17,9,3,0x9f3f30)
-          const eyeL=this.add.line(-4,-10,-2,0,2,0,0x34252a).setLineWidth(1.5)
-          const eyeR=this.add.line(4,-10,-2,0,2,0,0x34252a).setLineWidth(1.5)
-          const mouth=this.add.arc(0,-5,3,180,360,false,0xb6555d)
-          const tearL=this.add.circle(-7,-7,2,0x7bc7ea,.95)
-          const tearR=this.add.circle(7,-7,2,0x7bc7ea,.95)
-          baby.add([shadow,blanket,head,tuft,eyeL,eyeR,mouth,tearL,tearR])
-          this.tweens.add({targets:baby,y:y-3,duration:180,yoyo:true,repeat:5,ease:'Sine.InOut'})
-          this.tweens.add({targets:[tearL,tearR],y:'+=5',alpha:0,duration:420,repeat:2})
-          const cry=this.add.text(x+22,y-28,'WAAH!',{fontFamily:'monospace',fontSize:'12px',color:'#ffffff',backgroundColor:'#b34d65dd',padding:{x:6,y:4}}).setDepth(56).setAlpha(0)
-          this.tweens.add({targets:cry,alpha:1,y:y-34,duration:250,hold:900,yoyo:true})
-          this.nameBar(x,y+35,'AMOUNA',0xd66a82)
-          return baby
-        }
-
-        makePerson(kind:Actor,x:number,y:number,scale=1){
-          const c=this.add.container(x,y).setScale(scale).setDepth(20)
-          const shadow=this.add.ellipse(0,16,26,8,0x000000,.18)
+        makePerson(kind:Actor,x:number,y:number,scale=1,showName=true){
+          const root=this.add.container(x,y).setScale(scale).setDepth(30)
+          const sprite=this.add.container(0,0)
+          root.add(sprite)
 
           const cfg={
-            sami:{skin:0xd7a17e,hair:0x6f3f2f,body:0xd6b6a3,accent:0xe7d0c2,glasses:false,moustache:false,curly:false},
-            kais:{skin:0xd8a67f,hair:0x2d2421,body:0xc9cbd0,accent:0x29384e,glasses:true,moustache:true,curly:false},
-            rania:{skin:0xd6a079,hair:0x16181d,body:0x3a2635,accent:0xc8a05d,glasses:true,moustache:false,curly:false},
-            hamouda:{skin:0xc99672,hair:0x30241f,body:0x1d2a43,accent:0x304769,glasses:true,moustache:false,curly:true},
-            amouna:{skin:0xe0a47f,hair:0x9f3f30,body:0xf2cfd2,accent:0xede6db,glasses:false,moustache:false,curly:false},
-            nurse:{skin:0xd9aa87,hair:0x5b463c,body:0xeaf1f3,accent:0x74a6bd,glasses:false,moustache:false,curly:false},
-            batman:{skin:0xd7a17f,hair:0x08090c,body:0x28313e,accent:0xc3a33c,glasses:false,moustache:false,curly:false},
+            sami:{skin:0xd7a17e,hair:0x6f3f2f,body:0xd6b6a3,accent:0xe7d0c2,glasses:false,moustache:false},
+            kais:{skin:0xd8a67f,hair:0x2d2421,body:0xc9cbd0,accent:0x29384e,glasses:true,moustache:true},
+            rania:{skin:0xd6a079,hair:0x111318,body:0x3a2635,accent:0xc8a05d,glasses:true,moustache:false},
+            hamouda:{skin:0xc99672,hair:0x30241f,body:0x1d2a43,accent:0x304769,glasses:true,moustache:false},
+            amouna:{skin:0xe0a47f,hair:0x9f3f30,body:0xf2cfd2,accent:0xb65345,glasses:false,moustache:false},
+            nurse:{skin:0xd9aa87,hair:0x5b463c,body:0xeaf1f3,accent:0x74a6bd,glasses:false,moustache:false},
+            batman:{skin:0xd7a17f,hair:0x08090c,body:0x28313e,accent:0xc3a33c,glasses:false,moustache:false},
           }[kind]
 
-          const legs=this.add.rectangle(0,10,18,18,0x2a2f37).setOrigin(.5,0)
-          const body=this.add.rectangle(0,-4,23,23,cfg.body).setOrigin(.5,.5)
+          const shadow=this.add.ellipse(0,18,28,8,0x000000,.2)
+          const legs=this.add.rectangle(0,10,18,19,0x292e37).setOrigin(.5,0)
+          const torso=this.add.rectangle(0,-3,23,25,cfg.body)
           const neck=this.add.rectangle(0,-18,6,7,cfg.skin)
-          const head=this.add.circle(0,-27,10,cfg.skin)
-          const eyeL=this.add.circle(-3.8,-28,1.25,0x252126)
-          const eyeR=this.add.circle(3.8,-28,1.25,0x252126)
-          const mouth=this.add.arc(0,-23,3,15,165,false,0xa65f5f)
-          c.add([shadow,legs,body,neck,head,eyeL,eyeR,mouth])
+          const head=this.add.circle(0,-28,10,cfg.skin)
+          const eyeL=this.add.circle(-3.8,-29,1.2,0x201d21)
+          const eyeR=this.add.circle(3.8,-29,1.2,0x201d21)
+          const mouth=this.add.arc(0,-23.5,3,15,165,false,0xa65f5f)
+          sprite.add([shadow,legs,torso,neck,head,eyeL,eyeR,mouth])
 
           if(kind==='amouna'){
-            const backHair=this.add.ellipse(0,-28,24,25,cfg.hair)
-            const fringe=this.add.rectangle(0,-34,19,6,cfg.hair)
-            c.addAt(backHair,4);c.add(fringe)
+            const back=this.add.ellipse(0,-29,24,25,cfg.hair)
+            const sideL=this.add.rectangle(-9,-21,6,19,cfg.hair)
+            const sideR=this.add.rectangle(9,-21,6,19,cfg.hair)
+            const fringe=this.add.rectangle(0,-35,18,6,cfg.hair)
+            sprite.addAt(back,4);sprite.add([sideL,sideR,fringe])
           }else if(kind==='sami'){
-            const hair=this.add.ellipse(0,-29,23,22,cfg.hair)
-            const bobL=this.add.rectangle(-8,-22,6,15,cfg.hair)
-            const bobR=this.add.rectangle(8,-22,6,15,cfg.hair)
-            c.addAt(hair,4);c.add([bobL,bobR])
+            const back=this.add.ellipse(0,-30,23,21,cfg.hair)
+            const sideL=this.add.rectangle(-8,-22,6,14,cfg.hair)
+            const sideR=this.add.rectangle(8,-22,6,14,cfg.hair)
+            sprite.addAt(back,4);sprite.add([sideL,sideR])
           }else if(kind==='kais'){
-            const hair=this.add.arc(0,-31,10,180,360,false,cfg.hair)
-            c.add(hair)
+            sprite.add(this.add.arc(0,-32,10,180,360,false,cfg.hair))
           }else if(kind==='rania'){
-            const hair=this.add.ellipse(0,-31,22,16,cfg.hair)
-            const sideL=this.add.rectangle(-8,-25,5,9,cfg.hair)
-            const sideR=this.add.rectangle(8,-25,5,9,cfg.hair)
-            const fringe=this.add.rectangle(0,-34,15,4,cfg.hair)
-            c.addAt(hair,4);c.add([sideL,sideR,fringe])
+            const cap=this.add.ellipse(0,-32,22,14,cfg.hair)
+            const sideL=this.add.rectangle(-8,-27,5,9,cfg.hair)
+            const sideR=this.add.rectangle(8,-27,5,9,cfg.hair)
+            const fringe=this.add.rectangle(0,-35,14,4,cfg.hair)
+            sprite.addAt(cap,4);sprite.add([sideL,sideR,fringe])
           }else if(kind==='hamouda'){
-            for(const [cx,cy] of [[-7,-35],[0,-37],[7,-35],[-8,-29],[8,-29]]){
-              c.add(this.add.circle(cx,cy,5,cfg.hair))
-            }
+            for(const [cx,cy] of [[-7,-36],[0,-38],[7,-36],[-8,-31],[8,-31]])sprite.add(this.add.circle(cx,cy,5,cfg.hair))
           }else if(kind==='batman'){
-            const cowl=this.add.rectangle(0,-31,22,16,0x08090c)
-            const ear1=this.add.triangle(-7,-43,0,10,7,10,4,0,0x08090c)
-            const ear2=this.add.triangle(7,-43,0,10,7,10,4,0,0x08090c)
-            c.add([cowl,ear1,ear2])
+            const cowl=this.add.rectangle(0,-32,22,16,0x08090c)
+            const ear1=this.add.triangle(-7,-44,0,10,7,10,4,0,0x08090c)
+            const ear2=this.add.triangle(7,-44,0,10,7,10,4,0,0x08090c)
+            sprite.add([cowl,ear1,ear2])
           }else{
-            c.add(this.add.ellipse(0,-31,20,13,cfg.hair))
+            sprite.add(this.add.ellipse(0,-32,20,13,cfg.hair))
           }
 
           if(cfg.glasses){
-            const g1=this.add.rectangle(-5,-27,7,5,0x000000,0).setStrokeStyle(1,0x202020)
-            const g2=this.add.rectangle(5,-27,7,5,0x000000,0).setStrokeStyle(1,0x202020)
-            const bridge=this.add.rectangle(0,-27,3,1,0x202020)
-            c.add([g1,g2,bridge])
+            const g1=this.add.rectangle(-5,-28,7,5,0x000000,0).setStrokeStyle(1,0x202020)
+            const g2=this.add.rectangle(5,-28,7,5,0x000000,0).setStrokeStyle(1,0x202020)
+            const bridge=this.add.rectangle(0,-28,3,1,0x202020)
+            sprite.add([g1,g2,bridge])
           }
-          if(cfg.moustache){
-            c.add(this.add.rectangle(0,-22,12,2,0x3b2922))
-          }
+          if(cfg.moustache)sprite.add(this.add.rectangle(0,-22,12,2,0x3b2922))
 
-          if(kind==='sami')c.add(this.add.rectangle(0,1,19,5,cfg.accent))
-          if(kind==='kais')c.add(this.add.rectangle(0,2,18,4,cfg.accent))
-          if(kind==='rania')c.add(this.add.circle(8,-4,3,cfg.accent))
-          if(kind==='amouna')c.add(this.add.rectangle(0,-10,17,3,0xb65345))
-          if(kind==='batman')c.add(this.add.rectangle(0,-6,14,3,cfg.accent))
+          if(kind==='sami')sprite.add(this.add.rectangle(0,1,19,5,cfg.accent))
+          if(kind==='kais')sprite.add(this.add.rectangle(0,2,18,4,cfg.accent))
+          if(kind==='rania')sprite.add(this.add.circle(8,-4,3,cfg.accent))
+          if(kind==='amouna')sprite.add(this.add.rectangle(0,-10,17,3,cfg.accent))
+          if(kind==='batman')sprite.add(this.add.rectangle(0,-6,14,3,cfg.accent))
 
-          this.actors.set(kind,c)
-          return c
+          root.setData('sprite',sprite)
+          if(showName)this.makeNamePlate(root,kind,scale,34)
+          this.actors.set(kind,root)
+          return root
+        }
+
+        pose(kind:Actor,angle:number){
+          const actor=this.actors.get(kind)
+          const sprite=actor?.getData('sprite') as PhaserNS.GameObjects.Container|undefined
+          sprite?.setAngle(angle)
         }
 
         move(kind:Actor,x:number,y:number,duration=800){
-          const c=this.actors.get(kind);if(!c)return
-          this.tweens.add({targets:c,x,y,duration,ease:'Sine.InOut'})
+          const actor=this.actors.get(kind)
+          if(!actor)return
+          this.tweens.add({targets:actor,x,y,duration,ease:'Sine.InOut'})
         }
 
-        fadeTo(draw:()=>void){
-          this.cameras.main.fadeOut(180,0,0,0)
-          this.time.delayedCall(190,()=>{
-            this.clearWorld();draw();this.cameras.main.fadeIn(220,0,0,0)
+        makeBaby(x:number,y:number){
+          const root=this.add.container(x,y).setDepth(34)
+          const baby=this.add.container(0,0)
+          root.add(baby)
+          baby.add([
+            this.add.ellipse(0,16,29,7,0x000000,.17),
+            this.add.ellipse(0,3,30,25,0xf0cfd3).setStrokeStyle(2,0xc99aa3),
+            this.add.circle(0,-9,9,0xe0a47f),
+            this.add.rectangle(0,-17,9,3,0x9f3f30),
+          ])
+          const eyeL=this.add.line(-4,-10,-2,0,2,0,0x34252a).setLineWidth(1.4)
+          const eyeR=this.add.line(4,-10,-2,0,2,0,0x34252a).setLineWidth(1.4)
+          const mouth=this.add.arc(0,-5,3,180,360,false,0xb6555d)
+          const tearL=this.add.circle(-7,-7,2,0x7bc7ea,.95)
+          const tearR=this.add.circle(7,-7,2,0x7bc7ea,.95)
+          baby.add([eyeL,eyeR,mouth,tearL,tearR])
+          this.makeNamePlate(root,'amouna',1,35)
+          this.actors.set('amouna',root)
+
+          this.tweens.add({targets:baby,y:-3,duration:170,yoyo:true,repeat:6,ease:'Sine.InOut'})
+          this.tweens.add({targets:[tearL,tearR],y:'+=5',alpha:0,duration:400,repeat:2})
+          const cry=this.add.text(24,-31,'WAAH!',{
+            fontFamily:'monospace',fontSize:'11px',color:'#fff',
+            backgroundColor:'#b34d65dd',padding:{x:5,y:3}
+          }).setAlpha(0)
+          root.add(cry)
+          this.tweens.add({targets:cry,alpha:1,y:-37,duration:220,hold:850,yoyo:true})
+          return root
+        }
+
+        transition(draw:()=>void){
+          this.cameras.main.fadeOut(160,0,0,0)
+          this.time.delayedCall(180,()=>{
+            this.clearWorld()
+            draw()
+            this.cameras.main.fadeIn(220,0,0,0)
           })
         }
 
+        hardSwitch(draw:()=>void){
+          this.clearWorld()
+          draw()
+        }
+
         drawExterior(){
-          // handcrafted top-down neighborhood
           this.rect(0,0,960,540,0x79b86e)
           for(let x=0;x<960;x+=48)for(let y=0;y<540;y+=48){
             if((x/48+y/48)%2===0)this.rect(x,y,48,48,0x72af68)
@@ -208,35 +238,28 @@ export function LifeCinematicStage({levelIndex,onComplete}:Props){
           this.rect(356,0,248,540,0xd8bd82)
           this.rect(304,18,352,130,0xe7dfce,0x6f655a)
           this.rect(326,38,308,86,0xf3eddf,0x988c7b)
-          for(const x of [350,425,500,575])this.rect(x,55,40,34,0x7fb5c4,0x5c5550)
+          for(const x of [350,425,500,575])this.rect(x,55,40,34,0x7fb5c4,0x514a43)
           this.rect(458,90,54,58,0x725849,0x46372d)
-          this.add.text(377,165,'MUTUELLEVILLE',{fontFamily:'monospace',fontSize:'19px',color:'#fff',backgroundColor:'#111722dd',padding:{x:10,y:5}}).setDepth(30)
-          this.add.text(426,196,'TUNIS · 25.09.1999',{fontFamily:'monospace',fontSize:'11px',color:'#e7d5a0',backgroundColor:'#111722cc',padding:{x:8,y:4}}).setDepth(30)
+          this.add.text(377,165,'MUTUELLEVILLE',{fontFamily:'monospace',fontSize:'19px',color:'#fff',backgroundColor:'#111722dd',padding:{x:10,y:5}}).setDepth(20)
+          this.add.text(426,196,'TUNIS · 25.09.1999',{fontFamily:'monospace',fontSize:'11px',color:'#e7d5a0',backgroundColor:'#111722cc',padding:{x:8,y:4}}).setDepth(20)
           for(const [x,y] of [[110,120],[195,175],[780,115],[850,200],[100,485],[830,490]]){
             this.rect(x-5,y,10,27,0x765a37)
-            this.add.circle(x,y-7,23,0x3f8750);this.add.circle(x-15,y-4,17,0x4b9658);this.add.circle(x+15,y-4,17,0x4b9658)
+            this.add.circle(x,y-7,23,0x3f8750);this.add.circle(x-15,y-4,17,0x4a9659);this.add.circle(x+15,y-4,17,0x4a9659)
           }
-          this.makePerson('sami',150,405,1.35)
-          this.makePerson('kais',105,405,1.35)
-          this.nameBar(150,448,'SAMI',0xd6b6a3)
-          this.nameBar(105,448,'KAIS',0x8796ad)
-          this.time.delayedCall(400,()=>{this.move('sami',485,260,1450);this.move('kais',450,260,1350)})
+          this.makePerson('kais',105,405,1.25)
+          this.makePerson('sami',165,405,1.25)
+          this.time.delayedCall(350,()=>{this.move('kais',450,260,1350);this.move('sami',495,260,1450)})
         }
 
         drawHospital(showBaby=false,showFamily=false){
-          // smaller, tighter, more professional room composition
           this.rect(0,0,960,540,0x6e7a89)
           this.rect(28,28,904,484,0xd8e6ed,0x4b5663)
           this.rect(48,48,864,444,0xb7c7d0)
-          // floor
-          for(let y=170;y<492;y+=40)for(let x=48;x<912;x+=40){
-            this.rect(x,y,40,40,((x+y)/40)%2?0xb8c5cd:0xc6d1d6)
-          }
-          // upper wall strip
+          for(let y=170;y<492;y+=40)for(let x=48;x<912;x+=40)this.rect(x,y,40,40,((x+y)/40)%2?0xb8c5cd:0xc6d1d6)
           this.rect(48,48,864,122,0x9bc8e0)
           this.rect(48,146,864,24,0x6c86a0)
 
-          // Window with an actual Tunis view: sky, white buildings, palms and distant hills.
+          // scenic Tunis window
           this.rect(332,57,266,88,0x88c8e4,0x52697d)
           this.add.circle(552,79,14,0xf5d37e).setDepth(2)
           this.add.triangle(348,140,0,35,62,0,124,35,0x78958f).setDepth(2)
@@ -247,60 +270,48 @@ export function LifeCinematicStage({levelIndex,onComplete}:Props){
           }
           this.rect(574,94,4,48,0x6b5332)
           this.add.circle(576,92,13,0x4c8c5f);this.add.circle(566,94,10,0x4c8c5f);this.add.circle(586,94,10,0x4c8c5f)
-          this.rect(459,57,7,88,0xe8f0f3)
-          this.rect(332,98,266,6,0xe8f0f3)
+          this.rect(459,57,7,88,0xe8f0f3);this.rect(332,98,266,6,0xe8f0f3)
 
-          // Welcome banner
-          this.add.line(146,92,0,0,164,0,0x6b7081).setLineWidth(2)
-          const banner=this.add.text(228,90,'WELCOME AMOUNA',{fontFamily:'monospace',fontSize:'16px',color:'#9d4660',backgroundColor:'#f7e7d4e8',padding:{x:11,y:6}}).setOrigin(.5).setDepth(8)
+          // welcome decoration
+          this.add.line(135,94,0,0,185,0,0x6b7081).setLineWidth(2)
+          const banner=this.add.text(227,92,'WELCOME AMOUNA',{
+            fontFamily:'monospace',fontSize:'15px',color:'#9d4660',
+            backgroundColor:'#f7e7d4ee',padding:{x:10,y:5}
+          }).setOrigin(.5).setDepth(8)
           banner.setStroke('#fff7ef',1)
-          // privacy screen
-          this.rect(90,190,150,110,0xe6f0f0,0x78929f)
-          for(let x=110;x<220;x+=28){this.rect(x,205,8,80,0xb8d1d4)}
-          // bed, deliberately compact
-          this.rect(322,260,215,84,0xe9eceb,0x69737c)
-          this.rect(340,276,76,47,0xfdfbf6,0xb7b5b0)
-          this.rect(416,276,101,47,0xa7c7dc,0x7d9bb0)
-          this.rect(335,344,190,14,0x66727d)
-          // bedside cabinet + monitor
-          this.rect(560,245,72,62,0xc9d0d2,0x77838a)
-          this.rect(555,174,90,57,0x121a25,0x536170)
-          this.add.text(568,191,'♥ 98',{fontFamily:'monospace',fontSize:'16px',color:'#79e2aa'}).setDepth(10)
-          // IV stand
-          this.rect(680,212,5,125,0x7a8790)
-          this.rect(660,209,45,5,0x7a8790)
-          this.rect(652,218,20,30,0xd8f0f2,0x79949b)
-          // sink
-          this.rect(742,194,130,65,0xe5e7e6,0x7b8385)
-          this.rect(763,205,90,32,0xbfd7df,0x798e98)
-          // door
-          this.rect(785,332,92,132,0x725849,0x45382f)
-          this.rect(800,349,62,98,0x896b55)
-          this.add.circle(850,397,4,0xe2c36d)
-          // chair
-          this.rect(672,370,62,52,0x5f7e91,0x3c505b)
-          this.rect(680,422,7,32,0x3c505b);this.rect(719,422,7,32,0x3c505b)
 
-          // mother on bed: larger character but proportional
-          const sami=this.makePerson('sami',385,292,1.45);sami.setAngle(-90)
-          this.makePerson('kais',580,365,1.38)
-          this.makePerson('nurse',708,305,1.32)
-          this.nameBar(365,350,'SAMI',0xd6b6a3)
-          this.nameBar(580,410,'KAIS',0x8796ad)
-          this.nameBar(708,350,'NURSE',0x74a6bd)
+          // room props
+          this.rect(86,188,150,112,0xe6f0f0,0x78929f)
+          for(let x=106;x<220;x+=28)this.rect(x,203,8,82,0xb8d1d4)
+          this.rect(320,258,218,86,0xe9eceb,0x69737c)
+          this.rect(338,274,78,49,0xfdfbf6,0xb7b5b0)
+          this.rect(416,274,104,49,0xa7c7dc,0x7d9bb0)
+          this.rect(335,344,190,14,0x66727d)
+          this.rect(558,244,74,63,0xc9d0d2,0x77838a)
+          this.rect(554,174,92,58,0x121a25,0x536170)
+          this.add.text(568,191,'♥ 98',{fontFamily:'monospace',fontSize:'16px',color:'#79e2aa'}).setDepth(10)
+          this.rect(680,212,5,125,0x7a8790);this.rect(660,209,45,5,0x7a8790);this.rect(652,218,20,30,0xd8f0f2,0x79949b)
+          this.rect(742,194,130,65,0xe5e7e6,0x7b8385);this.rect(763,205,90,32,0xbfd7df,0x798e98)
+          this.rect(785,332,92,132,0x725849,0x45382f);this.rect(800,349,62,98,0x896b55);this.add.circle(850,397,4,0xe2c36d)
+          this.rect(674,372,60,50,0x5f7e91,0x3c505b);this.rect(682,422,7,32,0x3c505b);this.rect(719,422,7,32,0x3c505b)
+
+          const sami=this.makePerson('sami',386,294,1.25)
+          this.pose('sami',-90)
+          sami.setDepth(26)
+          this.makePerson('kais',574,365,1.18)
+          this.makePerson('nurse',708,306,1.14)
 
           if(showBaby){
-            this.rect(545,352,112,62,0xe4ecee,0x718088)
-            this.rect(558,362,86,38,0xf1d5d8,0xc3a6ab)
-            this.makeBaby(601,371)
+            this.rect(544,350,114,65,0xe4ecee,0x718088)
+            this.rect(558,361,87,39,0xf1d5d8,0xc3a6ab)
+            this.makeBaby(601,374)
           }
+
           if(showFamily){
-            this.makePerson('hamouda',834,407,1.15)
-            this.makePerson('rania',834,455,1.15)
-            this.nameBar(710,468,'HAMOUDA',0x5b78a5)
-            this.nameBar(790,495,'RANIA',0xc8a05d)
-            this.time.delayedCall(250,()=>this.move('hamouda',710,425,850))
-            this.time.delayedCall(450,()=>this.move('rania',790,452,900))
+            this.makePerson('hamouda',842,392,1.02)
+            this.makePerson('rania',842,455,1.02)
+            this.time.delayedCall(220,()=>this.move('hamouda',726,414,760))
+            this.time.delayedCall(420,()=>this.move('rania',790,458,820))
           }
         }
 
@@ -319,46 +330,38 @@ export function LifeCinematicStage({levelIndex,onComplete}:Props){
           if(glow)this.add.circle(451,362,44,0xffd86f,.22).setDepth(1)
           this.rect(800,220,7,155,0x6e655b)
           this.add.triangle(804,205,0,38,38,38,19,0,lit?0xf0cf82:0x81715b)
-          this.makePerson('amouna',180,420,1.35)
-          this.nameBar(180,467,'AMOUNA',0xd66a82)
+          this.makePerson('amouna',180,420,1.2)
         }
 
         playStep(step:number){
-          this.currentStep=step
           if(level.id==='baby'){
-            if(step===0)this.fadeTo(()=>this.drawExterior())
-            if(step===1)this.fadeTo(()=>this.drawHospital(false,false))
-            if(step===2){
+            if(step===0)this.transition(()=>this.drawExterior())
+            if(step===1)this.transition(()=>this.drawHospital(false,false))
+            if(step===2)this.transition(()=>{
               this.drawHospital(false,false)
-              this.time.delayedCall(280,()=>this.move('nurse',600,330,600))
-              this.time.delayedCall(650,()=>this.move('kais',540,385,500))
-              this.time.delayedCall(950,()=>{
+              this.time.delayedCall(250,()=>this.move('nurse',626,332,600))
+              this.time.delayedCall(620,()=>this.move('kais',540,382,520))
+              this.time.delayedCall(900,()=>{
                 this.cameras.main.flash(420,255,238,182)
-                this.cameras.main.shake(260,.006)
-                const halo=this.add.circle(600,365,18,0xffefb0,.0).setDepth(40)
+                this.cameras.main.shake(250,.005)
+                const halo=this.add.circle(600,365,20,0xffefb0,0).setDepth(60)
                 this.tweens.add({targets:halo,alpha:.55,scale:5,duration:600,yoyo:true,onComplete:()=>halo.destroy()})
-                const t=this.label(350,115,'A NEW PLAYER ENTERS THE WORLD')
-                this.tweens.add({targets:t,alpha:0,duration:500,delay:900})
+                const text=this.notice(480,116,'A NEW PLAYER ENTERS THE WORLD')
+                this.tweens.add({targets:text,alpha:0,duration:450,delay:1000})
               })
-            }
-            if(step===3)this.fadeTo(()=>{
-              this.drawHospital(true,false)
-              this.cameras.main.flash(260,255,245,215)
             })
-            if(step===4)this.fadeTo(()=>this.drawHospital(true,true))
-            if(step===5){
-              this.drawHospital(true,true)
-              this.time.delayedCall(250,()=>this.move('kais',620,390,500))
-            }
-            if(step===6)this.fadeTo(()=>this.drawHospital(true,true))
+            if(step===3)this.transition(()=>{this.drawHospital(true,false);this.cameras.main.flash(260,255,245,215)})
+            if(step===4)this.transition(()=>this.drawHospital(true,true))
+            if(step===5)this.transition(()=>{this.drawHospital(true,true);this.time.delayedCall(250,()=>this.move('kais',630,388,520))})
+            if(step===6)this.transition(()=>this.drawHospital(true,true))
           }else{
-            if(step===0)this.fadeTo(()=>{this.drawApartment(false,false);this.time.delayedCall(300,()=>this.move('amouna',350,395,1200))})
-            if(step===1){this.drawApartment(false,false);this.makePerson('amouna',350,395,1.35);this.move('amouna',330,300,800)}
-            if(step===2)this.fadeTo(()=>{this.drawApartment(false,true);this.makePerson('amouna',330,300,1.35)})
-            if(step===3){this.drawApartment(false,true);this.makePerson('amouna',330,300,1.35);this.move('amouna',445,355,850)}
-            if(step===4){this.drawApartment(false,true);this.makePerson('amouna',445,355,1.35);this.label(520,190,'BATMAN: HAPPY BIRTHDAY.')}
-            if(step===5){this.drawApartment(true,true);this.makePerson('amouna',445,355,1.35);this.cameras.main.flash(260,255,216,111)}
-            if(step===6)this.fadeTo(()=>{this.drawApartment(true,true);this.makePerson('amouna',445,355,1.35);this.makePerson('batman',700,395,1.35)})
+            if(step===0)this.transition(()=>{this.drawApartment(false,false);this.time.delayedCall(300,()=>this.move('amouna',350,395,1200))})
+            if(step===1)this.transition(()=>{this.drawApartment(false,false);this.move('amouna',330,300,800)})
+            if(step===2)this.transition(()=>this.drawApartment(false,true))
+            if(step===3)this.transition(()=>{this.drawApartment(false,true);this.move('amouna',445,355,850)})
+            if(step===4)this.transition(()=>{this.drawApartment(false,true);this.notice(650,190,'BATMAN: HAPPY BIRTHDAY.')})
+            if(step===5)this.transition(()=>{this.drawApartment(true,true);this.cameras.main.flash(260,255,216,111)})
+            if(step===6)this.transition(()=>{this.drawApartment(true,true);this.move('amouna',445,355,450);this.makePerson('batman',700,395,1.2)})
           }
         }
       }
@@ -370,6 +373,7 @@ export function LifeCinematicStage({levelIndex,onComplete}:Props){
         render:{antialias:false,pixelArt:true},
       })
     })()
+
     return()=>{cancelled=true;sceneRef.current=null;game?.destroy(true)}
   },[level.id])
 
@@ -380,7 +384,8 @@ export function LifeCinematicStage({levelIndex,onComplete}:Props){
     setTyped('')
     let i=0
     const timer=window.setInterval(()=>{
-      i+=1;setTyped(beat.text!.slice(0,i))
+      i+=1
+      setTyped(beat.text!.slice(0,i))
       if(i>=beat.text!.length)window.clearInterval(timer)
     },18)
     return()=>window.clearInterval(timer)
@@ -388,9 +393,7 @@ export function LifeCinematicStage({levelIndex,onComplete}:Props){
 
   useEffect(()=>{
     if(!beat||beat.showDialogue!==false||!beat.autoMs)return
-    const t=window.setTimeout(()=>{
-      if(step<beats.length-1)setStep(s=>s+1)
-    },beat.autoMs)
+    const t=window.setTimeout(()=>{if(step<beats.length-1)setStep(s=>s+1)},beat.autoMs)
     return()=>window.clearTimeout(t)
   },[beat,step,beats.length])
 
