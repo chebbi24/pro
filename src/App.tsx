@@ -7,7 +7,7 @@ import { LifeJourneyStage, MemoryOverlay } from './game/LifeJourneyStage'
 import { LifeCinematicStage } from './game/LifeCinematicStage'
 
 type Scene = 'entry'|'encounter'|'dialogue'|'access'|'reveal'|'drive'|'act2intro'|'journey'|'rooftop'|'letter'|'gift'|'finale'
-const KEY='gotham-birthday-progress-v3'
+const KEY='gotham-birthday-progress-v20'
 
 function App(){
   const saved=(()=>{try{return JSON.parse(localStorage.getItem(KEY)||'{}')}catch{return {}}})()
