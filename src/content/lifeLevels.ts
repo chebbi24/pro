@@ -17,7 +17,7 @@ export type CollectibleKind = 'family'|'ribbon'|'hoop'|'ball'|'clubs'|'trophy'|'
 
 export type GoalKind = 'home'|'ribbon-gate'|'podium'|'plane'|'gym-door'|'bat-signal'|'graduation'|'message'|'paris-heart'|'milan-arch'|'dock'|'cliff-arch'|'sunset-heart'
 
-export type AvatarStyle = 'baby'|'gymnast'|'champion'|'tiger'|'catwoman'|'black-dress'|'boat'
+export type AvatarStyle = 'baby'|'gymnast'|'champion'|'tiger'|'coach'|'catwoman'|'black-dress'|'boat'
 
 export type LifeMemory = {
   id: string
@@ -170,13 +170,7 @@ export const lifeLevels: LifeLevel[] = [
     goalKind: 'plane',
     obstacleCount: 0,
     memories: [
-      {
-        id: 'usa-year',
-        title: 'Tnik fel gwerra',
-        caption: 'A year in the USA: new country, new school, new people. She treats culture shock like another event she intends to win.',
-        photoKeys: ['chapter3USA'],
-        collectible: 'star',
-      },
+
       {
         id: 'military',
         title: 'Bonus Mission: Amouna mon general',
@@ -200,7 +194,7 @@ export const lifeLevels: LifeLevel[] = [
     year: 'TUNISIA',
     theme: 'coach',
     avatarStage: 'young-adult',
-    avatarStyle: 'tiger',
+    avatarStyle: 'coach',
     worldLabel: 'HER GYMNASTICS CLUB',
     backgroundUrl: localBackground('coach.png'),
     backgroundCredit: '',
