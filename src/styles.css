@@ -186,3 +186,76 @@ radial-gradient(circle at 50% 20%,#27324d 0,#0a0d16 48%,#030408 100%)}
   .cinematic-character{transform:translateX(-50%) scale(.78);transform-origin:bottom center}.cinematic-character.active{transform:translateX(-50%) scale(.85)}.shot-close-left .cinematic-character.active,.shot-close-right .cinematic-character.active{transform:translateX(-50%) scale(.95)}
   .cinematic-topbar{font-size:.52rem}.cinematic-kicker{left:16px;top:18px}.cinematic-credit{display:none}
 }
+
+
+/* Chapter 01 birth cinematic */
+.birth-exterior-bg{filter:saturate(.86) contrast(1.04) brightness(.78);animation:birthExteriorPush 8s ease-in-out both}
+@keyframes birthExteriorPush{from{transform:scale(1.03)}to{transform:scale(1.10)}}
+.birth-exterior-wash{position:absolute;inset:0;background:linear-gradient(180deg,#d9c8a811 0,#08101844 55%,#06080dbc 100%)}
+.birth-location-card{position:absolute;left:34px;bottom:34px;z-index:7;display:grid;gap:3px;padding:14px 16px;border-left:3px solid #e2c36d;background:#080b13cc;box-shadow:0 10px 30px #0008}
+.birth-location-card small{font:800 .58rem monospace;letter-spacing:.16em;color:#bca96e}
+.birth-location-card strong{font:900 clamp(1.4rem,3vw,2.2rem) monospace;letter-spacing:.06em;color:#fff}
+.birth-location-card span{font:800 .68rem monospace;letter-spacing:.14em;color:#d6d9e0}
+
+.birth-room{position:absolute;inset:0;background:linear-gradient(180deg,#c9d6d5 0 68%,#9a8d7b 68%);overflow:hidden}
+.room-wall{position:absolute;inset:0 0 32% 0;background:linear-gradient(180deg,#dce5e4,#c8d6d4)}
+.room-wall:after{content:"";position:absolute;left:0;right:0;bottom:0;height:12px;background:#adb9b7}
+.room-floor{position:absolute;left:0;right:0;bottom:0;height:32%;background:repeating-linear-gradient(90deg,#8e7d68 0 80px,#a08f79 80px 160px);box-shadow:inset 0 8px 18px #0002}
+.room-window{position:absolute;left:8%;top:12%;width:23%;height:38%;border:7px solid #f4f0e6;background:linear-gradient(#90b7cb,#d9edf1);box-shadow:0 5px 18px #0002}
+.room-window:before,.room-window:after{content:"";position:absolute;background:#f4f0e6}.room-window:before{left:50%;top:0;bottom:0;width:5px;transform:translateX(-50%)}.room-window:after{top:50%;left:0;right:0;height:5px;transform:translateY(-50%)}
+.room-window i{position:absolute;bottom:9%;width:32%;height:34%;background:#4f806f}.room-window i:first-child{left:5%;clip-path:polygon(50% 0,100% 100%,0 100%)}.room-window i:nth-child(2){right:5%;clip-path:polygon(50% 0,100% 100%,0 100%)}.room-window span{position:absolute;right:12%;top:10%;width:34px;height:34px;border-radius:50%;background:#f5d58c;box-shadow:0 0 28px #f5d58caa}
+.room-curtain{position:absolute;top:6%;width:8%;height:47%;background:linear-gradient(90deg,#d6c8b8,#eee6dc,#c9b9a7);opacity:.94}.room-curtain.left{left:4%}.room-curtain.right{left:29%}
+.room-picture{position:absolute;right:13%;top:11%;width:15%;height:18%;border:5px solid #7b6854;background:#f3ede2;display:grid;place-items:center;transform:rotate(1deg);box-shadow:0 5px 14px #0002}.room-picture span{font:900 1rem monospace;color:#735f4a}
+.room-lamp{position:absolute;right:8%;bottom:31%;width:56px;height:138px}.room-lamp i{position:absolute;left:24px;top:28px;width:8px;height:100px;background:#6e665a}.room-lamp span{position:absolute;left:4px;top:0;width:48px;height:36px;background:#e9d59c;clip-path:polygon(22% 0,78% 0,100% 100%,0 100%);box-shadow:0 0 30px #f3d77b66}
+.room-bed{position:absolute;left:23%;bottom:18%;width:51%;height:35%}
+.bed-frame{position:absolute;left:0;right:0;bottom:0;height:20%;background:#756b61;border-radius:7px}.bed-frame:before,.bed-frame:after{content:"";position:absolute;bottom:-45px;width:10px;height:48px;background:#5e554d}.bed-frame:before{left:5%}.bed-frame:after{right:5%}
+.bed-mattress{position:absolute;left:2%;right:2%;bottom:15%;height:43%;background:#f3efe6;border-radius:14px 14px 6px 6px;box-shadow:inset 0 -5px #d6d0c5}
+.bed-pillow{position:absolute;left:6%;bottom:47%;width:24%;height:23%;background:#fffaf0;border-radius:50% 45% 35% 50%;transform:rotate(-5deg);box-shadow:0 4px 10px #0002}
+.room-mum{position:absolute;left:13%;bottom:46%;width:120px;height:110px;transform:rotate(-7deg);transform-origin:bottom left}
+.room-mum .mini-head{position:absolute;left:14px;top:15px;width:46px;height:49px;border-radius:50%;background:#efc1a3;border:2px solid #9c735f}
+.room-mum .mini-hair{position:absolute;z-index:2;left:10px;top:5px;width:53px;height:39px;border-radius:50% 50% 36% 36%;background:#704a39}
+.room-mum .mini-body{position:absolute;left:45px;top:50px;width:68px;height:44px;border-radius:14px;background:#8a536f}
+.bed-blanket{position:absolute;left:29%;right:4%;bottom:22%;height:51%;border-radius:22px 20px 8px 8px;background:linear-gradient(180deg,#c9ddeb,#a9c2d5);box-shadow:inset 0 0 0 3px #93aabc}
+.room-dad,.room-nurse,.family-kid{position:absolute;width:90px;height:180px}
+.room-dad{left:70%;bottom:18%}.room-nurse{left:78%;bottom:18%}
+.mini-head{position:absolute;left:28px;top:16px;width:36px;height:40px;border-radius:48%;background:#efc1a3;border:2px solid #9c735f}
+.mini-hair{position:absolute;z-index:2;left:24px;top:8px;width:44px;height:27px;border-radius:50% 50% 34% 34%;background:#6e4a3a}
+.mini-body{position:absolute;left:20px;top:54px;width:52px;height:94px;border-radius:14px 14px 8px 8px;background:#3d506d}
+.room-nurse .mini-body{background:#eef3f5;border:2px solid #a8b8c0}.room-nurse .mini-cap{position:absolute;z-index:4;left:24px;top:3px;width:45px;height:15px;background:#fff;border:2px solid #a8b8c0;border-radius:5px}
+.room-dad .mini-body{background:#344a67}
+.room-monitor{position:absolute;right:4%;top:33%;width:100px;height:72px;padding:9px;background:#111822;border:4px solid #7e8997;display:grid;grid-template-columns:1fr auto;align-items:center;box-shadow:0 5px 14px #0004}
+.room-monitor:after{content:"";position:absolute;left:8px;right:8px;bottom:13px;height:2px;background:linear-gradient(90deg,transparent 0 8%,#75e0a1 8% 13%,transparent 13% 20%,#75e0a1 20% 28%,transparent 28% 40%,#75e0a1 40% 45%,transparent 45%)}
+.room-monitor b{color:#ff7692;font-size:1.4rem}.room-monitor span{color:#83e4aa;font:900 1rem monospace}
+.room-side-table{position:absolute;right:20%;bottom:20%;width:72px;height:64px;background:#d9d3c9;border:4px solid #8f887d}.room-side-table:after{content:"";position:absolute;left:12px;right:12px;bottom:-39px;height:40px;border-left:6px solid #716b63;border-right:6px solid #716b63}.room-side-table i{position:absolute;left:13px;top:-22px;width:16px;height:22px;background:#84a9b0;border-radius:4px}.room-side-table span{position:absolute;right:8px;top:-13px;width:23px;height:14px;border-radius:50%;background:#e5c777}
+
+.birth-glow{position:absolute;z-index:7;left:58%;bottom:20%;width:220px;height:220px;border-radius:50%;background:radial-gradient(circle,#fff8cfcc 0,#f7d98266 30%,transparent 72%);filter:blur(3px);animation:birthGlow 1.6s ease-in-out infinite alternate}
+@keyframes birthGlow{to{transform:scale(1.08);opacity:.72}}
+.baby-bassinet{position:absolute;z-index:9;left:57%;bottom:19%;width:175px;height:125px}
+.bassinet-body{position:absolute;left:17px;bottom:0;width:140px;height:67px;border-radius:12px;background:#dde5e5;border:4px solid #89979a}.bassinet-body:after{content:"";position:absolute;left:18px;right:18px;bottom:-26px;height:27px;border-left:6px solid #778285;border-right:6px solid #778285}
+.bassinet-blanket{position:absolute;left:34px;bottom:47px;width:104px;height:54px;border-radius:22px 22px 8px 8px;background:#f3d5d8;border:3px solid #d3aeb2}
+.bassinet-baby{position:absolute;left:63px;bottom:77px;width:48px;height:43px}.bassinet-baby .mini-head{left:7px;top:4px;width:34px;height:34px}.bassinet-baby .mini-hair{left:17px;top:2px;width:15px;height:6px;background:#9a5a49}
+.birth-moment-card{position:absolute;z-index:12;left:50%;top:50%;transform:translate(-50%,-50%);display:grid;gap:6px;padding:16px 20px;background:#070a12e8;border:1px solid #dbc071;box-shadow:0 0 70px #f7d98255;text-align:center}.birth-moment-card small{font:800 .6rem monospace;letter-spacing:.13em;color:#bfa65f}.birth-moment-card strong{font:900 1rem monospace;letter-spacing:.08em;color:#fff}
+.family-enter{position:absolute;z-index:8;right:3%;bottom:16%;width:210px;height:190px}
+.family-kid{bottom:0}.family-kid.brother{left:0}.family-kid.sister{right:0}.family-kid .mini-body{height:84px}.family-kid.brother .mini-body{background:#4e6b56}.family-kid.sister .mini-body{background:#725c88}
+.scene-room .birth-glow,.scene-room .baby-bassinet,.scene-room .family-enter{display:none}
+.scene-birth .baby-bassinet,.scene-birth .family-enter{display:none}
+.scene-reveal .family-enter{display:none}
+.scene-family .room-nurse{opacity:.45}
+
+.baby-photo-finale{position:absolute;inset:0;overflow:hidden;background:radial-gradient(circle at 50% 35%,#332b34,#11151f 72%);display:grid;place-items:center}
+.baby-photo-finale:before{content:"";position:absolute;inset:0;background:repeating-linear-gradient(0deg,#fff1 0 1px,transparent 1px 4px);opacity:.18}
+.baby-photo-title{position:absolute;left:28px;top:28px;z-index:4;display:grid;gap:4px}.baby-photo-title small{font:800 .58rem monospace;letter-spacing:.16em;color:#c5a95e}.baby-photo-title strong{font:900 clamp(1.2rem,2.8vw,2rem) monospace;color:#fff;letter-spacing:.08em}
+.baby-photo-stack{position:relative;width:min(700px,78%);height:78%}
+.baby-photo-card{position:absolute;width:46%;margin:0;padding:12px 12px 38px;background:#f2ede3;color:#1c1a18;box-shadow:0 24px 55px #000a;border:1px solid #c5bbaa}
+.baby-photo-card img{display:block;width:100%;aspect-ratio:4/3;object-fit:cover;filter:saturate(.9) contrast(1.03)}
+.baby-photo-card figcaption{margin-top:10px;font:900 .65rem monospace;letter-spacing:.08em}
+.baby-photo-card.card-a{left:4%;top:15%;transform:rotate(-6deg);animation:photoInA .65s ease both}.baby-photo-card.card-b{right:5%;top:8%;transform:rotate(7deg);animation:photoInB .75s .08s ease both}
+@keyframes photoInA{from{opacity:0;transform:translateY(30px) rotate(-10deg)}to{opacity:1;transform:translateY(0) rotate(-6deg)}}@keyframes photoInB{from{opacity:0;transform:translateY(30px) rotate(11deg)}to{opacity:1;transform:translateY(0) rotate(7deg)}}
+.baby-next-tease{position:absolute;right:28px;bottom:24px;z-index:4;padding:9px 12px;background:#090d16dd;border:1px solid #46516e;color:#e2cf91;font:900 .62rem monospace;letter-spacing:.12em}
+
+@media(max-width:800px){
+  .room-bed{left:9%;width:66%}.room-dad{left:69%}.room-nurse{display:none}.room-monitor{right:2%;top:30%;transform:scale(.82)}.room-side-table{display:none}
+  .room-window{width:32%}.room-curtain.right{left:37%}
+  .baby-bassinet{left:54%}.birth-glow{left:50%}.family-enter{right:-3%;transform:scale(.82);transform-origin:bottom right}
+  .baby-photo-stack{width:92%;height:70%}.baby-photo-card{width:56%}.baby-photo-card.card-a{left:0}.baby-photo-card.card-b{right:0}
+}
