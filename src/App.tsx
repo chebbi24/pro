@@ -64,6 +64,16 @@ function App(){
     setScene('act2intro')
   },[])
 
+  const jumpTo=(target:Scene, level?:number)=>{
+    setActiveMemory(null)
+    setShowLevelIntro(false)
+    if(typeof level==='number') setLifeLevel(Math.max(0,Math.min(level,lifeLevels.length-1)))
+    if(target==='gift'){setGiftOpen(true);setGiftClaimed(false)}
+    if(target==='finale'){setContinued(false)}
+    setScene(target)
+    setSettings(false)
+  }
+
   const reset=()=>{
     localStorage.removeItem(KEY)
     setScene('entry')
@@ -92,11 +102,31 @@ function App(){
       <button className="icon-btn" onClick={()=>setSettings(!settings)} aria-label="Settings">⚙</button>
     </div>
 
-    {settings&&<aside className="settings">
+    {settings&&<aside className="settings test-settings">
       <b>SETTINGS</b>
       <p>Progress is stored only in this browser.</p>
-      {scene==='journey'&&<p>Act II level: {lifeLevel+1}/{lifeLevels.length}</p>}
-      <button className="secondary-btn" onClick={reset}>Reset progress</button>
+      <div className="test-nav">
+        <span>TEST NAVIGATION</span>
+        <div className="test-nav-grid">
+          <button onClick={reset}>Restart game</button>
+          <button onClick={()=>jumpTo('finale')}>Go to end</button>
+          <button onClick={()=>jumpTo('encounter')}>Gotham</button>
+          <button onClick={()=>jumpTo('access')}>Secret access</button>
+          <button onClick={()=>jumpTo('act2intro')}>Act II intro</button>
+          <button onClick={()=>jumpTo('rooftop')}>Rooftop</button>
+          <button onClick={()=>jumpTo('letter')}>Birthday letter</button>
+          <button onClick={()=>jumpTo('gift')}>Gift reveal</button>
+        </div>
+        <label htmlFor="test-level">Jump to Act II chapter</label>
+        <select id="test-level" value={lifeLevel} onChange={e=>jumpTo('journey',Number(e.target.value))}>
+          {lifeLevels.map((level,i)=><option key={level.id} value={i}>{String(i+1).padStart(2,'0')} · {level.title}</option>)}
+        </select>
+        <div className="test-level-controls">
+          <button disabled={lifeLevel===0} onClick={()=>jumpTo('journey',lifeLevel-1)}>← Previous</button>
+          <button onClick={()=>jumpTo('journey',lifeLevel)}>Replay current</button>
+          <button disabled={lifeLevel===lifeLevels.length-1} onClick={()=>jumpTo('journey',lifeLevel+1)}>Next →</button>
+        </div>
+      </div>
     </aside>}
 
     {scene==='entry'&&<section className="entry scene-fade">
