@@ -263,7 +263,7 @@ export function LifeJourneyStage({ levelIndex, onLevelComplete, onMemoryOpen, pa
 
           this.goal = this.physics.add.sprite(1690, 435, 'goal')
           this.goal.setImmovable(true)
-          this.goal.setAllowGravity(false)
+          ;(this.goal.body as PhaserNS.Physics.Arcade.Body).setAllowGravity(false)
 
           this.physics.add.overlap(this.player, this.memories, (_player, target) => {
             if (this.memoryCooldown || paused) return
