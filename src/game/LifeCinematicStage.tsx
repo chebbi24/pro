@@ -19,13 +19,12 @@ const babyBeats:StoryBeat[]=[
 ]
 
 const messageBeats:StoryBeat[]=[
-  {autoMs:2200,showDialogue:false},
+  {autoMs:1800,showDialogue:false},
+  {autoMs:1900,showDialogue:false},
+  {autoMs:1700,showDialogue:false},
+  {speaker:'PHONE',text:'Happy Birthday -J',cue:'A familiar sender.'},
   {autoMs:2100,showDialogue:false},
-  {speaker:'PHONE',text:'1 NEW MESSAGE',cue:'Unknown emotional consequences.'},
-  {speaker:'BATMAN',text:'Happy birthday.',cue:'Sender identified.'},
-  {speaker:'AMOUNA',text:'...you really chose today to come back?',cue:'Narrator credibility: questionable.'},
-  {speaker:'SYSTEM',text:'OLD CONNECTION DETECTED. REOPENING STORY...',cue:'Round two initializing.'},
-  {speaker:'AMOUNA',text:'Fine. One message.',cue:'Next stop: December in Paris.'},
+  {speaker:'SYSTEM',text:'ROUND TWO UNLOCKED.',cue:'Next stop: December in Paris.'},
 ]
 
 export function LifeCinematicStage({levelIndex,onComplete}:Props){
@@ -53,7 +52,12 @@ export function LifeCinematicStage({levelIndex,onComplete}:Props){
         location:'none'|'exterior'|'hospital'|'apartment'='none'
         babySpawned=false
         familySpawned=false
+        phone?:PhaserNS.GameObjects.Container
         constructor(){super('StoryScene')}
+
+        preload(){
+          this.load.image('paris-window',`${import.meta.env.BASE_URL}backgrounds/paris.png`)
+        }
 
         create(){
           sceneRef.current=this as unknown as RPGStoryScene
@@ -68,6 +72,7 @@ export function LifeCinematicStage({levelIndex,onComplete}:Props){
           this.actors.clear()
           this.babySpawned=false
           this.familySpawned=false
+          this.phone=undefined
           this.children.removeAll(true)
           this.cameras.main.setZoom(1)
           this.cameras.main.setScroll(0,0)
@@ -352,23 +357,92 @@ export function LifeCinematicStage({levelIndex,onComplete}:Props){
           this.time.delayedCall(420,()=>this.move('rania',790,458,820))
         }
 
-        drawApartment(lit=false,glow=false){
+        drawParisBedroom(){
           this.location='apartment'
-          this.rect(0,0,960,540,0x2f3140)
-          this.rect(30,30,900,480,0x4a4454,0x202431)
-          for(let y=170;y<510;y+=42)for(let x=30;x<930;x+=42)this.rect(x,y,42,42,((x+y)/42)%2?0x51495b:0x484150)
-          this.rect(30,30,900,140,lit?0x6c5d4b:0x2b3042)
-          this.rect(70,55,280,105,0x172033,0x737b8d)
-          this.rect(205,55,6,105,0x737b8d)
-          this.add.triangle(208,135,0,85,58,0,116,85,lit?0xd6bc73:0x11151f).setScale(.72).setDepth(2)
-          this.rect(520,315,260,86,0x71536d,0x3e3140)
-          this.rect(545,291,210,32,0x7d5d75)
-          this.rect(410,365,88,58,0x8a735c,0x4b3f35)
-          this.rect(438,342,26,40,0x121722,glow?0xffd86f:0x707a88)
-          if(glow)this.add.circle(451,362,44,0xffd86f,.22).setDepth(1)
-          this.rect(800,220,7,155,0x6e655b)
-          this.add.triangle(804,205,0,38,38,38,19,0,lit?0xf0cf82:0x81715b)
-          this.makePerson('amouna',180,420,1.2)
+          this.rect(0,0,960,540,0x262331)
+          this.rect(28,28,904,484,0x433b4c,0x211d28)
+          this.rect(48,320,864,172,0x5a4b45)
+          for(let x=48;x<912;x+=80)this.rect(x,320,2,172,0x6d5a50,0,0.45)
+
+          // Paris is the actual view through the large bedroom window.
+          const paris=this.add.image(690,168,'paris-window').setDisplaySize(390,220).setDepth(1)
+          paris.setCrop(0,0,paris.width,paris.height)
+          this.rect(486,48,408,238,0x000000,0,0).setStrokeStyle(10,0xd8d0c4).setDepth(4)
+          this.rect(684,48,8,238,0xe4ddd2).setDepth(4)
+          this.rect(486,161,408,8,0xe4ddd2).setDepth(4)
+
+          // Bed + headboard + blanket.
+          this.rect(76,260,275,132,0x735a69,0x302735)
+          this.rect(94,281,240,89,0xe8e1d8,0xb7ada1)
+          this.rect(101,287,88,36,0xf9f5ee,0xd4cbc0)
+          this.rect(91,355,255,73,0x8f7188,0x604b5d)
+          this.rect(104,368,229,42,0xb18ea6,0x7f6478)
+
+          // Night stand, lamp and phone.
+          this.rect(386,343,102,75,0x6e5749,0x3d3029)
+          this.rect(398,356,78,8,0x927361)
+          this.rect(414,279,7,64,0x8d7a68)
+          this.add.triangle(418,267,0,30,44,30,22,0,0xe9cf88).setDepth(6)
+          this.add.circle(418,300,45,0xf0cb72,.10).setDepth(2)
+
+          this.phone=this.add.container(439,331).setDepth(35)
+          const phoneBody=this.add.rectangle(0,0,24,42,0x11151d).setStrokeStyle(2,0x535c6b)
+          const phoneScreen=this.add.rectangle(0,-2,17,28,0x6fa7c1).setData('screen',true)
+          const phoneDot=this.add.circle(0,17,2,0xdfe7eb)
+          this.phone.add([phoneBody,phoneScreen,phoneDot])
+
+          // Rug + small room details.
+          this.add.ellipse(595,418,250,78,0x6b546b,.8).setDepth(2)
+          this.rect(742,342,112,77,0x2c3340,0x1b2029)
+          this.rect(759,355,78,48,0x50627a)
+          this.add.circle(821,383,4,0xe3c167)
+
+          // Amouna starts sitting in bed; blanket hides the lower-body standing pose.
+          const amouna=this.makePerson('amouna',224,347,1.22,false)
+          amouna.setDepth(28)
+          const sprite=amouna.getData('sprite') as PhaserNS.GameObjects.Container
+          sprite.setScale(1,.88)
+          this.add.rectangle(225,382,112,48,0xb18ea6).setDepth(32).setStrokeStyle(2,0x7f6478)
+
+          this.add.text(66,70,'PARIS · 25.09.2025',{fontFamily:'monospace',fontSize:'13px',color:'#f4e6c7',backgroundColor:'#11131bd9',padding:{x:9,y:6}}).setDepth(40)
+        }
+
+        vibratePhone(){
+          if(!this.phone)return
+          this.tweens.add({
+            targets:this.phone,x:this.phone.x+4,angle:4,duration:70,yoyo:true,repeat:10,ease:'Sine.InOut',
+            onComplete:()=>{if(this.phone){this.phone.setAngle(0)}}
+          })
+          const ring=this.add.circle(this.phone.x,this.phone.y,28,0x85c8e0,0).setDepth(30)
+          this.tweens.add({targets:ring,alpha:.35,scale:1.7,duration:650,yoyo:true,repeat:1,onComplete:()=>ring.destroy()})
+        }
+
+        showBirthdayMessage(){
+          const card=this.add.container(545,260).setDepth(85).setAlpha(0)
+          const panel=this.add.rectangle(0,0,260,122,0xf7f4ee,.97).setStrokeStyle(3,0x1d2330)
+          const top=this.add.rectangle(0,-48,260,25,0x1d2330)
+          const sender=this.add.text(-112,-55,'MESSAGE',{fontFamily:'monospace',fontSize:'10px',color:'#d8c17c'})
+          const message=this.add.text(0,7,'Happy Birthday\n-J',{fontFamily:'Georgia',fontSize:'24px',fontStyle:'bold',color:'#191b22',align:'center'}).setOrigin(.5)
+          card.add([panel,top,sender,message])
+          this.tweens.add({targets:card,alpha:1,y:248,duration:300,ease:'Back.Out'})
+          this.time.delayedCall(1900,()=>this.tweens.add({targets:card,alpha:0,duration:350,onComplete:()=>card.destroy()}))
+        }
+
+        heartBurst(){
+          for(let i=0;i<22;i++){
+            const x=100+((i*97)%760)
+            const y=500-((i*41)%180)
+            const heart=this.add.container(x,y).setDepth(90).setScale(.45+(i%4)*.12).setAlpha(0)
+            const color=i%2?0xe97c9a:0xf1b0bd
+            const l=this.add.circle(-6,0,8,color)
+            const r=this.add.circle(6,0,8,color)
+            const tip=this.add.triangle(0,10,-14,-2,14,-2,0,18,color)
+            heart.add([l,r,tip])
+            this.tweens.add({
+              targets:heart,alpha:1,y:y-120-(i%5)*16,scale:heart.scale+.22,duration:1200+(i%4)*180,
+              delay:(i%8)*70,ease:'Sine.Out',onComplete:()=>heart.destroy()
+            })
+          }
         }
 
         playStep(step:number){
@@ -422,13 +496,43 @@ export function LifeCinematicStage({levelIndex,onComplete}:Props){
               return
             }
           }else{
-            if(step===0)this.transition(()=>{this.drawApartment(false,false);this.time.delayedCall(300,()=>this.move('amouna',350,395,1200))})
-            if(step===1)this.transition(()=>{this.drawApartment(false,false);this.move('amouna',330,300,800)})
-            if(step===2)this.transition(()=>this.drawApartment(false,true))
-            if(step===3)this.transition(()=>{this.drawApartment(false,true);this.move('amouna',445,355,850)})
-            if(step===4)this.transition(()=>{this.drawApartment(false,true);this.notice(650,190,'BATMAN: HAPPY BIRTHDAY.')})
-            if(step===5)this.transition(()=>{this.drawApartment(true,true);this.cameras.main.flash(260,255,216,111)})
-            if(step===6)this.transition(()=>{this.drawApartment(true,true);this.move('amouna',445,355,450);this.makePerson('batman',700,395,1.2)})
+            if(step===this.lastPlayedStep)return
+            this.lastPlayedStep=step
+
+            if(step===0){
+              this.transition(()=>this.drawParisBedroom())
+              return
+            }
+            if(this.location!=='apartment')return
+
+            if(step===1){
+              this.vibratePhone()
+              return
+            }
+            if(step===2){
+              this.move('amouna',430,372,1050)
+              return
+            }
+            if(step===3){
+              this.showBirthdayMessage()
+              if(this.phone){
+                const screen=this.phone.list.find((child:any)=>child.getData?.('screen')) as PhaserNS.GameObjects.Rectangle|undefined
+                screen?.setFillStyle(0xbfeaff)
+              }
+              return
+            }
+            if(step===4){
+              const batman=this.makePerson('batman',760,382,1.18,false)
+              batman.setAlpha(0)
+              this.tweens.add({targets:batman,alpha:1,x:720,duration:700,ease:'Sine.Out'})
+              this.cameras.main.flash(220,255,210,226)
+              this.heartBurst()
+              return
+            }
+            if(step===5){
+              this.heartBurst()
+              return
+            }
           }
         }
       }
