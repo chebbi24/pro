@@ -7,7 +7,8 @@ import { LifeJourneyStage, MemoryOverlay } from './game/LifeJourneyStage'
 import { LifeCinematicStage } from './game/LifeCinematicStage'
 
 type Scene = 'entry'|'encounter'|'dialogue'|'access'|'reveal'|'drive'|'act2intro'|'journey'|'rooftop'|'letter'|'gift'|'finale'
-const KEY='gotham-birthday-progress-v2'
+const KEY='gotham-birthday-progress-v3'
+const BUILD='2026-09-24-act2-cinematic-v3'
 
 function App(){
   const saved=(()=>{try{return JSON.parse(localStorage.getItem(KEY)||'{}')}catch{return {}}})()
@@ -105,6 +106,7 @@ function App(){
     {settings&&<aside className="settings test-settings">
       <b>SETTINGS</b>
       <p>Progress is stored only in this browser.</p>
+      <p className="build-version">BUILD · {BUILD}</p>
       <div className="test-nav">
         <span>TEST NAVIGATION</span>
         <div className="test-nav-grid">
