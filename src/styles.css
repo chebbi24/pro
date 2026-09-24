@@ -75,3 +75,33 @@ radial-gradient(circle at 50% 20%,#27324d 0,#0a0d16 48%,#030408 100%)}
 .life-photo-shade{position:absolute;inset:0;background:linear-gradient(180deg,#05070c33 0,#05070c55 48%,#05070caa 100%),linear-gradient(90deg,#07091255 0,transparent 25%,transparent 75%,#07091255 100%);pointer-events:none}
 .life-stage-frame .life-game-canvas{position:absolute;inset:0;width:100%;height:100%;aspect-ratio:auto;border:0;background:transparent;box-shadow:none}
 .life-photo-credit{position:absolute;right:8px;bottom:7px;z-index:9;padding:4px 6px;background:#05070cab;color:#d2d7e3;font:700 .55rem monospace;letter-spacing:.03em}
+
+
+.ds-cinematic{width:min(980px,100%);margin:auto;display:grid;grid-template-rows:minmax(300px,54vh) 10px minmax(190px,31vh);border:1px solid #46516e;background:#10131c;box-shadow:0 30px 100px #000c;overflow:hidden}
+.ds-top-screen{position:relative;overflow:hidden;background:#111827}
+.ds-photo{position:absolute;inset:0;background-size:cover;background-position:center;filter:saturate(.82) contrast(1.07);transform:scale(1.02)}
+.ds-film-shade{position:absolute;inset:0;background:linear-gradient(180deg,#05070c22,#05070c88),radial-gradient(circle at 50% 35%,transparent 25%,#06081188 85%)}
+.ds-screen-hud{position:absolute;z-index:5;left:14px;right:14px;top:12px;display:flex;justify-content:space-between;gap:12px;color:#f4f0e6;font:800 .65rem monospace;letter-spacing:.1em;text-shadow:0 2px 8px #000}
+.ds-credit{position:absolute;right:8px;bottom:7px;z-index:6;padding:4px 6px;background:#05070cab;color:#d2d7e3;font:700 .52rem monospace}
+.ds-hinge{background:linear-gradient(90deg,#12151e,#333949,#12151e);box-shadow:inset 0 1px #69708955,inset 0 -1px #05070c}
+.ds-bottom-screen{position:relative;display:grid;grid-template-columns:1fr auto;gap:14px;align-items:end;padding:18px;background:linear-gradient(180deg,#d9dbe4 0,#b9bdca 100%);color:#11141c;border-top:1px solid #72798b}
+.ds-bottom-screen:before{content:"";position:absolute;inset:7px;border:1px solid #7b8191;pointer-events:none}
+.ds-dialogue{position:relative;z-index:1;min-height:130px;padding:16px 18px 24px;border:2px solid #2d3442;background:#f4f1e8;box-shadow:inset 0 0 0 3px #d2cdc0}
+.ds-speaker{font:900 .72rem monospace;letter-spacing:.12em;color:#5b476b;margin-bottom:7px}.ds-dialogue p{margin:0;font:700 clamp(.95rem,2vw,1.08rem)/1.55 monospace}
+.ds-progress{display:flex;gap:5px;margin-top:14px}.ds-progress i{width:13px;height:4px;background:#b6b0a6}.ds-progress i.active{background:#6e4d80}
+.ds-next{position:relative;z-index:1;min-width:116px;min-height:54px;border:2px solid #252b38;background:#212735;color:#fff;font:900 .72rem monospace;letter-spacing:.1em;box-shadow:inset 0 0 0 3px #434b5e}
+.ds-actors{position:absolute;z-index:4;inset:0;pointer-events:none}
+.ds-avatar{position:absolute;bottom:27px;width:86px;height:155px;transform:translateX(-50%);filter:drop-shadow(0 10px 12px #0007);transition:left .45s ease}
+.ds-avatar span{position:absolute;left:50%;bottom:-2px;transform:translateX(-50%);padding:4px 6px;background:#080b14dd;color:#fff;font:800 .56rem monospace;white-space:nowrap}
+.ds-avatar .av-head{position:absolute;left:27px;top:21px;width:32px;height:35px;border-radius:48% 48% 44% 44%;background:#efc4a8;border:2px solid #8f6a57}
+.ds-avatar .av-body{position:absolute;left:20px;top:53px;width:46px;height:72px;border-radius:13px 13px 9px 9px;background:#59667d;border:2px solid #232a37}
+.ds-avatar .av-hair{position:absolute;z-index:2;left:23px;top:12px;width:40px;height:32px;border-radius:50% 50% 40% 40%;background:#6f4a38}
+.ds-avatar .av-detail{position:absolute;z-index:3;left:27px;top:69px;width:32px;height:38px;border-radius:4px}
+.ds-avatar.baby{width:75px;height:120px}.ds-avatar.baby .av-head{left:23px;top:31px;width:29px;height:29px}.ds-avatar.baby .av-hair{left:28px;top:27px;width:19px;height:8px;background:#9a5a49}.ds-avatar.baby .av-body{left:19px;top:58px;width:38px;height:42px;border-radius:16px;background:#d95d65}.ds-avatar.baby .av-detail{left:24px;top:67px;width:28px;height:20px;background:#f5e9dc}
+.ds-avatar.mum .av-body{background:#8a536f}.ds-avatar.dad .av-body{background:#344a67}.ds-avatar.brother .av-body{background:#4e6b56}.ds-avatar.sister .av-body{background:#725c88}
+.ds-avatar.catwoman .av-hair,.ds-avatar.batman .av-hair{background:#090a0d;border-radius:0}.ds-avatar.catwoman .av-hair:before,.ds-avatar.catwoman .av-hair:after,.ds-avatar.batman .av-hair:before,.ds-avatar.batman .av-hair:after{content:"";position:absolute;top:-10px;border-left:7px solid transparent;border-right:7px solid transparent;border-bottom:14px solid #090a0d}.ds-avatar.catwoman .av-hair:before,.ds-avatar.batman .av-hair:before{left:2px}.ds-avatar.catwoman .av-hair:after,.ds-avatar.batman .av-hair:after{right:2px}.ds-avatar.catwoman .av-body{background:#08090d}.ds-avatar.catwoman .av-detail{background:linear-gradient(90deg,transparent 45%,#6f4a79 45% 55%,transparent 55%)}
+.ds-avatar.batman .av-body{background:#26334a}.ds-avatar.batman .av-detail{background:linear-gradient(180deg,#d4af37 0 8px,transparent 8px)}
+.ds-phone-pulse{position:absolute;z-index:7;left:50%;top:45%;width:86px;height:126px;transform:translate(-50%,-50%);border:3px solid #f6ce6b;border-radius:11px;background:#0b0f17dd;box-shadow:0 0 50px #ffd86faa;display:grid;place-items:center;animation:phoneGlow 1s ease-in-out infinite alternate}.ds-phone-pulse span{font:900 2rem monospace;color:#ffd86f}
+@keyframes phoneGlow{to{box-shadow:0 0 90px #ffd86fe8;transform:translate(-50%,-50%) scale(1.04)}}
+.mood-bright .ds-photo{filter:saturate(1.15) brightness(1.08) contrast(1.05)}.mood-bright .ds-film-shade{background:linear-gradient(180deg,#fff0,#ffd86f22 55%,#05070c66)}
+@media(max-width:760px){.ds-cinematic{grid-template-rows:minmax(300px,48vh) 8px minmax(230px,38vh)}.ds-bottom-screen{grid-template-columns:1fr;padding:13px}.ds-next{width:100%}.ds-avatar{transform:translateX(-50%) scale(.82);transform-origin:bottom center}.ds-dialogue{min-height:125px}}
