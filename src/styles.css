@@ -300,3 +300,20 @@ radial-gradient(circle at 50% 20%,#27324d 0,#0a0d16 48%,#030408 100%)}
   .rpg-dialogue-compact .rpg-dialogue-footer{grid-column:1}
   .rpg-montage-continue{left:12px;right:12px;width:calc(100% - 24px)}
 }
+
+
+/* Keep RPG cinematics fully inside the viewport */
+.life-act:has(.rpg-story-shell){padding-top:50px;padding-bottom:12px;align-items:start}
+.rpg-story-shell{height:calc(100vh - 68px);max-height:860px;display:grid;grid-template-rows:38px minmax(0,1fr) auto}
+.rpg-story-topbar{height:38px}
+.rpg-story-stage{aspect-ratio:auto;min-height:0;height:100%}
+.rpg-dialogue-box{max-height:150px;overflow:hidden}
+.rpg-dialogue-compact{min-height:88px;max-height:128px}
+.rpg-dialogue-compact>p{max-height:58px;overflow:auto}
+.rpg-dialogue-footer button{min-height:36px}
+@media(max-width:760px){
+  .life-act:has(.rpg-story-shell){padding:44px 6px 6px}
+  .rpg-story-shell{height:calc(100vh - 52px)}
+  .rpg-dialogue-box{max-height:190px}
+  .rpg-dialogue-compact{max-height:178px}
+}
