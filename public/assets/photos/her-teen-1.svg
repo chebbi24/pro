@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 900" role="img" aria-label="TEEN YEARS placeholder">
+<defs><linearGradient id="g" x1="0" x2="1" y1="0" y2="1"><stop stop-color="#12182a"/><stop offset="1" stop-color="#2b2036"/></linearGradient><pattern id="p" width="36" height="36" patternUnits="userSpaceOnUse"><path d="M36 0H0V36" fill="none" stroke="#ffffff" stroke-opacity=".035"/></pattern></defs>
+<rect width="1200" height="900" fill="url(#g)"/><rect width="1200" height="900" fill="url(#p)"/>
+<circle cx="600" cy="355" r="145" fill="#090b14" stroke="#8f7cff" stroke-opacity=".45" stroke-width="8"/>
+<path d="M350 760c40-160 150-235 250-235s210 75 250 235" fill="#090b14" stroke="#f3c76b" stroke-opacity=".35" stroke-width="8"/>
+<rect x="70" y="70" width="1060" height="760" rx="18" fill="none" stroke="#f3c76b" stroke-opacity=".28" stroke-width="4" stroke-dasharray="18 12"/>
+<text x="600" y="120" text-anchor="middle" fill="#f3c76b" font-family="monospace" font-size="34" letter-spacing="8">REPLACE WITH</text>
+<text x="600" y="165" text-anchor="middle" fill="#f4f0e6" font-family="monospace" font-weight="700" font-size="44" letter-spacing="4">TEEN YEARS</text>
+<text x="600" y="820" text-anchor="middle" fill="#9ca8bd" font-family="monospace" font-size="26" letter-spacing="5">4:3 PHOTO • growing up</text>
+</svg>
