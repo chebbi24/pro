@@ -13,6 +13,7 @@ type Props = {
 
 export function LifeJourneyStage({ levelIndex, onLevelComplete, onMemoryOpen, paused }: Props) {
   const mountRef = useRef<HTMLDivElement | null>(null)
+  const gameRef = useRef<PhaserNS.Game | null>(null)
   const controls = useRef({ left: false, right: false, jump: false })
   const level = lifeLevels[levelIndex]
   const [hint, setHint] = useState('MOVE · JUMP · TOUCH THE MEMORY ICONS')
@@ -268,9 +269,11 @@ export function LifeJourneyStage({ levelIndex, onLevelComplete, onMemoryOpen, pa
             const icon = target as PhaserNS.Physics.Arcade.Sprite
             const memory = icon.getData('memory') as LifeMemory
             this.memoryCooldown = true
+            icon.disableBody(true, true)
             this.physics.pause()
             setHint('MEMORY FOUND')
             onMemoryOpen(memory)
+            this.time.delayedCall(450, () => { this.memoryCooldown = false })
           })
 
           this.physics.add.overlap(this.player, this.goal, () => {
@@ -329,13 +332,28 @@ export function LifeJourneyStage({ levelIndex, onLevelComplete, onMemoryOpen, pa
         scale: { mode: Phaser.Scale.FIT, autoCenter: Phaser.Scale.CENTER_BOTH },
         render: { antialias: false, pixelArt: true },
       })
+      gameRef.current = game
     })()
 
     return () => {
       cancelled = true
+      gameRef.current = null
       game?.destroy(true)
     }
-  }, [levelIndex, level, onLevelComplete, onMemoryOpen, palette, paused])
+  }, [levelIndex, level, onLevelComplete, onMemoryOpen, palette])
+
+  useEffect(() => {
+    const scene = gameRef.current?.scene.getScene('LifeScene') as PhaserNS.Scene | undefined
+    if (!scene?.physics?.world) return
+    if (paused) {
+      scene.physics.world.pause()
+      controls.current.left = false
+      controls.current.right = false
+      controls.current.jump = false
+    } else {
+      scene.physics.world.resume()
+    }
+  }, [paused])
 
   useEffect(() => {
     const down = (event: KeyboardEvent) => {
