@@ -8,7 +8,7 @@ import { LifeCinematicStage } from './game/LifeCinematicStage'
 
 type Scene = 'entry'|'encounter'|'dialogue'|'access'|'reveal'|'drive'|'act2intro'|'journey'|'rooftop'|'letter'|'gift'|'finale'
 const KEY='gotham-birthday-progress-v3'
-const BUILD='2026-09-24-travel-memories-v13'
+const BUILD='2026-09-24-calm-audio-v14'
 
 function App(){
   const saved=(()=>{try{return JSON.parse(localStorage.getItem(KEY)||'{}')}catch{return {}}})()
@@ -29,7 +29,7 @@ function App(){
   const audio=useRef<HTMLAudioElement|null>(null)
 
   useEffect(()=>{ localStorage.setItem(KEY,JSON.stringify({scene,lifeLevel,muted})) },[scene,lifeLevel,muted])
-  useEffect(()=>{ const a=new Audio(media.audio.theme); a.loop=true;a.volume=.32;audio.current=a; return()=>a.pause() },[])
+  useEffect(()=>{ const a=new Audio(media.audio.theme); a.loop=true;a.volume=.12;audio.current=a; return()=>a.pause() },[])
   useEffect(()=>{ if(audio.current) audio.current.muted=muted },[muted])
 
   const enter=async()=>{setScene('encounter');if(!muted)try{await audio.current?.play()}catch{}}
@@ -98,7 +98,7 @@ function App(){
   if(scene==='finale')mode='finale'
 
   return <main className="app">
-    <div className="build-ribbon">RPG BUILD V13</div>
+    <div className="build-ribbon">RPG BUILD V14</div>
     <div className="global-actions">
       <button className="icon-btn" onClick={()=>setMuted(!muted)} aria-label={muted?'Unmute':'Mute'}>{muted?'🔇':'🔊'}</button>
       <button className="icon-btn" onClick={()=>setSettings(!settings)} aria-label="Settings">⚙</button>
