@@ -8,7 +8,6 @@ import { LifeCinematicStage } from './game/LifeCinematicStage'
 
 type Scene = 'entry'|'encounter'|'dialogue'|'access'|'reveal'|'drive'|'act2intro'|'journey'|'rooftop'|'letter'|'gift'|'finale'
 const KEY='gotham-birthday-progress-v3'
-const BUILD='2026-09-25-photo-calibration-v17'
 
 function App(){
   const saved=(()=>{try{return JSON.parse(localStorage.getItem(KEY)||'{}')}catch{return {}}})()
@@ -25,12 +24,41 @@ function App(){
   const [giftOpen,setGiftOpen]=useState(false)
   const [giftClaimed,setGiftClaimed]=useState(false)
   const [continued,setContinued]=useState(false)
-  const [settings,setSettings]=useState(false)
   const audio=useRef<HTMLAudioElement|null>(null)
 
   useEffect(()=>{ localStorage.setItem(KEY,JSON.stringify({scene,lifeLevel,muted})) },[scene,lifeLevel,muted])
-  useEffect(()=>{ const a=new Audio(media.audio.theme); a.loop=true;a.volume=.12;audio.current=a; return()=>a.pause() },[])
-  useEffect(()=>{ if(audio.current) audio.current.muted=muted },[muted])
+  useEffect(()=>{
+    const a=new Audio(media.audio.theme)
+    a.loop=true
+    a.volume=.085
+    a.preload='auto'
+    a.muted=muted
+    audio.current=a
+
+    const unlock=()=>{ if(!a.muted) void a.play().catch(()=>{}) }
+    window.addEventListener('pointerdown',unlock,{once:true})
+    window.addEventListener('keydown',unlock,{once:true})
+
+    return()=>{
+      window.removeEventListener('pointerdown',unlock)
+      window.removeEventListener('keydown',unlock)
+      a.pause()
+    }
+  },[])
+
+  useEffect(()=>{
+    if(!audio.current)return
+    audio.current.muted=muted
+  },[muted])
+
+  const toggleMute=async()=>{
+    const next=!muted
+    setMuted(next)
+    if(audio.current){
+      audio.current.muted=next
+      if(!next)try{await audio.current.play()}catch{}
+    }
+  }
 
   const enter=async()=>{setScene('encounter');if(!muted)try{await audio.current?.play()}catch{}}
   const verify=(e:FormEvent)=>{
@@ -65,16 +93,6 @@ function App(){
     setScene('act2intro')
   },[])
 
-  const jumpTo=(target:Scene, level?:number)=>{
-    setActiveMemory(null)
-    setShowLevelIntro(false)
-    if(typeof level==='number') setLifeLevel(Math.max(0,Math.min(level,lifeLevels.length-1)))
-    if(target==='gift'){setGiftOpen(true);setGiftClaimed(false)}
-    if(target==='finale'){setContinued(false)}
-    setScene(target)
-    setSettings(false)
-  }
-
   const reset=()=>{
     localStorage.removeItem(KEY)
     setScene('entry')
@@ -98,39 +116,9 @@ function App(){
   if(scene==='finale')mode='finale'
 
   return <main className="app">
-    <div className="build-ribbon">RPG BUILD V17</div>
     <div className="global-actions">
-      <button className="icon-btn" onClick={()=>setMuted(!muted)} aria-label={muted?'Unmute':'Mute'}>{muted?'🔇':'🔊'}</button>
-      <button className="icon-btn" onClick={()=>setSettings(!settings)} aria-label="Settings">⚙</button>
+      <button className="icon-btn" onClick={toggleMute} aria-label={muted?'Unmute music':'Mute music'}>{muted?'🔇':'🔊'}</button>
     </div>
-
-    {settings&&<aside className="settings test-settings">
-      <b>SETTINGS</b>
-      <p>Progress is stored only in this browser.</p>
-      <p className="build-version">BUILD · {BUILD}</p>
-      <div className="test-nav">
-        <span>TEST NAVIGATION</span>
-        <div className="test-nav-grid">
-          <button onClick={reset}>Restart game</button>
-          <button onClick={()=>jumpTo('finale')}>Go to end</button>
-          <button onClick={()=>jumpTo('encounter')}>Gotham</button>
-          <button onClick={()=>jumpTo('access')}>Secret access</button>
-          <button onClick={()=>jumpTo('act2intro')}>Act II intro</button>
-          <button onClick={()=>jumpTo('rooftop')}>Rooftop</button>
-          <button onClick={()=>jumpTo('letter')}>Birthday letter</button>
-          <button onClick={()=>jumpTo('gift')}>Gift reveal</button>
-        </div>
-        <label htmlFor="test-level">Jump to Act II chapter</label>
-        <select id="test-level" value={lifeLevel} onChange={e=>jumpTo('journey',Number(e.target.value))}>
-          {lifeLevels.map((level,i)=><option key={level.id} value={i}>{String(i+1).padStart(2,'0')} · {level.title}</option>)}
-        </select>
-        <div className="test-level-controls">
-          <button disabled={lifeLevel===0} onClick={()=>jumpTo('journey',lifeLevel-1)}>← Previous</button>
-          <button onClick={()=>jumpTo('journey',lifeLevel)}>Replay current</button>
-          <button disabled={lifeLevel===lifeLevels.length-1} onClick={()=>jumpTo('journey',lifeLevel+1)}>Next →</button>
-        </div>
-      </div>
-    </aside>}
 
     {scene==='entry'&&<section className="entry scene-fade">
       <div className="frequency-line"/>
