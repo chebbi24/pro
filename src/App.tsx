@@ -8,7 +8,7 @@ import { LifeCinematicStage } from './game/LifeCinematicStage'
 
 type Scene = 'entry'|'encounter'|'dialogue'|'access'|'reveal'|'drive'|'act2intro'|'journey'|'rooftop'|'letter'|'gift'|'finale'
 const KEY='gotham-birthday-progress-v3'
-const BUILD='2026-09-24-act2-cinematic-v3'
+const BUILD='2026-09-24-act2-rpg-v5'
 
 function App(){
   const saved=(()=>{try{return JSON.parse(localStorage.getItem(KEY)||'{}')}catch{return {}}})()
