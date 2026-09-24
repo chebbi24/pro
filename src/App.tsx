@@ -176,6 +176,7 @@ function App(){
 
     {scene==='journey'&&<section className="life-act scene-fade">
       <LifeJourneyStage
+        key={lifeLevel}
         levelIndex={lifeLevel}
         onLevelComplete={completeLifeLevel}
         onMemoryOpen={setActiveMemory}
