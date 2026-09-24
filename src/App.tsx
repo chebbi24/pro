@@ -8,7 +8,7 @@ import { LifeCinematicStage } from './game/LifeCinematicStage'
 
 type Scene = 'entry'|'encounter'|'dialogue'|'access'|'reveal'|'drive'|'act2intro'|'journey'|'rooftop'|'letter'|'gift'|'finale'
 const KEY='gotham-birthday-progress-v3'
-const BUILD='2026-09-24-act2-rpg-v7'
+const BUILD='2026-09-24-act2-rpg-v8'
 
 function App(){
   const saved=(()=>{try{return JSON.parse(localStorage.getItem(KEY)||'{}')}catch{return {}}})()
@@ -98,7 +98,7 @@ function App(){
   if(scene==='finale')mode='finale'
 
   return <main className="app">
-    <div className="build-ribbon">RPG BUILD V7</div>
+    <div className="build-ribbon">RPG BUILD V8</div>
     <div className="global-actions">
       <button className="icon-btn" onClick={()=>setMuted(!muted)} aria-label={muted?'Unmute':'Mute'}>{muted?'🔇':'🔊'}</button>
       <button className="icon-btn" onClick={()=>setSettings(!settings)} aria-label="Settings">⚙</button>
