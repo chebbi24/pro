@@ -363,6 +363,13 @@ export const lifeLevels: LifeLevel[] = [
         photoKeys: ['couple2'],
         collectible: 'camera',
       },
+      {
+        id: 'paris-night',
+        title: 'Paris After Dark',
+        caption: 'One more night in Paris — walking the city together with round two fully underway.',
+        photoKeys: ['couple1'],
+        collectible: 'heart',
+      },
     ],
   },
   {
@@ -398,6 +405,13 @@ export const lifeLevels: LifeLevel[] = [
         caption: 'Another moment from Milan — one more photo from the trip that started their travel archive together.',
         photoKeys: ['couple2'],
         collectible: 'camera',
+      },
+      {
+        id: 'milan-together',
+        title: 'Milan Together',
+        caption: 'A third Milan moment — another stop, another photo, and more of the trip becoming part of their shared story.',
+        photoKeys: ['couple1'],
+        collectible: 'heart',
       },
     ],
   },
@@ -435,6 +449,13 @@ export const lifeLevels: LifeLevel[] = [
         photoKeys: ['couple1'],
         collectible: 'camera',
       },
+      {
+        id: 'como-together',
+        title: 'Lake Como Together',
+        caption: 'A third Lake Como memory — still on the water, still surrounded by impossible scenery, still together.',
+        photoKeys: ['couple2'],
+        collectible: 'heart',
+      },
     ],
   },
   {
@@ -471,6 +492,13 @@ export const lifeLevels: LifeLevel[] = [
         photoKeys: ['couple1'],
         collectible: 'heart',
       },
+      {
+        id: 'etretat-walk',
+        title: 'Along the Coast',
+        caption: 'One more Étretat memory — walking the coast together with the cliffs and sea beside them.',
+        photoKeys: ['couple2'],
+        collectible: 'camera',
+      },
     ],
   },
   {
@@ -498,6 +526,13 @@ export const lifeLevels: LifeLevel[] = [
         title: 'Mallorca Sunset',
         caption: 'One more Mallorca memory before the final moment — sea, sunset and the two of them together.',
         photoKeys: ['couple2'],
+        collectible: 'camera',
+      },
+      {
+        id: 'mallorca-day',
+        title: 'Mallorca Together',
+        caption: 'Another Mallorca memory before the final moment — one more piece of the trip they get to keep.',
+        photoKeys: ['couple1'],
         collectible: 'camera',
       },
       {
