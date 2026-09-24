@@ -105,3 +105,16 @@ radial-gradient(circle at 50% 20%,#27324d 0,#0a0d16 48%,#030408 100%)}
 @keyframes phoneGlow{to{box-shadow:0 0 90px #ffd86fe8;transform:translate(-50%,-50%) scale(1.04)}}
 .mood-bright .ds-photo{filter:saturate(1.15) brightness(1.08) contrast(1.05)}.mood-bright .ds-film-shade{background:linear-gradient(180deg,#fff0,#ffd86f22 55%,#05070c66)}
 @media(max-width:760px){.ds-cinematic{grid-template-rows:minmax(300px,48vh) 8px minmax(230px,38vh)}.ds-bottom-screen{grid-template-columns:1fr;padding:13px}.ds-next{width:100%}.ds-avatar{transform:translateX(-50%) scale(.82);transform-origin:bottom center}.ds-dialogue{min-height:125px}}
+
+
+.test-settings{width:min(420px,calc(100vw - 28px));max-height:calc(100vh - 82px);overflow:auto}
+.test-nav{display:grid;gap:12px;margin-top:16px;padding-top:14px;border-top:1px solid var(--line)}
+.test-nav>span{font:900 .7rem monospace;letter-spacing:.14em;color:var(--amber)}
+.test-nav-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.test-nav button,.test-nav select{min-height:38px;border:1px solid #3c4865;background:#111827;color:#f4f0e6;font:800 .68rem monospace;padding:0 10px}
+.test-nav button:hover{border-color:var(--amber);color:var(--amber)}
+.test-nav button:disabled{opacity:.35;cursor:not-allowed}
+.test-nav label{font:800 .66rem monospace;color:#9ca8bd;letter-spacing:.06em}
+.test-nav select{width:100%;padding:0 9px}
+.test-level-controls{display:grid;grid-template-columns:1fr 1fr 1fr;gap:7px}
+@media(max-width:520px){.test-nav-grid,.test-level-controls{grid-template-columns:1fr 1fr}.test-level-controls button:nth-child(2){grid-column:1/-1;order:3}}
