@@ -41,7 +41,7 @@ export function GameStage({ mode, onInteract, onDriveDone, reducedMotion = false
         }
 
         preload() {
-          if (mode === 'reveal') this.load.image('face', faceUrl)
+          if (mode === 'reveal') this.load.image('face', `${faceUrl}?v=19`)
         }
 
         makeSkyline(y: number, shade: number, alpha = 1) {
@@ -264,12 +264,18 @@ export function GameStage({ mode, onInteract, onDriveDone, reducedMotion = false
           }
 
           if (revealed && isBat) {
-            const face = this.add.image(0, -43, 'face').setDisplaySize(28, 28)
-            const mask = this.add.graphics()
-            mask.fillStyle(0xffffff)
-            mask.fillCircle(0, -43, 14)
-            face.setMask(mask.createGeometryMask())
-            c.add([face, mask])
+            // Use the real uploaded face photo directly. The previous tiny geometry mask
+            // could hide/crop the image depending on the renderer.
+            const faceBacking = this.add.circle(0, -43, 24, 0x080b12)
+              .setStrokeStyle(3, 0xd0a648, 0.95)
+            const face = this.add.image(0, -43, 'face')
+              .setDisplaySize(40, 40)
+              .setOrigin(0.5)
+            const cowlTop = this.add.graphics()
+            cowlTop.fillStyle(0x0b1018, 1)
+            cowlTop.fillTriangle(-22, -60, -13, -78, -7, -59)
+            cowlTop.fillTriangle(22, -60, 13, -78, 7, -59)
+            c.add([faceBacking, face, cowlTop])
           }
           return c
         }
