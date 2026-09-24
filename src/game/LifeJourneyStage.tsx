@@ -566,7 +566,7 @@ export function LifeJourneyStage({ levelIndex, onLevelComplete, onMemoryOpen, pa
         <div className="life-photo-background" style={{backgroundImage:`url("${level.backgroundUrl}")`}} />
         <div className="life-photo-shade" />
         <div className="life-game-canvas" ref={mountRef} />
-        <div className="life-photo-credit">{level.backgroundCredit}</div>
+        {level.backgroundCredit&&<div className="life-photo-credit">{level.backgroundCredit}</div>}
       </div>
       <div className="life-game-hint">{hint}</div>
       <div className="life-controls">
