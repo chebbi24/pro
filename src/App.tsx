@@ -1,11 +1,11 @@
-import { useEffect, useRef, useState, type FormEvent } from 'react'
+import { useCallback, useEffect, useRef, useState, type FormEvent } from 'react'
 import { story } from './content/story'
 import { lifeLevels, type LifeMemory } from './content/lifeLevels'
 import { media } from './content/media'
 import { GameStage, type GameMode } from './game/GameStage'
 import { LifeJourneyStage, MemoryOverlay } from './game/LifeJourneyStage'
 
-type Scene = 'entry'|'encounter'|'dialogue'|'access'|'reveal'|'drive'|'journey'|'rooftop'|'letter'|'gift'|'finale'
+type Scene = 'entry'|'encounter'|'dialogue'|'access'|'reveal'|'drive'|'act2intro'|'journey'|'rooftop'|'letter'|'gift'|'finale'
 const KEY='gotham-birthday-progress-v2'
 
 function App(){
@@ -18,6 +18,7 @@ function App(){
   const [feedback,setFeedback]=useState('')
   const [lifeLevel,setLifeLevel]=useState<number>(saved.lifeLevel||0)
   const [activeMemory,setActiveMemory]=useState<LifeMemory|null>(null)
+  const [showLevelIntro,setShowLevelIntro]=useState(false)
   const [muted,setMuted]=useState(saved.muted||false)
   const [giftOpen,setGiftOpen]=useState(false)
   const [giftClaimed,setGiftClaimed]=useState(false)
@@ -43,11 +44,24 @@ function App(){
     }
   }
 
-  const completeLifeLevel=()=>{
+  const completeLifeLevel=useCallback(()=>{
     setActiveMemory(null)
-    if(lifeLevel<lifeLevels.length-1) setLifeLevel(lifeLevel+1)
-    else setScene('rooftop')
-  }
+    if(lifeLevel<lifeLevels.length-1){
+      setLifeLevel(current=>current+1)
+      setShowLevelIntro(true)
+    }else{
+      setScene('rooftop')
+    }
+  },[lifeLevel])
+
+  const beginEncounter=useCallback(()=>{
+    setDialogue(0)
+    setScene('dialogue')
+  },[])
+
+  const finishDrive=useCallback(()=>{
+    setScene('act2intro')
+  },[])
 
   const reset=()=>{
     localStorage.removeItem(KEY)
@@ -58,6 +72,7 @@ function App(){
     setAttempts(0)
     setFeedback('')
     setActiveMemory(null)
+    setShowLevelIntro(false)
     setGiftOpen(false)
     setGiftClaimed(false)
     setContinued(false)
@@ -96,8 +111,8 @@ function App(){
       <GameStage
         mode={mode}
         frozen={scene!=='encounter' && mode==='encounter'}
-        onInteract={()=>{setDialogue(0);setScene('dialogue')}}
-        onDriveDone={()=>setScene('journey')}
+        onInteract={beginEncounter}
+        onDriveDone={finishDrive}
       />
       {scene==='encounter'&&<div className="hint">YOU ARE CATWOMAN · WALK RIGHT · A/D OR ←/→</div>}
       {scene==='dialogue'&&<Dialogue
@@ -147,13 +162,26 @@ function App(){
       {scene==='finale'&&<Finale continued={continued} onContinue={()=>setContinued(true)} onReplay={reset}/>}
     </section>}
 
+    {scene==='act2intro'&&<section className="act2-prologue scene-fade">
+      <div className="act2-prologue-card">
+        <p className="eyebrow">ACT II // HER STORY</p>
+        <div className="prologue-date">25 // 09 // 1999</div>
+        <h1>On this day, a legend was born.</h1>
+        <p>Long before Gotham, before trophies, before Paris, before us — the story begins in Tunis.</p>
+        <p className="muted">One life. Thirteen chapters. Every level changes the world around her.</p>
+        <div className="prologue-line"><span/>MUTUELLEVILLE · TUNIS<span/></div>
+        <button className="primary-btn" onClick={()=>{setLifeLevel(0);setShowLevelIntro(true);setScene('journey')}}>BEGIN HER STORY</button>
+      </div>
+    </section>}
+
     {scene==='journey'&&<section className="life-act scene-fade">
       <LifeJourneyStage
         levelIndex={lifeLevel}
         onLevelComplete={completeLifeLevel}
         onMemoryOpen={setActiveMemory}
-        paused={Boolean(activeMemory)}
+        paused={Boolean(activeMemory)||showLevelIntro}
       />
+      {showLevelIntro&&<LevelIntro levelIndex={lifeLevel} onStart={()=>setShowLevelIntro(false)}/>}
       {activeMemory&&<MemoryOverlay memory={activeMemory} onClose={()=>setActiveMemory(null)}/>}
     </section>}
 
@@ -182,6 +210,20 @@ function App(){
       </div>}
     </section>}
   </main>
+}
+
+function LevelIntro({levelIndex,onStart}:{levelIndex:number,onStart:()=>void}){
+  const level=lifeLevels[levelIndex]
+  return <div className="level-intro-overlay">
+    <div className="level-intro-card">
+      <p className="eyebrow">CHAPTER {String(levelIndex+1).padStart(2,'0')} / {String(lifeLevels.length).padStart(2,'0')}</p>
+      <span className="level-intro-year">{level.year}</span>
+      <h2>{level.title}</h2>
+      <p>{level.subtitle}</p>
+      <div className="level-intro-location">{level.worldLabel}</div>
+      <button className="primary-btn" onClick={onStart}>{levelIndex===0?'ENTER LEVEL':'CONTINUE STORY'}</button>
+    </div>
+  </div>
 }
 
 function Dialogue({index,noCount,onNext,onYes,onNo}:{index:number,noCount:number,onNext:()=>void,onYes:()=>void,onNo:()=>void}){
