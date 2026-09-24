@@ -171,6 +171,14 @@ export function LifeJourneyStage({ levelIndex, onLevelComplete, onMemoryOpen, pa
           } else if (kind === 'ribbon') {
             g.lineStyle(4, palette.accent, 1)
             g.beginPath(); g.moveTo(12, 14); g.lineTo(34, 18); g.lineTo(15, 30); g.lineTo(35, 36); g.strokePath()
+          } else if (kind === 'hoop') {
+            g.lineStyle(5, palette.accent, 1); g.strokeCircle(24, 24, 13)
+          } else if (kind === 'ball') {
+            g.fillCircle(24, 24, 12)
+            g.lineStyle(2, 0xffffff, .6); g.strokeCircle(24, 24, 7)
+          } else if (kind === 'clubs') {
+            g.fillRoundedRect(16, 12, 5, 22, 2); g.fillCircle(18.5, 11, 4)
+            g.fillRoundedRect(28, 14, 5, 22, 2); g.fillCircle(30.5, 13, 4)
           } else if (kind === 'trophy') {
             g.fillRect(18, 13, 12, 13); g.fillRect(22, 26, 4, 8); g.fillRect(17, 34, 14, 4)
             g.lineStyle(3, palette.accent, 1); g.strokeCircle(15, 19, 6); g.strokeCircle(33, 19, 6)
@@ -234,16 +242,41 @@ export function LifeJourneyStage({ levelIndex, onLevelComplete, onMemoryOpen, pa
             g.fillStyle(0xffffff, 0.12)
             for (let x=10; x<155; x+=24) g.fillRect(x, 9, 15, 2)
             if (level.theme === 'gymnastics') {
-              g.fillStyle(0xf0d9ee, .35)
-              g.fillRect(0, 18, 160, 4)
-            }
-          }, 160, 24)
+            // Apparatus zone: visual-only, milestones provide the popups.
+            const ribbon=this.add.graphics().setDepth(2)
+            ribbon.lineStyle(5,0xd86fb2,.95)
+            ribbon.beginPath(); ribbon.moveTo(170,290); ribbon.lineTo(240,230); ribbon.lineTo(300,300); ribbon.lineTo(360,235); ribbon.strokePath()
 
-          this.createTexture('obstacle', g => {
-            g.fillStyle(palette.obstacle, 0.95)
-            if (level.theme === 'gymnastics' || level.theme === 'champion') {
-              g.lineStyle(4, palette.accent, 1); g.strokeCircle(16, 17, 12); g.fillCircle(16, 28, 4)
-            } else if (level.theme === 'usa') {
+            const hoop=this.add.graphics().setDepth(3)
+            hoop.lineStyle(7,0x9b5cc0,1); hoop.strokeCircle(505,330,38)
+
+            this.add.circle(745,342,24,0xc85c95).setStrokeStyle(4,0xf0bfd9).setDepth(3)
+
+            for (const x of [900,930]) {
+              this.add.rectangle(x,338,8,58,0xd5b35b).setRotation(x===900?-.28:.24).setDepth(3)
+              this.add.circle(x+(x===900?-8:8),309,7,0xd5b35b).setDepth(3)
+            }
+
+            // Proper rhythmic-gymnastics balance beam / apparatus platform.
+            const beamX=610, beamY=407
+            this.add.rectangle(beamX,beamY,210,14,0xe2b293).setStrokeStyle(3,0x8a5d49).setDepth(4)
+            this.add.rectangle(beamX-78,beamY+34,11,55,0x6b4c40).setDepth(3)
+            this.add.rectangle(beamX+78,beamY+34,11,55,0x6b4c40).setDepth(3)
+            this.add.rectangle(beamX,beamY+58,185,8,0x5a4038).setDepth(2)
+            this.add.rectangle(beamX,beamY-3,190,3,0xf5d7c8,.7).setDepth(5)
+
+            // Competition side: podiums and medal lights, without static text blocks.
+            const podiums=[
+              {x:1190,w:82,h:28},
+              {x:1395,w:96,h:38},
+              {x:1580,w:112,h:48},
+            ]
+            podiums.forEach((p,i)=>{
+              this.add.rectangle(p.x,455,p.w,p.h,0x252b3a).setStrokeStyle(3,0xd4ad45).setDepth(3)
+              this.add.circle(p.x,245,40+i*8,0xf3c76b,.08+i*.02).setDepth(1)
+              this.add.circle(p.x,245,8+i*2,0xf3c76b,.9).setDepth(2)
+            })
+          } else if (level.theme === 'usa') {
               g.fillCircle(16, 17, 14); g.fillStyle(0x5b6470, 1); g.fillCircle(16, 17, 6)
             } else if (level.theme === 'coach') {
               g.fillTriangle(3, 31, 16, 2, 29, 31)
@@ -266,83 +299,6 @@ export function LifeJourneyStage({ levelIndex, onLevelComplete, onMemoryOpen, pa
           tint.setDepth(-10)
           const vignette = this.add.rectangle(900, 270, 1800, 540, 0x05070c, 0.12)
           vignette.setDepth(-9)
-        }
-
-        createSpecialProps() {
-          const label = (x:number,y:number,text:string) => this.add.text(x,y,text,{fontFamily:'monospace',fontSize:'13px',color:'#fff',backgroundColor:'#07090dcc',padding:{x:8,y:5}}).setOrigin(0.5)
-          if (level.theme === 'tunis-baby') {
-            ;[['DAD',250,0x344a67],['MUM',335,0x8a536f],['BROTHER',420,0x4e6b56],['SISTER',500,0x725c88]].forEach(([name,x,color])=>{
-              const px=Number(x), col=Number(color)
-              this.add.circle(px,405,10,0xd6a47e); this.add.rectangle(px,430,18,35,col); label(px,468,String(name))
-            })
-            label(375,320,'“Obviously a genius.”')
-          } else if (level.theme === 'champion') {
-            label(520,250,'TUNISIA'); label(900,220,'AFRICA'); label(1290,190,'WORLD')
-          } else if (level.theme === 'usa') {
-            label(760,270,'EXCHANGE YEAR'); label(1120,285,'BONUS MISSION: MILITARY MODE')
-          } else if (level.theme === 'coach') {
-            label(700,300,'COACH MODE: ON')
-          } else if (level.theme === 'meet-breakup') {
-            label(620,310,'BATMAN ENTERS THE PLOT'); label(1010,280,'BREAKUP DETECTED'); label(1320,310,'APPEAL FILED')
-          } else if (level.theme === 'paris') {
-            label(880,240,'GRADUATION ✓'); label(1260,280,'NEW CITY · NEW CHAPTER')
-          } else if (level.theme === 'birthday-reunion') {
-            label(900,205,'25 SEPT 2025 · 1 NEW MESSAGE')
-          } else if (level.theme === 'paris-romance') {
-            label(980,235,'DECEMBER 2025 · ROUND TWO')
-          } else if (level.theme === 'milan') {
-            label(980,220,'MILANO · FIRST TRIP')
-          } else if (level.theme === 'como') {
-            label(980,210,'LAGO DI COMO')
-          } else if (level.theme === 'etretat') {
-            label(1120,200,'ÉTRETAT · WIND 99')
-          } else if (level.theme === 'mallorca') {
-            label(1180,220,'I LOVE YOU · ACHIEVEMENT PERMANENT')
-          }
-        }
-
-
-        createThemeDecor() {
-          if (level.theme === 'gymnastics') {
-            // Training zone
-            this.add.text(170, 165, 'TRAINING', {fontFamily:'monospace',fontSize:'13px',color:'#f6e9fa',backgroundColor:'#54325ecc',padding:{x:8,y:5}}).setDepth(3)
-            const ribbon=this.add.graphics().setDepth(2)
-            ribbon.lineStyle(5,0xcf6eb0,.9)
-            ribbon.beginPath(); ribbon.moveTo(230,285); ribbon.lineTo(310,225); ribbon.lineTo(380,295); ribbon.lineTo(450,230); ribbon.strokePath()
-            // balance beam
-            this.add.rectangle(650, 392, 170, 12, 0xc69572).setDepth(3)
-            this.add.rectangle(600, 412, 8, 42, 0x5d4a42).setDepth(2)
-            this.add.rectangle(700, 412, 8, 42, 0x5d4a42).setDepth(2)
-            // competition zones + podium / spotlights
-            for (const [x,labelName] of [[820,'TUNISIA'],[1130,'AFRICA'],[1450,'WORLD']] as Array<[number,string]>) {
-              this.add.circle(x,160,labelName==='WORLD'?62:50,0xf3c76b,labelName==='WORLD'?.11:.07).setDepth(1)
-              this.add.text(x,205,labelName,{fontFamily:'monospace',fontSize:labelName==='WORLD'?'18px':'14px',color:'#f5d578',backgroundColor:'#111522cc',padding:{x:8,y:5}}).setOrigin(.5).setDepth(4)
-            }
-            // scoring panel
-            const board=this.add.rectangle(1190,105,260,64,0x111722,.94).setStrokeStyle(2,0x8f78a0).setDepth(4)
-            this.add.text(board.x,board.y,'RHYTHMIC GYMNASTICS\nDIFFICULTY  ·  ARTISTRY  ·  EXECUTION',{fontFamily:'monospace',fontSize:'11px',color:'#e9e4ef',align:'center'}).setOrigin(.5).setDepth(5)
-          } else if (level.theme === 'usa') {
-            // training / exchange obstacle-course assets
-            for (const x of [620,690,760]) {
-              this.add.circle(x,438,24,0x181b20).setStrokeStyle(6,0x505965).setDepth(3)
-            }
-            this.add.rectangle(1050,410,120,10,0x687057).setDepth(3)
-            this.add.rectangle(1230,372,120,10,0x687057).setDepth(3)
-          } else if (level.theme === 'coach') {
-            for (const [x,y] of [[650,435],[720,435],[790,435]]) {
-              this.add.triangle(x,y,0,28,15,0,30,28,0xe78e58).setDepth(3)
-            }
-          }
-        }
-
-        createGameHud() {
-          const x=620, y=35, width=280
-          this.add.rectangle(x,y,width,42,0x070a12,.88).setScrollFactor(0).setDepth(45).setStrokeStyle(1,0x4a5670)
-          this.add.text(x-width/2+12,y-14,'PROGRESS',{fontFamily:'monospace',fontSize:'9px',color:'#9eabc2'}).setScrollFactor(0).setDepth(46)
-          this.add.rectangle(x-width/2+12,y+7,width-110,6,0x293247).setOrigin(0,.5).setScrollFactor(0).setDepth(46)
-          this.progressFill=this.add.rectangle(x-width/2+12,y+7,width-110,6,palette.accent).setOrigin(0,.5).setScrollFactor(0).setDepth(47)
-          this.progressFill.scaleX=0
-          this.itemCounter=this.add.text(x+width/2-88,y-6,`ITEMS 0/${level.memories.length}`,{fontFamily:'monospace',fontSize:'10px',color:'#f3c76b'}).setScrollFactor(0).setDepth(46)
         }
 
         create() {
@@ -391,8 +347,13 @@ export function LifeJourneyStage({ levelIndex, onLevelComplete, onMemoryOpen, pa
 
           this.memories = this.physics.add.group({ allowGravity: false, immovable: true })
           level.memories.forEach((memory, i) => {
-            const x = 500 + i * Math.max(360, 760 / Math.max(1, level.memories.length))
-            const y = i % 2 === 0 ? 368 : 330
+            const gymXs=[260,500,745,955,1180,1390,1570]
+            const x = level.theme==='gymnastics'
+              ? gymXs[Math.min(i,gymXs.length-1)]
+              : 500 + i * Math.max(360, 760 / Math.max(1, level.memories.length))
+            const y = level.theme==='gymnastics'
+              ? (i<4 ? 330 : 300)
+              : (i % 2 === 0 ? 368 : 330)
             const icon = this.memories.create(x, y, 'memory-' + i) as PhaserNS.Physics.Arcade.Sprite
             icon.setData('memory', memory)
             icon.setDepth(9)
