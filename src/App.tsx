@@ -8,7 +8,7 @@ import { LifeCinematicStage } from './game/LifeCinematicStage'
 
 type Scene = 'entry'|'encounter'|'dialogue'|'access'|'reveal'|'drive'|'act2intro'|'journey'|'rooftop'|'letter'|'gift'|'finale'
 const KEY='gotham-birthday-progress-v3'
-const BUILD='2026-09-24-act2-rpg-v6'
+const BUILD='2026-09-24-act2-rpg-v7'
 
 function App(){
   const saved=(()=>{try{return JSON.parse(localStorage.getItem(KEY)||'{}')}catch{return {}}})()
@@ -98,7 +98,7 @@ function App(){
   if(scene==='finale')mode='finale'
 
   return <main className="app">
-    <div className="build-ribbon">RPG BUILD V6</div>
+    <div className="build-ribbon">RPG BUILD V7</div>
     <div className="global-actions">
       <button className="icon-btn" onClick={()=>setMuted(!muted)} aria-label={muted?'Unmute':'Mute'}>{muted?'🔇':'🔊'}</button>
       <button className="icon-btn" onClick={()=>setSettings(!settings)} aria-label="Settings">⚙</button>
@@ -202,7 +202,7 @@ function App(){
         <div className="prologue-date">25 // 09 // 1999</div>
         <h1>On this day, a legend was born.</h1>
         <p>Long before Gotham, before trophies, before Paris, before us — the story begins in Tunis.</p>
-        <p className="muted">One life. Thirteen chapters. Every level changes the world around her.</p>
+        <p className="muted">One life. Twelve chapters. Every chapter changes the world around her.</p>
         <div className="prologue-line"><span/>MUTUELLEVILLE · TUNIS<span/></div>
         <button className="primary-btn" onClick={()=>{setLifeLevel(0);setShowLevelIntro(true);setScene('journey')}}>BEGIN HER STORY</button>
       </div>
